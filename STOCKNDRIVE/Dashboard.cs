@@ -12,7 +12,7 @@ namespace STOCKNDRIVE
 {
     public partial class Dashboard : Form
     {
-        //haaaaaaaaaaaaaaaaaaaa
+        //htangina
         public Dashboard()
         {
             InitializeComponent();
