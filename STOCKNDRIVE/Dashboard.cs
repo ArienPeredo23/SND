@@ -16,9 +16,6 @@ namespace STOCKNDRIVE
         public Dashboard()
         {
             InitializeComponent();
-            //eeeeeeeeeeeeee
-            //sql naman
-            //e ano naman
         }
 
         private void Dashboard_Load(object sender, EventArgs e)
