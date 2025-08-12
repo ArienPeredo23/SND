@@ -12,7 +12,6 @@ namespace STOCKNDRIVE
 {
     public partial class Dashboard : Form
     {
-        //htangina mo
         public Dashboard()
         {
             InitializeComponent();
@@ -20,7 +19,6 @@ namespace STOCKNDRIVE
 
         private void Dashboard_Load(object sender, EventArgs e)
         {
-            //mag dadagdag ako
         }
     }
 }
