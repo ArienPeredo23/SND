@@ -23,7 +23,7 @@ namespace STOCKNDRIVE
 
         private void Dashboard_Load(object sender, EventArgs e)
         {
-
+            //mag dadagdag ako
         }
     }
 }
