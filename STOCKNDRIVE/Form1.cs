@@ -38,7 +38,7 @@ namespace STOCKNDRIVE
             // 2. Check if the textboxes are empty
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Please enter both username and password.tae tae", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter both username and password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return; // Stop the method here
             }
 
