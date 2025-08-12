@@ -12,10 +12,11 @@ namespace STOCKNDRIVE
 {
     public partial class Dashboard : Form
     {
-        //htangina
+        //htangina mo
         public Dashboard()
         {
             InitializeComponent();
+            //pagbigyan mo na ako
         }
 
         private void Dashboard_Load(object sender, EventArgs e)
