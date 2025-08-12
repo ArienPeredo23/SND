@@ -16,7 +16,7 @@ namespace STOCKNDRIVE
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void txtUsername_TextChanged(object sender, EventArgs e)
@@ -38,7 +38,7 @@ namespace STOCKNDRIVE
             // 2. Check if the textboxes are empty
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Please enter both username and password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter both username and password.tae tae", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return; // Stop the method here
             }
 
