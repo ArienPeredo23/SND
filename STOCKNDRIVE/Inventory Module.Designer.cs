@@ -29,7 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Inventory_Module));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             btnSettings = new Button();
             btnSales = new Button();
             btnInventory = new Button();
@@ -40,14 +41,15 @@
             panel4 = new Panel();
             label1 = new Label();
             totalItemsCard = new Panel();
-            pictureBox2 = new PictureBox();
-            label2 = new Label();
             label3 = new Label();
+            label2 = new Label();
+            pictureBox2 = new PictureBox();
             panel1 = new Panel();
             label4 = new Label();
             label5 = new Label();
             pictureBox3 = new PictureBox();
             panel2 = new Panel();
+            panel7 = new Panel();
             label6 = new Label();
             label7 = new Label();
             pictureBox4 = new PictureBox();
@@ -57,14 +59,13 @@
             pictureBox5 = new PictureBox();
             panel5 = new Panel();
             panel6 = new Panel();
-            panel7 = new Panel();
             panel8 = new Panel();
             inventoryOverviewCard = new Panel();
-            label10 = new Label();
-            textBox1 = new TextBox();
-            button1 = new Button();
-            button2 = new Button();
             inventoryGrid = new DataGridView();
+            button2 = new Button();
+            textBox1 = new TextBox();
+            label10 = new Label();
+            btnFilter = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             leftNavPanel.SuspendLayout();
             totalItemsCard.SuspendLayout();
@@ -220,15 +221,17 @@
             totalItemsCard.Size = new Size(230, 110);
             totalItemsCard.TabIndex = 8;
             // 
-            // pictureBox2
+            // label3
             // 
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(36, 18);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(30, 30);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 0;
-            pictureBox2.TabStop = false;
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI Semibold", 5.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.FromArgb(64, 64, 64);
+            label3.ImageAlign = ContentAlignment.MiddleLeft;
+            label3.Location = new Point(36, 60);
+            label3.Name = "label3";
+            label3.Size = new Size(69, 10);
+            label3.TabIndex = 2;
+            label3.Text = "Total Items in Stock";
             // 
             // label2
             // 
@@ -241,17 +244,15 @@
             label2.TabIndex = 1;
             label2.Text = "Total Item";
             // 
-            // label3
+            // pictureBox2
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI Semibold", 5.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.FromArgb(64, 64, 64);
-            label3.ImageAlign = ContentAlignment.MiddleLeft;
-            label3.Location = new Point(36, 60);
-            label3.Name = "label3";
-            label3.Size = new Size(69, 10);
-            label3.TabIndex = 2;
-            label3.Text = "Total Items in Stock";
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(36, 18);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(30, 30);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 0;
+            pictureBox2.TabStop = false;
             // 
             // panel1
             // 
@@ -309,6 +310,14 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(230, 110);
             panel2.TabIndex = 10;
+            // 
+            // panel7
+            // 
+            panel7.BackColor = Color.FromArgb(50, 50, 50);
+            panel7.Location = new Point(0, 0);
+            panel7.Name = "panel7";
+            panel7.Size = new Size(10, 110);
+            panel7.TabIndex = 11;
             // 
             // label6
             // 
@@ -405,14 +414,6 @@
             panel6.Size = new Size(10, 110);
             panel6.TabIndex = 10;
             // 
-            // panel7
-            // 
-            panel7.BackColor = Color.FromArgb(50, 50, 50);
-            panel7.Location = new Point(0, 0);
-            panel7.Name = "panel7";
-            panel7.Size = new Size(10, 110);
-            panel7.TabIndex = 11;
-            // 
             // panel8
             // 
             panel8.BackColor = Color.FromArgb(134, 71, 69);
@@ -425,9 +426,9 @@
             // 
             inventoryOverviewCard.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             inventoryOverviewCard.BackColor = Color.White;
+            inventoryOverviewCard.Controls.Add(btnFilter);
             inventoryOverviewCard.Controls.Add(inventoryGrid);
             inventoryOverviewCard.Controls.Add(button2);
-            inventoryOverviewCard.Controls.Add(button1);
             inventoryOverviewCard.Controls.Add(textBox1);
             inventoryOverviewCard.Controls.Add(label10);
             inventoryOverviewCard.Font = new Font("Segoe UI", 10F);
@@ -435,6 +436,58 @@
             inventoryOverviewCard.Name = "inventoryOverviewCard";
             inventoryOverviewCard.Size = new Size(980, 460);
             inventoryOverviewCard.TabIndex = 13;
+            // 
+            // inventoryGrid
+            // 
+            inventoryGrid.AllowUserToAddRows = false;
+            inventoryGrid.BackgroundColor = Color.White;
+            inventoryGrid.BorderStyle = BorderStyle.None;
+            inventoryGrid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle3.SelectionBackColor = Color.White;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            inventoryGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            inventoryGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            inventoryGrid.DefaultCellStyle = dataGridViewCellStyle4;
+            inventoryGrid.Dock = DockStyle.Bottom;
+            inventoryGrid.GridColor = SystemColors.ButtonFace;
+            inventoryGrid.Location = new Point(0, 65);
+            inventoryGrid.Name = "inventoryGrid";
+            inventoryGrid.Size = new Size(980, 395);
+            inventoryGrid.TabIndex = 4;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.FromArgb(240, 141, 26);
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button2.ForeColor = Color.White;
+            button2.Location = new Point(858, 20);
+            button2.Name = "button2";
+            button2.Size = new Size(100, 30);
+            button2.TabIndex = 3;
+            button2.Text = "+ Add Item";
+            button2.UseVisualStyleBackColor = false;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(507, 22);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(250, 25);
+            textBox1.TabIndex = 1;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // label10
             // 
@@ -446,54 +499,19 @@
             label10.TabIndex = 0;
             label10.Text = "Inventory Overview";
             // 
-            // textBox1
+            // btnFilter
             // 
-            textBox1.Location = new Point(519, 20);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(250, 25);
-            textBox1.TabIndex = 1;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(786, 20);
-            button1.Name = "button1";
-            button1.Size = new Size(70, 25);
-            button1.TabIndex = 2;
-            button1.Text = "Filter";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            button2.BackColor = Color.FromArgb(240, 141, 26);
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.ForeColor = Color.White;
-            button2.Location = new Point(870, 20);
-            button2.Name = "button2";
-            button2.Size = new Size(100, 25);
-            button2.TabIndex = 3;
-            button2.Text = "+ Add Item";
-            button2.UseVisualStyleBackColor = false;
-            // 
-            // inventoryGrid
-            // 
-            inventoryGrid.AllowUserToAddRows = false;
-            inventoryGrid.BackgroundColor = Color.White;
-            inventoryGrid.BorderStyle = BorderStyle.None;
-            inventoryGrid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.Gainsboro;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            inventoryGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            inventoryGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            inventoryGrid.Dock = DockStyle.Bottom;
-            inventoryGrid.Location = new Point(0, 65);
-            inventoryGrid.Name = "inventoryGrid";
-            inventoryGrid.Size = new Size(980, 395);
-            inventoryGrid.TabIndex = 4;
+            btnFilter.FlatAppearance.BorderColor = Color.FromArgb(224, 224, 224);
+            btnFilter.FlatStyle = FlatStyle.Flat;
+            btnFilter.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnFilter.Image = (Image)resources.GetObject("btnFilter.Image");
+            btnFilter.Location = new Point(774, 20);
+            btnFilter.Name = "btnFilter";
+            btnFilter.Size = new Size(70, 30);
+            btnFilter.TabIndex = 5;
+            btnFilter.Text = "Filter";
+            btnFilter.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnFilter.UseVisualStyleBackColor = true;
             // 
             // Inventory_Module
             // 
@@ -514,6 +532,7 @@
             Controls.Add(leftNavPanel);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Inventory_Module";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Inventory_Module";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             leftNavPanel.ResumeLayout(false);
@@ -569,9 +588,9 @@
         private Panel panel8;
         private Panel inventoryOverviewCard;
         private Button button2;
-        private Button button1;
         private TextBox textBox1;
         private Label label10;
         private DataGridView inventoryGrid;
+        private Button btnFilter;
     }
 }

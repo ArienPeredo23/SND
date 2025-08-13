@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace STOCKNDRIVE
 {
-    public partial class Inventory : Form
+    public partial class Sales : Form
     {
-        public Inventory()
+        public Sales()
         {
             InitializeComponent();
         }

@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace STOCKNDRIVE
 {
-    public partial class Inventory_Module : Form
+    public partial class AddItem : Form
     {
-        public Inventory_Module()
+        public AddItem()
         {
             InitializeComponent();
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
