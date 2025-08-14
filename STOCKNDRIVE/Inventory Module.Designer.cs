@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Inventory_Module));
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             btnSettings = new Button();
             btnSales = new Button();
             btnInventory = new Button();
@@ -61,11 +61,11 @@
             panel6 = new Panel();
             panel8 = new Panel();
             inventoryOverviewCard = new Panel();
+            btnFilter = new Button();
             inventoryGrid = new DataGridView();
             button2 = new Button();
             textBox1 = new TextBox();
             label10 = new Label();
-            btnFilter = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             leftNavPanel.SuspendLayout();
             totalItemsCard.SuspendLayout();
@@ -113,9 +113,11 @@
             btnSales.TextAlign = ContentAlignment.MiddleLeft;
             btnSales.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnSales.UseVisualStyleBackColor = true;
+            btnSales.Click += btnSales_Click;
             // 
             // btnInventory
             // 
+            btnInventory.BackColor = SystemColors.ActiveCaptionText;
             btnInventory.FlatAppearance.BorderSize = 0;
             btnInventory.FlatStyle = FlatStyle.Flat;
             btnInventory.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
@@ -129,7 +131,8 @@
             btnInventory.Text = " Inventory";
             btnInventory.TextAlign = ContentAlignment.MiddleLeft;
             btnInventory.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnInventory.UseVisualStyleBackColor = true;
+            btnInventory.UseVisualStyleBackColor = false;
+            btnInventory.Click += btnInventory_Click;
             // 
             // btnPOS
             // 
@@ -147,6 +150,7 @@
             btnPOS.TextAlign = ContentAlignment.MiddleLeft;
             btnPOS.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnPOS.UseVisualStyleBackColor = true;
+            btnPOS.Click += btnPOS_Click;
             // 
             // btnDashboard
             // 
@@ -165,6 +169,7 @@
             btnDashboard.TextAlign = ContentAlignment.MiddleLeft;
             btnDashboard.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnDashboard.UseVisualStyleBackColor = false;
+            btnDashboard.Click += btnDashboard_Click;
             // 
             // pictureBox1
             // 
@@ -437,29 +442,43 @@
             inventoryOverviewCard.Size = new Size(980, 460);
             inventoryOverviewCard.TabIndex = 13;
             // 
+            // btnFilter
+            // 
+            btnFilter.FlatAppearance.BorderColor = Color.FromArgb(224, 224, 224);
+            btnFilter.FlatStyle = FlatStyle.Flat;
+            btnFilter.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnFilter.Image = (Image)resources.GetObject("btnFilter.Image");
+            btnFilter.Location = new Point(774, 20);
+            btnFilter.Name = "btnFilter";
+            btnFilter.Size = new Size(70, 30);
+            btnFilter.TabIndex = 5;
+            btnFilter.Text = "Filter";
+            btnFilter.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnFilter.UseVisualStyleBackColor = true;
+            // 
             // inventoryGrid
             // 
             inventoryGrid.AllowUserToAddRows = false;
             inventoryGrid.BackgroundColor = Color.White;
             inventoryGrid.BorderStyle = BorderStyle.None;
             inventoryGrid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle3.SelectionBackColor = Color.White;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            inventoryGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle1.SelectionBackColor = Color.White;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            inventoryGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             inventoryGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            inventoryGrid.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            inventoryGrid.DefaultCellStyle = dataGridViewCellStyle2;
             inventoryGrid.Dock = DockStyle.Bottom;
             inventoryGrid.GridColor = SystemColors.ButtonFace;
             inventoryGrid.Location = new Point(0, 65);
@@ -498,20 +517,6 @@
             label10.Size = new Size(207, 30);
             label10.TabIndex = 0;
             label10.Text = "Inventory Overview";
-            // 
-            // btnFilter
-            // 
-            btnFilter.FlatAppearance.BorderColor = Color.FromArgb(224, 224, 224);
-            btnFilter.FlatStyle = FlatStyle.Flat;
-            btnFilter.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnFilter.Image = (Image)resources.GetObject("btnFilter.Image");
-            btnFilter.Location = new Point(774, 20);
-            btnFilter.Name = "btnFilter";
-            btnFilter.Size = new Size(70, 30);
-            btnFilter.TabIndex = 5;
-            btnFilter.Text = "Filter";
-            btnFilter.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnFilter.UseVisualStyleBackColor = true;
             // 
             // Inventory_Module
             // 

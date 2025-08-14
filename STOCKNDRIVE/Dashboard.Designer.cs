@@ -38,18 +38,18 @@
             pictureBox1 = new PictureBox();
             label1 = new Label();
             revenueCard = new Panel();
+            label4 = new Label();
+            label2 = new Label();
             ordersCard = new Panel();
+            label5 = new Label();
+            label3 = new Label();
             panel1 = new Panel();
+            label6 = new Label();
             dataGridView1 = new DataGridView();
             panel2 = new Panel();
+            label7 = new Label();
             panel3 = new Panel();
             panel4 = new Panel();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
-            label6 = new Label();
-            label7 = new Label();
             leftNavPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             revenueCard.SuspendLayout();
@@ -107,6 +107,7 @@
             btnSales.TextAlign = ContentAlignment.MiddleLeft;
             btnSales.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnSales.UseVisualStyleBackColor = true;
+            btnSales.Click += btnSales_Click;
             // 
             // btnInventory
             // 
@@ -124,6 +125,7 @@
             btnInventory.TextAlign = ContentAlignment.MiddleLeft;
             btnInventory.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnInventory.UseVisualStyleBackColor = true;
+            btnInventory.Click += btnInventory_Click;
             // 
             // btnPOS
             // 
@@ -141,10 +143,11 @@
             btnPOS.TextAlign = ContentAlignment.MiddleLeft;
             btnPOS.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnPOS.UseVisualStyleBackColor = true;
+            btnPOS.Click += btnPOS_Click;
             // 
             // btnDashboard
             // 
-            btnDashboard.BackColor = Color.FromArgb(30, 30, 30);
+            btnDashboard.BackColor = SystemColors.ActiveCaptionText;
             btnDashboard.FlatAppearance.BorderSize = 0;
             btnDashboard.FlatStyle = FlatStyle.Flat;
             btnDashboard.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
@@ -159,6 +162,7 @@
             btnDashboard.TextAlign = ContentAlignment.MiddleLeft;
             btnDashboard.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnDashboard.UseVisualStyleBackColor = false;
+            btnDashboard.Click += btnDashboard_Click;
             // 
             // pictureBox1
             // 
@@ -191,6 +195,28 @@
             revenueCard.Size = new Size(170, 160);
             revenueCard.TabIndex = 2;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 7F);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(8, 105);
+            label4.Name = "label4";
+            label4.Size = new Size(146, 24);
+            label4.TabIndex = 7;
+            label4.Text = "The total cash revenue recorded\r\n for the day";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(11, 18);
+            label2.Name = "label2";
+            label2.Size = new Size(137, 21);
+            label2.TabIndex = 6;
+            label2.Text = "Today's Revenue";
+            // 
             // ordersCard
             // 
             ordersCard.BackColor = Color.FromArgb(45, 45, 45);
@@ -201,6 +227,28 @@
             ordersCard.Size = new Size(170, 160);
             ordersCard.TabIndex = 3;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 7F);
+            label5.ForeColor = Color.White;
+            label5.Location = new Point(8, 105);
+            label5.Name = "label5";
+            label5.Size = new Size(158, 24);
+            label5.TabIndex = 8;
+            label5.Text = "The total number of customer \r\npurchases recorded within the day.";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(11, 18);
+            label3.Name = "label3";
+            label3.Size = new Size(114, 21);
+            label3.TabIndex = 7;
+            label3.Text = "Today's Order";
+            // 
             // panel1
             // 
             panel1.BackColor = Color.White;
@@ -210,6 +258,17 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(360, 400);
             panel1.TabIndex = 3;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.ForeColor = SystemColors.ControlText;
+            label6.Location = new Point(11, 16);
+            label6.Name = "label6";
+            label6.Size = new Size(164, 21);
+            label6.TabIndex = 8;
+            label6.Text = "Best-Selling Product";
             // 
             // dataGridView1
             // 
@@ -231,6 +290,17 @@
             panel2.Size = new Size(600, 350);
             panel2.TabIndex = 3;
             // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.ForeColor = SystemColors.ControlText;
+            label7.Location = new Point(20, 18);
+            label7.Name = "label7";
+            label7.Size = new Size(126, 21);
+            label7.TabIndex = 9;
+            label7.Text = "Sales Overview";
+            // 
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(45, 45, 45);
@@ -246,72 +316,6 @@
             panel4.Name = "panel4";
             panel4.Size = new Size(980, 2);
             panel4.TabIndex = 5;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(11, 18);
-            label2.Name = "label2";
-            label2.Size = new Size(137, 21);
-            label2.TabIndex = 6;
-            label2.Text = "Today's Revenue";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(11, 18);
-            label3.Name = "label3";
-            label3.Size = new Size(114, 21);
-            label3.TabIndex = 7;
-            label3.Text = "Today's Order";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 7F);
-            label4.ForeColor = Color.White;
-            label4.Location = new Point(8, 105);
-            label4.Name = "label4";
-            label4.Size = new Size(146, 24);
-            label4.TabIndex = 7;
-            label4.Text = "The total cash revenue recorded\r\n for the day";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 7F);
-            label5.ForeColor = Color.White;
-            label5.Location = new Point(8, 105);
-            label5.Name = "label5";
-            label5.Size = new Size(158, 24);
-            label5.TabIndex = 8;
-            label5.Text = "The total number of customer \r\npurchases recorded within the day.";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = SystemColors.ControlText;
-            label6.Location = new Point(11, 16);
-            label6.Name = "label6";
-            label6.Size = new Size(164, 21);
-            label6.TabIndex = 8;
-            label6.Text = "Best-Selling Product";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.ForeColor = SystemColors.ControlText;
-            label7.Location = new Point(20, 18);
-            label7.Name = "label7";
-            label7.Size = new Size(126, 21);
-            label7.TabIndex = 9;
-            label7.Text = "Sales Overview";
             // 
             // Dashboard
             // 

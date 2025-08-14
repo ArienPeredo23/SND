@@ -45,14 +45,14 @@
             button4 = new Button();
             button5 = new Button();
             rightOrderPanel = new Panel();
+            panel1 = new Panel();
+            orderedItemsFlowPanel = new FlowLayoutPanel();
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
             label1 = new Label();
             separatorPanel = new Panel();
             label2 = new Label();
-            orderedItemsFlowPanel = new FlowLayoutPanel();
-            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             leftNavPanel.SuspendLayout();
             topActionPanel.SuspendLayout();
@@ -126,6 +126,7 @@
             btnSales.TextAlign = ContentAlignment.MiddleLeft;
             btnSales.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnSales.UseVisualStyleBackColor = true;
+            btnSales.Click += btnSales_Click;
             // 
             // btnInventory
             // 
@@ -143,9 +144,11 @@
             btnInventory.TextAlign = ContentAlignment.MiddleLeft;
             btnInventory.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnInventory.UseVisualStyleBackColor = true;
+            btnInventory.Click += btnInventory_Click;
             // 
             // btnPOS
             // 
+            btnPOS.BackColor = SystemColors.ActiveCaptionText;
             btnPOS.FlatAppearance.BorderSize = 0;
             btnPOS.FlatStyle = FlatStyle.Flat;
             btnPOS.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
@@ -159,7 +162,8 @@
             btnPOS.Text = " POS";
             btnPOS.TextAlign = ContentAlignment.MiddleLeft;
             btnPOS.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnPOS.UseVisualStyleBackColor = true;
+            btnPOS.UseVisualStyleBackColor = false;
+            btnPOS.Click += btnPOS_Click;
             // 
             // btnDashboard
             // 
@@ -178,6 +182,7 @@
             btnDashboard.TextAlign = ContentAlignment.MiddleLeft;
             btnDashboard.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnDashboard.UseVisualStyleBackColor = false;
+            btnDashboard.Click += btnDashboard_Click;
             // 
             // topActionPanel
             // 
@@ -256,6 +261,23 @@
             rightOrderPanel.Size = new Size(350, 640);
             rightOrderPanel.TabIndex = 9;
             // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(50, 50, 50);
+            panel1.Location = new Point(20, 73);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(310, 2);
+            panel1.TabIndex = 12;
+            // 
+            // orderedItemsFlowPanel
+            // 
+            orderedItemsFlowPanel.FlowDirection = FlowDirection.TopDown;
+            orderedItemsFlowPanel.Location = new Point(20, 76);
+            orderedItemsFlowPanel.Name = "orderedItemsFlowPanel";
+            orderedItemsFlowPanel.Size = new Size(310, 368);
+            orderedItemsFlowPanel.TabIndex = 10;
+            orderedItemsFlowPanel.WrapContents = false;
+            // 
             // label5
             // 
             label5.AutoSize = true;
@@ -318,23 +340,6 @@
             label2.Size = new Size(83, 21);
             label2.TabIndex = 10;
             label2.Text = "Order List";
-            // 
-            // orderedItemsFlowPanel
-            // 
-            orderedItemsFlowPanel.FlowDirection = FlowDirection.TopDown;
-            orderedItemsFlowPanel.Location = new Point(20, 76);
-            orderedItemsFlowPanel.Name = "orderedItemsFlowPanel";
-            orderedItemsFlowPanel.Size = new Size(310, 368);
-            orderedItemsFlowPanel.TabIndex = 10;
-            orderedItemsFlowPanel.WrapContents = false;
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.FromArgb(50, 50, 50);
-            panel1.Location = new Point(20, 73);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(310, 2);
-            panel1.TabIndex = 12;
             // 
             // pos
             // 

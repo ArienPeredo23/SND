@@ -43,6 +43,9 @@
             numPrice = new NumericUpDown();
             numItemCount = new NumericUpDown();
             cmbCategory = new ComboBox();
+            txtDescription = new TextBox();
+            btnCancel = new Button();
+            btnDone = new Button();
             ((System.ComponentModel.ISupportInitialize)picItemImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPrice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numItemCount).BeginInit();
@@ -174,17 +177,59 @@
             // 
             // cmbCategory
             // 
+            cmbCategory.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbCategory.Font = new Font("Segoe UI", 10F);
             cmbCategory.FormattingEnabled = true;
-            cmbCategory.Location = new Point(327, 296);
+            cmbCategory.Location = new Point(330, 295);
             cmbCategory.Name = "cmbCategory";
-            cmbCategory.Size = new Size(121, 23);
+            cmbCategory.Size = new Size(480, 25);
             cmbCategory.TabIndex = 13;
+            // 
+            // txtDescription
+            // 
+            txtDescription.Font = new Font("Segoe UI", 10F);
+            txtDescription.Location = new Point(330, 365);
+            txtDescription.Multiline = true;
+            txtDescription.Name = "txtDescription";
+            txtDescription.Size = new Size(480, 60);
+            txtDescription.TabIndex = 14;
+            // 
+            // btnCancel
+            // 
+            btnCancel.BackColor = Color.Gray;
+            btnCancel.FlatAppearance.BorderSize = 0;
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancel.ForeColor = Color.White;
+            btnCancel.Location = new Point(550, 440);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(120, 40);
+            btnCancel.TabIndex = 15;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = false;
+            // 
+            // btnDone
+            // 
+            btnDone.BackColor = Color.FromArgb(204, 141, 26);
+            btnDone.FlatAppearance.BorderSize = 0;
+            btnDone.FlatStyle = FlatStyle.Flat;
+            btnDone.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnDone.ForeColor = Color.White;
+            btnDone.Location = new Point(690, 440);
+            btnDone.Name = "btnDone";
+            btnDone.Size = new Size(120, 40);
+            btnDone.TabIndex = 16;
+            btnDone.Text = "Done";
+            btnDone.UseVisualStyleBackColor = false;
             // 
             // AddItem
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(860, 500);
+            Controls.Add(btnDone);
+            Controls.Add(btnCancel);
+            Controls.Add(txtDescription);
             Controls.Add(cmbCategory);
             Controls.Add(numItemCount);
             Controls.Add(numPrice);
@@ -226,5 +271,8 @@
         private NumericUpDown numPrice;
         private NumericUpDown numItemCount;
         private ComboBox cmbCategory;
+        private TextBox txtDescription;
+        private Button btnCancel;
+        private Button btnDone;
     }
 }

@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Sales));
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             btnSales = new Button();
             btnInventory = new Button();
             btnPOS = new Button();
@@ -41,11 +41,11 @@
             label1 = new Label();
             panel4 = new Panel();
             reportPanel = new Panel();
-            label2 = new Label();
-            btnExport = new Button();
+            dgvSalesReport = new DataGridView();
             txtSearch = new TextBox();
             btnFilter = new Button();
-            dgvSalesReport = new DataGridView();
+            btnExport = new Button();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             leftNavPanel.SuspendLayout();
             reportPanel.SuspendLayout();
@@ -54,6 +54,7 @@
             // 
             // btnSales
             // 
+            btnSales.BackColor = SystemColors.ActiveCaptionText;
             btnSales.FlatAppearance.BorderSize = 0;
             btnSales.FlatStyle = FlatStyle.Flat;
             btnSales.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
@@ -67,7 +68,8 @@
             btnSales.Text = " Sales";
             btnSales.TextAlign = ContentAlignment.MiddleLeft;
             btnSales.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnSales.UseVisualStyleBackColor = true;
+            btnSales.UseVisualStyleBackColor = false;
+            btnSales.Click += btnSales_Click;
             // 
             // btnInventory
             // 
@@ -85,6 +87,7 @@
             btnInventory.TextAlign = ContentAlignment.MiddleLeft;
             btnInventory.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnInventory.UseVisualStyleBackColor = true;
+            btnInventory.Click += btnInventory_Click;
             // 
             // btnPOS
             // 
@@ -102,6 +105,7 @@
             btnPOS.TextAlign = ContentAlignment.MiddleLeft;
             btnPOS.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnPOS.UseVisualStyleBackColor = true;
+            btnPOS.Click += btnPOS_Click;
             // 
             // btnDashboard
             // 
@@ -120,6 +124,7 @@
             btnDashboard.TextAlign = ContentAlignment.MiddleLeft;
             btnDashboard.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnDashboard.UseVisualStyleBackColor = false;
+            btnDashboard.Click += btnDashboard_Click;
             // 
             // pictureBox1
             // 
@@ -195,29 +200,36 @@
             reportPanel.Size = new Size(980, 590);
             reportPanel.TabIndex = 9;
             // 
-            // label2
+            // dgvSalesReport
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(25, 20);
-            label2.Name = "label2";
-            label2.Size = new Size(135, 30);
-            label2.TabIndex = 0;
-            label2.Text = "Sales Report";
-            // 
-            // btnExport
-            // 
-            btnExport.BackColor = Color.FromArgb(233, 95, 95);
-            btnExport.FlatAppearance.BorderSize = 0;
-            btnExport.FlatStyle = FlatStyle.Flat;
-            btnExport.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnExport.ForeColor = Color.White;
-            btnExport.Location = new Point(858, 20);
-            btnExport.Name = "btnExport";
-            btnExport.Size = new Size(90, 30);
-            btnExport.TabIndex = 1;
-            btnExport.Text = "Export";
-            btnExport.UseVisualStyleBackColor = false;
+            dgvSalesReport.AllowUserToAddRows = false;
+            dgvSalesReport.AllowUserToDeleteRows = false;
+            dgvSalesReport.BackgroundColor = Color.White;
+            dgvSalesReport.BorderStyle = BorderStyle.None;
+            dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle1.SelectionBackColor = Color.White;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvSalesReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle2;
+            dgvSalesReport.GridColor = SystemColors.ButtonFace;
+            dgvSalesReport.Location = new Point(25, 80);
+            dgvSalesReport.Name = "dgvSalesReport";
+            dgvSalesReport.RowHeadersVisible = false;
+            dgvSalesReport.Size = new Size(925, 485);
+            dgvSalesReport.TabIndex = 4;
             // 
             // txtSearch
             // 
@@ -240,36 +252,29 @@
             btnFilter.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnFilter.UseVisualStyleBackColor = true;
             // 
-            // dgvSalesReport
+            // btnExport
             // 
-            dgvSalesReport.AllowUserToAddRows = false;
-            dgvSalesReport.AllowUserToDeleteRows = false;
-            dgvSalesReport.BackgroundColor = Color.White;
-            dgvSalesReport.BorderStyle = BorderStyle.None;
-            dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle3.SelectionBackColor = Color.White;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            dgvSalesReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle4;
-            dgvSalesReport.GridColor = SystemColors.ButtonFace;
-            dgvSalesReport.Location = new Point(25, 80);
-            dgvSalesReport.Name = "dgvSalesReport";
-            dgvSalesReport.RowHeadersVisible = false;
-            dgvSalesReport.Size = new Size(925, 485);
-            dgvSalesReport.TabIndex = 4;
+            btnExport.BackColor = Color.FromArgb(233, 95, 95);
+            btnExport.FlatAppearance.BorderSize = 0;
+            btnExport.FlatStyle = FlatStyle.Flat;
+            btnExport.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnExport.ForeColor = Color.White;
+            btnExport.Location = new Point(858, 20);
+            btnExport.Name = "btnExport";
+            btnExport.Size = new Size(90, 30);
+            btnExport.TabIndex = 1;
+            btnExport.Text = "Export";
+            btnExport.UseVisualStyleBackColor = false;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Location = new Point(25, 20);
+            label2.Name = "label2";
+            label2.Size = new Size(135, 30);
+            label2.TabIndex = 0;
+            label2.Text = "Sales Report";
             // 
             // Sales
             // 
