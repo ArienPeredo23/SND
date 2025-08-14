@@ -45,9 +45,15 @@ namespace STOCKNDRIVE
 
         private void btnSales_Click(object sender, EventArgs e)
         {
-                 Sales sales = new Sales();
+            Sales sales = new Sales();
             sales.Show();
             this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AddItem addItem = new AddItem();
+            addItem.ShowDialog();
         }
     }
 }

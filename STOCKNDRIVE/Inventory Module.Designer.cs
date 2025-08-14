@@ -499,6 +499,7 @@
             button2.TabIndex = 3;
             button2.Text = "+ Add Item";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // textBox1
             // 

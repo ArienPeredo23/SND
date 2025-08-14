@@ -46,6 +46,7 @@
             txtDescription = new TextBox();
             btnCancel = new Button();
             btnDone = new Button();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)picItemImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPrice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numItemCount).BeginInit();
@@ -207,6 +208,7 @@
             btnCancel.TabIndex = 15;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = false;
+            btnCancel.Click += btnCancel_Click_1;
             // 
             // btnDone
             // 
@@ -222,11 +224,22 @@
             btnDone.Text = "Done";
             btnDone.UseVisualStyleBackColor = false;
             // 
+            // button1
+            // 
+            button1.Location = new Point(758, 12);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 17;
+            button1.Text = "eks";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // AddItem
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(860, 500);
+            Controls.Add(button1);
             Controls.Add(btnDone);
             Controls.Add(btnCancel);
             Controls.Add(txtDescription);
@@ -274,5 +287,6 @@
         private TextBox txtDescription;
         private Button btnCancel;
         private Button btnDone;
+        private Button button1;
     }
 }
