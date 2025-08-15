@@ -61,6 +61,7 @@
             panel6 = new Panel();
             panel8 = new Panel();
             inventoryOverviewCard = new Panel();
+            lblClearSearch = new Label();
             btnFilter = new Button();
             inventoryGrid = new DataGridView();
             button2 = new Button();
@@ -431,6 +432,7 @@
             // 
             inventoryOverviewCard.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             inventoryOverviewCard.BackColor = Color.White;
+            inventoryOverviewCard.Controls.Add(lblClearSearch);
             inventoryOverviewCard.Controls.Add(btnFilter);
             inventoryOverviewCard.Controls.Add(inventoryGrid);
             inventoryOverviewCard.Controls.Add(button2);
@@ -441,6 +443,20 @@
             inventoryOverviewCard.Name = "inventoryOverviewCard";
             inventoryOverviewCard.Size = new Size(980, 460);
             inventoryOverviewCard.TabIndex = 13;
+            // 
+            // lblClearSearch
+            // 
+            lblClearSearch.AutoSize = true;
+            lblClearSearch.BackColor = Color.Transparent;
+            lblClearSearch.Cursor = Cursors.Hand;
+            lblClearSearch.Font = new Font("Segoe UI", 9F);
+            lblClearSearch.Location = new Point(738, 27);
+            lblClearSearch.Name = "lblClearSearch";
+            lblClearSearch.Size = new Size(14, 15);
+            lblClearSearch.TabIndex = 6;
+            lblClearSearch.Text = "X";
+            lblClearSearch.Visible = false;
+            lblClearSearch.Click += lblClearSearch_Click;
             // 
             // btnFilter
             // 
@@ -455,6 +471,7 @@
             btnFilter.Text = "Filter";
             btnFilter.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnFilter.UseVisualStyleBackColor = true;
+            btnFilter.Click += btnFilter_Click;
             // 
             // inventoryGrid
             // 
@@ -483,6 +500,8 @@
             inventoryGrid.GridColor = SystemColors.ButtonFace;
             inventoryGrid.Location = new Point(0, 65);
             inventoryGrid.Name = "inventoryGrid";
+            inventoryGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            inventoryGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             inventoryGrid.Size = new Size(980, 395);
             inventoryGrid.TabIndex = 4;
             // 
@@ -540,6 +559,7 @@
             Name = "Inventory_Module";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Inventory_Module";
+            Load += Inventory_Module_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             leftNavPanel.ResumeLayout(false);
             totalItemsCard.ResumeLayout(false);
@@ -598,5 +618,6 @@
         private Label label10;
         private DataGridView inventoryGrid;
         private Button btnFilter;
+        private Label lblClearSearch;
     }
 }
