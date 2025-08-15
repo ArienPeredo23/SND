@@ -63,6 +63,7 @@
             picItemImage.SizeMode = PictureBoxSizeMode.Zoom;
             picItemImage.TabIndex = 0;
             picItemImage.TabStop = false;
+            picItemImage.Click += picItemImage_Click_1;
             // 
             // lblProductName_Title
             // 
@@ -181,6 +182,7 @@
             cmbCategory.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCategory.Font = new Font("Segoe UI", 10F);
             cmbCategory.FormattingEnabled = true;
+            cmbCategory.Items.AddRange(new object[] { "Engine & Performance Parts", "Electrical & Lighting", "Tires & Wheels", "Brakes & Suspension", "Body & Frame Parts", "Transmission & Drivetrain", "Tools & Maintenance", "Riding Gear & Accessories", "Fluids & Consumables", "Customization & Decorative Items" });
             cmbCategory.Location = new Point(330, 295);
             cmbCategory.Name = "cmbCategory";
             cmbCategory.Size = new Size(480, 25);
@@ -223,6 +225,7 @@
             btnDone.TabIndex = 16;
             btnDone.Text = "Done";
             btnDone.UseVisualStyleBackColor = false;
+            btnDone.Click += btnDone_Click;
             // 
             // button1
             // 
