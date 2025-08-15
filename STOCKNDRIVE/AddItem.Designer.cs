@@ -47,6 +47,8 @@
             btnCancel = new Button();
             btnDone = new Button();
             button1 = new Button();
+            btnUpdate = new Button();
+            btnDelete = new Button();
             ((System.ComponentModel.ISupportInitialize)picItemImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPrice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numItemCount).BeginInit();
@@ -121,9 +123,9 @@
             lblDescription_Title.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lblDescription_Title.Location = new Point(330, 340);
             lblDescription_Title.Name = "lblDescription_Title";
-            lblDescription_Title.Size = new Size(71, 15);
+            lblDescription_Title.Size = new Size(35, 15);
             lblDescription_Title.TabIndex = 7;
-            lblDescription_Title.Text = "Description";
+            lblDescription_Title.Text = "Note";
             // 
             // lblCategory_Title
             // 
@@ -237,11 +239,45 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // btnUpdate
+            // 
+            btnUpdate.BackColor = Color.FromArgb(204, 141, 26);
+            btnUpdate.FlatAppearance.BorderSize = 0;
+            btnUpdate.FlatStyle = FlatStyle.Flat;
+            btnUpdate.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnUpdate.ForeColor = Color.White;
+            btnUpdate.Location = new Point(690, 440);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(120, 40);
+            btnUpdate.TabIndex = 18;
+            btnUpdate.Text = "Update";
+            btnUpdate.UseVisualStyleBackColor = false;
+            btnUpdate.Visible = false;
+            btnUpdate.Click += btnUpdate_Click_1;
+            // 
+            // btnDelete
+            // 
+            btnDelete.BackColor = Color.Maroon;
+            btnDelete.FlatAppearance.BorderSize = 0;
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(40, 440);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(120, 40);
+            btnDelete.TabIndex = 19;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Visible = false;
+            btnDelete.Click += btnDelete_Click_1;
+            // 
             // AddItem
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(860, 500);
+            Controls.Add(btnDelete);
+            Controls.Add(btnUpdate);
             Controls.Add(button1);
             Controls.Add(btnDone);
             Controls.Add(btnCancel);
@@ -291,5 +327,7 @@
         private Button btnCancel;
         private Button btnDone;
         private Button button1;
+        private Button btnUpdate;
+        private Button btnDelete;
     }
 }

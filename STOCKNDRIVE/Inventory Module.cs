@@ -29,7 +29,7 @@ namespace STOCKNDRIVE
         }
         private void LoadInventoryData()
         {
-            string query = "SELECT ProductName, Brand, Manufacturer, Price, QuantityInStock, Category FROM Products ORDER BY ProductName";
+            string query = "SELECT ProductID, ProductName, Brand, Manufacturer, Price, QuantityInStock, Category FROM Products ORDER BY ProductName";
 
             try
             {
@@ -102,6 +102,7 @@ namespace STOCKNDRIVE
             if (inventoryGrid.Columns.Count == 0) return;
 
             inventoryGrid.Columns["Category"].Visible = false;
+            inventoryGrid.Columns["ProductID"].Visible = false;
 
             inventoryGrid.Columns["ProductName"].HeaderText = "Product Name";
             inventoryGrid.Columns["QuantityInStock"].HeaderText = "Quantity";
@@ -259,6 +260,24 @@ namespace STOCKNDRIVE
                 {
                     // Apply the filter. Note the single quotes around the category name.
                     this.inventoryDataTable.DefaultView.RowFilter = $"Category = '{selectedCategory}'";
+                }
+            }
+        }
+
+        private void inventoryGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+            {
+                return;
+            }
+
+            int productId = Convert.ToInt32(inventoryGrid.Rows[e.RowIndex].Cells["ProductID"].Value);
+
+            using (AddItem editItemForm = new AddItem(productId))
+            {
+                if (editItemForm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadInventoryData();
                 }
             }
         }

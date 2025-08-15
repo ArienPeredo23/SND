@@ -504,6 +504,7 @@
             inventoryGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             inventoryGrid.Size = new Size(980, 395);
             inventoryGrid.TabIndex = 4;
+            inventoryGrid.CellClick += inventoryGrid_CellClick;
             // 
             // button2
             // 
