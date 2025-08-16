@@ -1,32 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
-using Microsoft.Data;
 
 namespace STOCKNDRIVE
 {
     public partial class Inventory_Module : Form
     {
         private DataTable inventoryDataTable;
+
         public Inventory_Module()
         {
             InitializeComponent();
-            // This line connects your event handler method to the actual event
             inventoryGrid.DataBindingComplete += inventoryGrid_DataBindingComplete;
         }
+
         private void Inventory_Module_Load(object sender, EventArgs e)
         {
             StyleInventoryGrid();
             LoadInventoryData();
             lblClearSearch.Visible = false;
         }
+
         private void LoadInventoryData()
         {
             string query = "SELECT ProductID, ProductName, Brand, Manufacturer, Price, QuantityInStock, Category FROM Products ORDER BY ProductName";
@@ -59,12 +56,41 @@ namespace STOCKNDRIVE
                     }
 
                     inventoryGrid.DataSource = this.inventoryDataTable;
+                    UpdateStatusCounts();
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Failed to load inventory data.\nError: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void UpdateStatusCounts()
+        {
+            if (inventoryDataTable == null) return;
+
+            int totalItems = 0;
+            int lowStockItems = 0;
+            int outOfStockItems = 0;
+
+            foreach (DataRow row in inventoryDataTable.Rows)
+            {
+                int quantity = Convert.ToInt32(row["QuantityInStock"]);
+                totalItems++;
+
+                if (quantity == 0)
+                {
+                    outOfStockItems++;
+                }
+                else if (quantity <= 5)
+                {
+                    lowStockItems++;
+                }
+            }
+
+            totaltxt.Text = totalItems.ToString();
+            lowstocktxt.Text = lowStockItems.ToString();
+            outofstocktxt.Text = outOfStockItems.ToString();
         }
 
         private void StyleInventoryGrid()
@@ -76,19 +102,14 @@ namespace STOCKNDRIVE
             inventoryGrid.DefaultCellStyle.SelectionForeColor = Color.Black;
             inventoryGrid.BackgroundColor = Color.White;
             inventoryGrid.RowHeadersVisible = false;
-
-            // This line will center the content of ALL cells
             inventoryGrid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            // Also center the headers
             inventoryGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
             inventoryGrid.EnableHeadersVisualStyles = false;
             inventoryGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             inventoryGrid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(232, 232, 232);
             inventoryGrid.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             inventoryGrid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             inventoryGrid.ColumnHeadersDefaultCellStyle.Padding = new Padding(0, 10, 0, 10);
-
             inventoryGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             inventoryGrid.AllowUserToAddRows = false;
             inventoryGrid.AllowUserToDeleteRows = false;
@@ -114,7 +135,7 @@ namespace STOCKNDRIVE
                 if (row.Cells["Status"].Value != null)
                 {
                     string status = row.Cells["Status"].Value.ToString();
-                    DataGridViewCellStyle style = new DataGridViewCellStyle(row.Cells["Status"].Style); // Clone existing style
+                    DataGridViewCellStyle style = new DataGridViewCellStyle(row.Cells["Status"].Style);
 
                     style.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold);
                     style.Padding = new Padding(5, 2, 5, 2);
@@ -139,8 +160,6 @@ namespace STOCKNDRIVE
             }
         }
 
-
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             lblClearSearch.Visible = !string.IsNullOrEmpty(textBox1.Text);
@@ -158,12 +177,12 @@ namespace STOCKNDRIVE
                 }
             }
         }
+
         private void lblClearSearch_Click(object sender, EventArgs e)
         {
             textBox1.Clear();
             textBox1.Focus();
         }
-
 
         private void btnDashboard_Click(object sender, EventArgs e)
         {
@@ -195,36 +214,33 @@ namespace STOCKNDRIVE
 
         private void button2_Click(object sender, EventArgs e)
         {
-            AddItem addItem = new AddItem();
-
-            // Show the form as a dialog and check the result it returns when it closes
-            if (addItem.ShowDialog() == DialogResult.OK)
+            using (AddItem addItem = new AddItem())
             {
-                // If the result was OK, it means the user clicked "Done" and the item was saved.
-                // Therefore, we should refresh the inventory data.
-                LoadInventoryData();
+                if (addItem.ShowDialog() == DialogResult.OK)
+                {
+                    LoadInventoryData();
+                }
             }
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
             ContextMenuStrip contextMenu = new ContextMenuStrip();
-
             var categories = new List<string>
-    {
-        "Show All", // Option to clear the filter
-        "---",      // A separator line
-        "Engine & Performance Parts",
-        "Electrical & Lighting",
-        "Tires & Wheels",
-        "Brakes & Suspension",
-        "Body & Frame Parts",
-        "Transmission & Drivetrain",
-        "Tools & Maintenance",
-        "Riding Gear & Accessories",
-        "Fluids & Consumables",
-        "Customization & Decorative Items"
-    };
+            {
+                "Show All",
+                "---",
+                "Engine & Performance Parts",
+                "Electrical & Lighting",
+                "Tires & Wheels",
+                "Brakes & Suspension",
+                "Body & Frame Parts",
+                "Transmission & Drivetrain",
+                "Tools & Maintenance",
+                "Riding Gear & Accessories",
+                "Fluids & Consumables",
+                "Customization & Decorative Items"
+            };
 
             foreach (string category in categories)
             {
@@ -235,12 +251,10 @@ namespace STOCKNDRIVE
                 else
                 {
                     ToolStripMenuItem menuItem = new ToolStripMenuItem(category);
-                    menuItem.Click += FilterMenuItem_Click; // Assign the same click event to all items
+                    menuItem.Click += FilterMenuItem_Click;
                     contextMenu.Items.Add(menuItem);
                 }
             }
-
-            // Show the menu just below the filter button
             Point screenPoint = btnFilter.PointToScreen(new Point(0, btnFilter.Height));
             contextMenu.Show(screenPoint);
         }
@@ -258,7 +272,6 @@ namespace STOCKNDRIVE
                 }
                 else
                 {
-                    // Apply the filter. Note the single quotes around the category name.
                     this.inventoryDataTable.DefaultView.RowFilter = $"Category = '{selectedCategory}'";
                 }
             }

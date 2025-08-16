@@ -41,19 +41,23 @@
             panel4 = new Panel();
             label1 = new Label();
             totalItemsCard = new Panel();
+            totaltxt = new Label();
             label3 = new Label();
             label2 = new Label();
             pictureBox2 = new PictureBox();
             panel1 = new Panel();
+            lowstocktxt = new Label();
             label4 = new Label();
             label5 = new Label();
             pictureBox3 = new PictureBox();
             panel2 = new Panel();
+            defectedtxt = new Label();
             panel7 = new Panel();
             label6 = new Label();
             label7 = new Label();
             pictureBox4 = new PictureBox();
             panel3 = new Panel();
+            outofstocktxt = new Label();
             label8 = new Label();
             label9 = new Label();
             pictureBox5 = new PictureBox();
@@ -219,6 +223,7 @@
             // totalItemsCard
             // 
             totalItemsCard.BackColor = Color.White;
+            totalItemsCard.Controls.Add(totaltxt);
             totalItemsCard.Controls.Add(label3);
             totalItemsCard.Controls.Add(label2);
             totalItemsCard.Controls.Add(pictureBox2);
@@ -226,6 +231,18 @@
             totalItemsCard.Name = "totalItemsCard";
             totalItemsCard.Size = new Size(230, 110);
             totalItemsCard.TabIndex = 8;
+            // 
+            // totaltxt
+            // 
+            totaltxt.AutoSize = true;
+            totaltxt.BackColor = Color.Transparent;
+            totaltxt.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            totaltxt.Location = new Point(190, 75);
+            totaltxt.Name = "totaltxt";
+            totaltxt.Size = new Size(19, 21);
+            totaltxt.TabIndex = 3;
+            totaltxt.Text = "0";
+            totaltxt.TextAlign = ContentAlignment.MiddleRight;
             // 
             // label3
             // 
@@ -263,6 +280,7 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(lowstocktxt);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(pictureBox3);
@@ -270,6 +288,18 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(230, 110);
             panel1.TabIndex = 9;
+            // 
+            // lowstocktxt
+            // 
+            lowstocktxt.AutoSize = true;
+            lowstocktxt.BackColor = Color.Transparent;
+            lowstocktxt.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lowstocktxt.Location = new Point(189, 75);
+            lowstocktxt.Name = "lowstocktxt";
+            lowstocktxt.Size = new Size(19, 21);
+            lowstocktxt.TabIndex = 4;
+            lowstocktxt.Text = "0";
+            lowstocktxt.TextAlign = ContentAlignment.MiddleRight;
             // 
             // label4
             // 
@@ -308,6 +338,7 @@
             // panel2
             // 
             panel2.BackColor = Color.White;
+            panel2.Controls.Add(defectedtxt);
             panel2.Controls.Add(panel7);
             panel2.Controls.Add(label6);
             panel2.Controls.Add(label7);
@@ -316,6 +347,18 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(230, 110);
             panel2.TabIndex = 10;
+            // 
+            // defectedtxt
+            // 
+            defectedtxt.AutoSize = true;
+            defectedtxt.BackColor = Color.Transparent;
+            defectedtxt.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            defectedtxt.Location = new Point(190, 76);
+            defectedtxt.Name = "defectedtxt";
+            defectedtxt.Size = new Size(19, 21);
+            defectedtxt.TabIndex = 5;
+            defectedtxt.Text = "0";
+            defectedtxt.TextAlign = ContentAlignment.MiddleRight;
             // 
             // panel7
             // 
@@ -362,6 +405,7 @@
             // panel3
             // 
             panel3.BackColor = Color.White;
+            panel3.Controls.Add(outofstocktxt);
             panel3.Controls.Add(label8);
             panel3.Controls.Add(label9);
             panel3.Controls.Add(pictureBox5);
@@ -369,6 +413,18 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(230, 110);
             panel3.TabIndex = 11;
+            // 
+            // outofstocktxt
+            // 
+            outofstocktxt.AutoSize = true;
+            outofstocktxt.BackColor = Color.Transparent;
+            outofstocktxt.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            outofstocktxt.Location = new Point(190, 75);
+            outofstocktxt.Name = "outofstocktxt";
+            outofstocktxt.Size = new Size(19, 21);
+            outofstocktxt.TabIndex = 4;
+            outofstocktxt.Text = "0";
+            outofstocktxt.TextAlign = ContentAlignment.MiddleRight;
             // 
             // label8
             // 
@@ -620,5 +676,9 @@
         private DataGridView inventoryGrid;
         private Button btnFilter;
         private Label lblClearSearch;
+        private Label totaltxt;
+        private Label lowstocktxt;
+        private Label defectedtxt;
+        private Label outofstocktxt;
     }
 }
