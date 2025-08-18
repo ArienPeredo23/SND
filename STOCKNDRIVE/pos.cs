@@ -75,7 +75,7 @@ namespace STOCKNDRIVE
             panel2.Visible = true;
             panel2.Controls.Clear();
 
-            string query = "SELECT ProductName, Brand, Manufacturer, Price, ProductImage FROM Products WHERE QuantityInStock > 0";
+            string query = "SELECT ProductName, Brand, Manufacturer, Price, ProductImage, QuantityInStock FROM Products";
 
             try
             {
@@ -88,21 +88,41 @@ namespace STOCKNDRIVE
                         while (reader.Read())
                         {
                             ProductCard card = new ProductCard();
+                            Image productImage = null;
 
                             card.ProductName = reader["ProductName"].ToString();
                             card.BrandText = reader["Brand"].ToString();
                             card.ManufacturerText = reader["Manufacturer"].ToString();
                             card.ProductPrice = Convert.ToDecimal(reader["Price"]).ToString("0.00");
 
+                            int stockQuantity = Convert.ToInt32(reader["QuantityInStock"]);
+                            card.StockQuantityText = stockQuantity.ToString();
+
                             if (reader["ProductImage"] != DBNull.Value)
                             {
                                 byte[] imageData = (byte[])reader["ProductImage"];
                                 using (MemoryStream ms = new MemoryStream(imageData))
                                 {
-                                    card.ProductImage = Image.FromStream(ms);
+                                    productImage = Image.FromStream(ms);
                                 }
                             }
-                            card.AddToCartClicked += Card_AddToCartClicked;
+
+                            if (stockQuantity == 0)
+                            {
+                                card.AddToCartButton.Enabled = false;
+                                card.AddToCartButton.BackColor = Color.Gray;
+
+                                if (productImage != null)
+                                {
+                                    card.ProductImage = CreateOutOfStockOverlay(productImage);
+                                }
+                            }
+                            else
+                            {
+                                card.ProductImage = productImage;
+                                card.AddToCartClicked += Card_AddToCartClicked;
+                            }
+
                             panel2.Controls.Add(card);
                         }
                     }
@@ -113,5 +133,34 @@ namespace STOCKNDRIVE
                 MessageBox.Show("Error loading products: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private Image CreateOutOfStockOverlay(Image originalImage)
+        {
+            Bitmap bitmap = new Bitmap(originalImage);
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                Font font = new Font("Arial", 60, FontStyle.Bold);
+                StringFormat stringFormat = new StringFormat();
+                stringFormat.Alignment = StringAlignment.Center;
+                stringFormat.LineAlignment = StringAlignment.Center;
+                RectangleF rect = new RectangleF(0, 0, bitmap.Width, bitmap.Height);
+
+                using (System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath())
+                {
+                    path.AddString("Out of Stock", font.FontFamily, (int)font.Style, font.Size, rect, stringFormat);
+
+                    using (Pen pen = new Pen(Color.Black, 3))
+                    {
+                        graphics.DrawPath(pen, path);
+                    }
+
+                    using (SolidBrush brush = new SolidBrush(Color.Red))
+                    {
+                        graphics.FillPath(brush, path);
+                    }
+                }
+            }
+            return bitmap;
+        }
+
     }
 }

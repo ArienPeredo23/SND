@@ -13,27 +13,9 @@ namespace STOCKNDRIVE
 {
     public partial class ProductCard : UserControl
     {
-        private int quantity = 1;
-
         public ProductCard()
         {
             InitializeComponent();
-            lblQuantity.Text = quantity.ToString();
-        }
-
-        private void btnPlus_Click(object sender, EventArgs e)
-        {
-            quantity++;
-            lblQuantity.Text = quantity.ToString();
-        }
-
-        private void btnMinus_Click(object sender, EventArgs e)
-        {
-            if (quantity > 1)
-            {
-                quantity--;
-                lblQuantity.Text = quantity.ToString();
-            }
         }
 
         public event EventHandler AddToCartClicked;
@@ -74,9 +56,19 @@ namespace STOCKNDRIVE
             set { picProductImage.Image = value; }
         }
 
+        public string StockQuantityText
+        {
+            set { lblQuantity.Text = "Stock: " + value; }
+        }
+
+        public Button AddToCartButton
+        {
+            get { return btnAddToCart; }
+        }
+
         public int Quantity
         {
-            get { return quantity; }
+            get { return 1; }
         }
     }
 }

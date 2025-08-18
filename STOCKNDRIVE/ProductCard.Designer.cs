@@ -31,9 +31,7 @@
             picProductImage = new PictureBox();
             lblProductName = new Label();
             php = new Label();
-            btnMinus = new Button();
             lblQuantity = new Label();
-            btnPlus = new Button();
             btnAddToCart = new Button();
             lblBrand = new Label();
             lblManufacturer = new Label();
@@ -73,46 +71,18 @@
             php.TabIndex = 4;
             php.Text = "PHP";
             // 
-            // btnMinus
-            // 
-            btnMinus.FlatAppearance.BorderColor = Color.Gray;
-            btnMinus.FlatAppearance.BorderSize = 0;
-            btnMinus.FlatStyle = FlatStyle.Flat;
-            btnMinus.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnMinus.ForeColor = Color.White;
-            btnMinus.Location = new Point(132, 211);
-            btnMinus.Name = "btnMinus";
-            btnMinus.Size = new Size(30, 25);
-            btnMinus.TabIndex = 5;
-            btnMinus.Text = "-";
-            btnMinus.UseVisualStyleBackColor = true;
-            // 
             // lblQuantity
             // 
             lblQuantity.AutoSize = true;
             lblQuantity.BorderStyle = BorderStyle.FixedSingle;
-            lblQuantity.Font = new Font("Segoe UI", 10F);
+            lblQuantity.Font = new Font("Segoe UI", 9F);
             lblQuantity.ForeColor = Color.White;
-            lblQuantity.Location = new Point(166, 216);
+            lblQuantity.Location = new Point(167, 217);
             lblQuantity.Name = "lblQuantity";
-            lblQuantity.Size = new Size(19, 21);
+            lblQuantity.Size = new Size(15, 17);
             lblQuantity.TabIndex = 6;
             lblQuantity.Text = "0";
             lblQuantity.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // btnPlus
-            // 
-            btnPlus.FlatAppearance.BorderColor = Color.Gray;
-            btnPlus.FlatAppearance.BorderSize = 0;
-            btnPlus.FlatStyle = FlatStyle.Flat;
-            btnPlus.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnPlus.ForeColor = Color.White;
-            btnPlus.Location = new Point(191, 211);
-            btnPlus.Name = "btnPlus";
-            btnPlus.Size = new Size(30, 25);
-            btnPlus.TabIndex = 7;
-            btnPlus.Text = "+";
-            btnPlus.UseVisualStyleBackColor = true;
             // 
             // btnAddToCart
             // 
@@ -170,9 +140,7 @@
             Controls.Add(lblManufacturer);
             Controls.Add(lblBrand);
             Controls.Add(btnAddToCart);
-            Controls.Add(btnPlus);
             Controls.Add(lblQuantity);
-            Controls.Add(btnMinus);
             Controls.Add(php);
             Controls.Add(lblProductName);
             Controls.Add(picProductImage);
@@ -188,9 +156,7 @@
         private PictureBox picProductImage;
         private Label lblProductName;
         private Label php;
-        private Button btnMinus;
         private Label lblQuantity;
-        private Button btnPlus;
         private Button btnAddToCart;
         private Label lblBrand;
         private Label lblManufacturer;
