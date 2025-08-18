@@ -49,5 +49,15 @@ namespace STOCKNDRIVE
             sales.Show();
             this.Close();
         }
+
+        private void leftNavPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

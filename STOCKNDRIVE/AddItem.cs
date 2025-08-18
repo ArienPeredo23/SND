@@ -375,5 +375,10 @@ namespace STOCKNDRIVE
                 }
             }
         }
+
+        private void AddItem_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

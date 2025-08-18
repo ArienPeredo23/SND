@@ -71,8 +71,9 @@
             leftNavPanel.Dock = DockStyle.Left;
             leftNavPanel.Location = new Point(0, 0);
             leftNavPanel.Name = "leftNavPanel";
-            leftNavPanel.Size = new Size(240, 720);
+            leftNavPanel.Size = new Size(240, 920);
             leftNavPanel.TabIndex = 0;
+            leftNavPanel.Paint += leftNavPanel_Paint;
             // 
             // btnSettings
             // 
@@ -82,7 +83,7 @@
             btnSettings.ForeColor = Color.White;
             btnSettings.Image = (Image)resources.GetObject("btnSettings.Image");
             btnSettings.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSettings.Location = new Point(30, 655);
+            btnSettings.Location = new Point(30, 845);
             btnSettings.Name = "btnSettings";
             btnSettings.Size = new Size(180, 45);
             btnSettings.TabIndex = 5;
@@ -99,7 +100,7 @@
             btnSales.ForeColor = Color.White;
             btnSales.Image = (Image)resources.GetObject("btnSales.Image");
             btnSales.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSales.Location = new Point(30, 285);
+            btnSales.Location = new Point(30, 319);
             btnSales.Name = "btnSales";
             btnSales.Size = new Size(180, 45);
             btnSales.TabIndex = 4;
@@ -117,7 +118,7 @@
             btnInventory.ForeColor = Color.White;
             btnInventory.Image = (Image)resources.GetObject("btnInventory.Image");
             btnInventory.ImageAlign = ContentAlignment.MiddleLeft;
-            btnInventory.Location = new Point(30, 230);
+            btnInventory.Location = new Point(30, 264);
             btnInventory.Name = "btnInventory";
             btnInventory.Size = new Size(180, 45);
             btnInventory.TabIndex = 3;
@@ -135,7 +136,7 @@
             btnPOS.ForeColor = Color.White;
             btnPOS.Image = (Image)resources.GetObject("btnPOS.Image");
             btnPOS.ImageAlign = ContentAlignment.MiddleLeft;
-            btnPOS.Location = new Point(30, 175);
+            btnPOS.Location = new Point(30, 209);
             btnPOS.Name = "btnPOS";
             btnPOS.Size = new Size(180, 45);
             btnPOS.TabIndex = 2;
@@ -154,7 +155,7 @@
             btnDashboard.ForeColor = Color.White;
             btnDashboard.Image = (Image)resources.GetObject("btnDashboard.Image");
             btnDashboard.ImageAlign = ContentAlignment.MiddleLeft;
-            btnDashboard.Location = new Point(30, 120);
+            btnDashboard.Location = new Point(30, 154);
             btnDashboard.Name = "btnDashboard";
             btnDashboard.Size = new Size(180, 45);
             btnDashboard.TabIndex = 1;
@@ -167,9 +168,9 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(30, 30);
+            pictureBox1.Location = new Point(0, 12);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(180, 40);
+            pictureBox1.Size = new Size(240, 102);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -190,30 +191,30 @@
             revenueCard.BackColor = Color.FromArgb(45, 45, 45);
             revenueCard.Controls.Add(label4);
             revenueCard.Controls.Add(label2);
-            revenueCard.Location = new Point(880, 100);
+            revenueCard.Location = new Point(1110, 107);
             revenueCard.Name = "revenueCard";
-            revenueCard.Size = new Size(170, 160);
+            revenueCard.Size = new Size(340, 230);
             revenueCard.TabIndex = 2;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 7F);
+            label4.Font = new Font("Segoe UI", 9.75F);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(8, 105);
+            label4.Location = new Point(11, 166);
             label4.Name = "label4";
-            label4.Size = new Size(146, 24);
+            label4.Size = new Size(197, 34);
             label4.TabIndex = 7;
             label4.Text = "The total cash revenue recorded\r\n for the day";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(11, 18);
+            label2.Location = new Point(11, 23);
             label2.Name = "label2";
-            label2.Size = new Size(137, 21);
+            label2.Size = new Size(203, 32);
             label2.TabIndex = 6;
             label2.Text = "Today's Revenue";
             // 
@@ -222,30 +223,31 @@
             ordersCard.BackColor = Color.FromArgb(45, 45, 45);
             ordersCard.Controls.Add(label5);
             ordersCard.Controls.Add(label3);
-            ordersCard.Location = new Point(1070, 100);
+            ordersCard.Location = new Point(1470, 107);
             ordersCard.Name = "ordersCard";
-            ordersCard.Size = new Size(170, 160);
+            ordersCard.Size = new Size(340, 230);
             ordersCard.TabIndex = 3;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 7F);
+            label5.Font = new Font("Segoe UI", 9.75F);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(8, 105);
+            label5.Location = new Point(11, 166);
             label5.Name = "label5";
-            label5.Size = new Size(158, 24);
+            label5.Size = new Size(212, 34);
             label5.TabIndex = 8;
             label5.Text = "The total number of customer \r\npurchases recorded within the day.";
+            label5.Click += label5_Click;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(11, 18);
+            label3.Location = new Point(11, 23);
             label3.Name = "label3";
-            label3.Size = new Size(114, 21);
+            label3.Size = new Size(172, 32);
             label3.TabIndex = 7;
             label3.Text = "Today's Order";
             // 
@@ -254,19 +256,19 @@
             panel1.BackColor = Color.White;
             panel1.Controls.Add(label6);
             panel1.Controls.Add(dataGridView1);
-            panel1.Location = new Point(880, 280);
+            panel1.Location = new Point(1110, 353);
             panel1.Name = "panel1";
-            panel1.Size = new Size(360, 400);
+            panel1.Size = new Size(700, 538);
             panel1.TabIndex = 3;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             label6.ForeColor = SystemColors.ControlText;
-            label6.Location = new Point(11, 16);
+            label6.Location = new Point(11, 26);
             label6.Name = "label6";
-            label6.Size = new Size(164, 21);
+            label6.Size = new Size(246, 32);
             label6.TabIndex = 8;
             label6.Text = "Best-Selling Product";
             // 
@@ -276,37 +278,37 @@
             dataGridView1.BorderStyle = BorderStyle.None;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.Location = new Point(20, 80);
+            dataGridView1.Location = new Point(3, 80);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(320, 320);
+            dataGridView1.Size = new Size(675, 458);
             dataGridView1.TabIndex = 0;
             // 
             // panel2
             // 
             panel2.BackColor = Color.White;
             panel2.Controls.Add(label7);
-            panel2.Location = new Point(260, 100);
+            panel2.Location = new Point(280, 107);
             panel2.Name = "panel2";
-            panel2.Size = new Size(600, 350);
+            panel2.Size = new Size(813, 450);
             panel2.TabIndex = 3;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             label7.ForeColor = SystemColors.ControlText;
-            label7.Location = new Point(20, 18);
+            label7.Location = new Point(20, 23);
             label7.Name = "label7";
-            label7.Size = new Size(126, 21);
+            label7.Size = new Size(185, 32);
             label7.TabIndex = 9;
             label7.Text = "Sales Overview";
             // 
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(45, 45, 45);
-            panel3.Location = new Point(260, 470);
+            panel3.Location = new Point(280, 574);
             panel3.Name = "panel3";
-            panel3.Size = new Size(600, 210);
+            panel3.Size = new Size(813, 317);
             panel3.TabIndex = 4;
             // 
             // panel4
@@ -314,7 +316,7 @@
             panel4.BackColor = Color.Gray;
             panel4.Location = new Point(260, 79);
             panel4.Name = "panel4";
-            panel4.Size = new Size(980, 2);
+            panel4.Size = new Size(1550, 2);
             panel4.TabIndex = 5;
             // 
             // Dashboard
@@ -322,7 +324,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 22, 23);
-            ClientSize = new Size(1280, 720);
+            ClientSize = new Size(1850, 920);
             Controls.Add(panel4);
             Controls.Add(panel3);
             Controls.Add(panel2);

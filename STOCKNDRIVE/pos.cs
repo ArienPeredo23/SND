@@ -7,34 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
+using System.IO;
 
 namespace STOCKNDRIVE
 {
     public partial class pos : Form
     {
-        private void productCard1_AddToCartClicked(object sender, EventArgs e)
+        private void Card_AddToCartClicked(object sender, EventArgs e)
         {
-            // 1. Get the card that was clicked
             ProductCard card = sender as ProductCard;
-
-            // 2. Get the product info from the card
             string name = card.ProductName;
             string price = card.ProductPrice;
             int qty = card.Quantity;
 
-            // 3. Create a new label to display the item in the order details
             Label orderItemLabel = new Label();
             orderItemLabel.Text = $"x{qty}  {name}          {price}";
             orderItemLabel.ForeColor = Color.White;
             orderItemLabel.AutoSize = true;
-
-            // 4. Add the new label to the order details panel
-            //    (You will need a FlowLayoutPanel inside your rightOrderPanel for this to work best)
-            //    Let's assume you added a FlowLayoutPanel named 'orderedItemsFlowPanel'
-            //    orderedItemsFlowPanel.Controls.Add(orderItemLabel);
-
-            MessageBox.Show($"{qty} x {name} added to cart!"); // For testing
+            MessageBox.Show($"{qty} x {name} added to cart!");
         }
+
         public pos()
         {
             InitializeComponent();
@@ -67,6 +60,58 @@ namespace STOCKNDRIVE
             sales.Show();
             this.Close();
         }
-    }
 
+        private void topActionPanel_Paint(object sender, PaintEventArgs e)
+        {
+        }
+
+        private void pos_Load(object sender, EventArgs e)
+        {
+            LoadProductCards();
+        }
+
+        private void LoadProductCards()
+        {
+            panel2.Visible = true;
+            panel2.Controls.Clear();
+
+            string query = "SELECT ProductName, Brand, Manufacturer, Price, ProductImage FROM Products WHERE QuantityInStock > 0";
+
+            try
+            {
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        conn.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            ProductCard card = new ProductCard();
+
+                            card.ProductName = reader["ProductName"].ToString();
+                            card.BrandText = reader["Brand"].ToString();
+                            card.ManufacturerText = reader["Manufacturer"].ToString();
+                            card.ProductPrice = Convert.ToDecimal(reader["Price"]).ToString("0.00");
+
+                            if (reader["ProductImage"] != DBNull.Value)
+                            {
+                                byte[] imageData = (byte[])reader["ProductImage"];
+                                using (MemoryStream ms = new MemoryStream(imageData))
+                                {
+                                    card.ProductImage = Image.FromStream(ms);
+                                }
+                            }
+                            card.AddToCartClicked += Card_AddToCartClicked;
+                            panel2.Controls.Add(card);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading products: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
 }

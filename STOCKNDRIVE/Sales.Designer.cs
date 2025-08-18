@@ -35,8 +35,8 @@
             btnInventory = new Button();
             btnPOS = new Button();
             btnDashboard = new Button();
-            pictureBox1 = new PictureBox();
             leftNavPanel = new Panel();
+            pictureBox1 = new PictureBox();
             btnSettings = new Button();
             label1 = new Label();
             panel4 = new Panel();
@@ -46,8 +46,8 @@
             btnFilter = new Button();
             btnExport = new Button();
             label2 = new Label();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             leftNavPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             reportPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSalesReport).BeginInit();
             SuspendLayout();
@@ -61,7 +61,7 @@
             btnSales.ForeColor = Color.White;
             btnSales.Image = (Image)resources.GetObject("btnSales.Image");
             btnSales.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSales.Location = new Point(30, 285);
+            btnSales.Location = new Point(30, 312);
             btnSales.Name = "btnSales";
             btnSales.Size = new Size(180, 45);
             btnSales.TabIndex = 4;
@@ -79,7 +79,7 @@
             btnInventory.ForeColor = Color.White;
             btnInventory.Image = (Image)resources.GetObject("btnInventory.Image");
             btnInventory.ImageAlign = ContentAlignment.MiddleLeft;
-            btnInventory.Location = new Point(30, 230);
+            btnInventory.Location = new Point(30, 257);
             btnInventory.Name = "btnInventory";
             btnInventory.Size = new Size(180, 45);
             btnInventory.TabIndex = 3;
@@ -97,7 +97,7 @@
             btnPOS.ForeColor = Color.White;
             btnPOS.Image = (Image)resources.GetObject("btnPOS.Image");
             btnPOS.ImageAlign = ContentAlignment.MiddleLeft;
-            btnPOS.Location = new Point(30, 175);
+            btnPOS.Location = new Point(30, 202);
             btnPOS.Name = "btnPOS";
             btnPOS.Size = new Size(180, 45);
             btnPOS.TabIndex = 2;
@@ -116,7 +116,7 @@
             btnDashboard.ForeColor = Color.White;
             btnDashboard.Image = (Image)resources.GetObject("btnDashboard.Image");
             btnDashboard.ImageAlign = ContentAlignment.MiddleLeft;
-            btnDashboard.Location = new Point(30, 120);
+            btnDashboard.Location = new Point(30, 154);
             btnDashboard.Name = "btnDashboard";
             btnDashboard.Size = new Size(180, 45);
             btnDashboard.TabIndex = 1;
@@ -126,30 +126,30 @@
             btnDashboard.UseVisualStyleBackColor = false;
             btnDashboard.Click += btnDashboard_Click;
             // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(30, 30);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(180, 40);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            // 
             // leftNavPanel
             // 
             leftNavPanel.BackColor = Color.FromArgb(30, 30, 30);
+            leftNavPanel.Controls.Add(pictureBox1);
             leftNavPanel.Controls.Add(btnSettings);
             leftNavPanel.Controls.Add(btnSales);
             leftNavPanel.Controls.Add(btnInventory);
             leftNavPanel.Controls.Add(btnPOS);
             leftNavPanel.Controls.Add(btnDashboard);
-            leftNavPanel.Controls.Add(pictureBox1);
             leftNavPanel.Dock = DockStyle.Left;
             leftNavPanel.Location = new Point(0, 0);
             leftNavPanel.Name = "leftNavPanel";
-            leftNavPanel.Size = new Size(240, 720);
+            leftNavPanel.Size = new Size(240, 920);
             leftNavPanel.TabIndex = 1;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(0, 12);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(240, 102);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 6;
+            pictureBox1.TabStop = false;
             // 
             // btnSettings
             // 
@@ -159,7 +159,7 @@
             btnSettings.ForeColor = Color.White;
             btnSettings.Image = (Image)resources.GetObject("btnSettings.Image");
             btnSettings.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSettings.Location = new Point(30, 655);
+            btnSettings.Location = new Point(30, 845);
             btnSettings.Name = "btnSettings";
             btnSettings.Size = new Size(180, 45);
             btnSettings.TabIndex = 5;
@@ -197,7 +197,7 @@
             reportPanel.Controls.Add(label2);
             reportPanel.Location = new Point(260, 98);
             reportPanel.Name = "reportPanel";
-            reportPanel.Size = new Size(980, 590);
+            reportPanel.Size = new Size(1550, 793);
             reportPanel.TabIndex = 9;
             // 
             // dgvSalesReport
@@ -281,7 +281,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 22, 23);
-            ClientSize = new Size(1280, 720);
+            ClientSize = new Size(1850, 920);
             Controls.Add(reportPanel);
             Controls.Add(panel4);
             Controls.Add(label1);
@@ -290,8 +290,8 @@
             Name = "Sales";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Inventory";
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             leftNavPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             reportPanel.ResumeLayout(false);
             reportPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSalesReport).EndInit();
@@ -305,7 +305,6 @@
         private Button btnInventory;
         private Button btnPOS;
         private Button btnDashboard;
-        private PictureBox pictureBox1;
         private Panel leftNavPanel;
         private Button btnSettings;
         private Label label1;
@@ -316,5 +315,6 @@
         private TextBox txtSearch;
         private Button btnFilter;
         private DataGridView dgvSalesReport;
+        private PictureBox pictureBox1;
     }
 }

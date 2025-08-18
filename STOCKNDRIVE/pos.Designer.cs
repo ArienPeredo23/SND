@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pos));
-            pictureBox1 = new PictureBox();
             leftNavPanel = new Panel();
+            pictureBox1 = new PictureBox();
             productFlowPanel = new FlowLayoutPanel();
             btnSettings = new Button();
             btnSales = new Button();
@@ -53,37 +53,38 @@
             label1 = new Label();
             separatorPanel = new Panel();
             label2 = new Label();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel2 = new FlowLayoutPanel();
             leftNavPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             topActionPanel.SuspendLayout();
             rightOrderPanel.SuspendLayout();
             SuspendLayout();
             // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(30, 30);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(180, 40);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            // 
             // leftNavPanel
             // 
             leftNavPanel.BackColor = Color.FromArgb(30, 30, 30);
+            leftNavPanel.Controls.Add(pictureBox1);
             leftNavPanel.Controls.Add(productFlowPanel);
             leftNavPanel.Controls.Add(btnSettings);
             leftNavPanel.Controls.Add(btnSales);
             leftNavPanel.Controls.Add(btnInventory);
             leftNavPanel.Controls.Add(btnPOS);
             leftNavPanel.Controls.Add(btnDashboard);
-            leftNavPanel.Controls.Add(pictureBox1);
             leftNavPanel.Dock = DockStyle.Left;
             leftNavPanel.Location = new Point(0, 0);
             leftNavPanel.Name = "leftNavPanel";
-            leftNavPanel.Size = new Size(240, 720);
+            leftNavPanel.Size = new Size(240, 920);
             leftNavPanel.TabIndex = 2;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(0, 12);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(240, 102);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 11;
+            pictureBox1.TabStop = false;
             // 
             // productFlowPanel
             // 
@@ -101,7 +102,7 @@
             btnSettings.ForeColor = Color.White;
             btnSettings.Image = (Image)resources.GetObject("btnSettings.Image");
             btnSettings.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSettings.Location = new Point(30, 655);
+            btnSettings.Location = new Point(30, 845);
             btnSettings.Name = "btnSettings";
             btnSettings.Size = new Size(180, 45);
             btnSettings.TabIndex = 5;
@@ -118,7 +119,7 @@
             btnSales.ForeColor = Color.White;
             btnSales.Image = (Image)resources.GetObject("btnSales.Image");
             btnSales.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSales.Location = new Point(30, 285);
+            btnSales.Location = new Point(30, 317);
             btnSales.Name = "btnSales";
             btnSales.Size = new Size(180, 45);
             btnSales.TabIndex = 4;
@@ -136,7 +137,7 @@
             btnInventory.ForeColor = Color.White;
             btnInventory.Image = (Image)resources.GetObject("btnInventory.Image");
             btnInventory.ImageAlign = ContentAlignment.MiddleLeft;
-            btnInventory.Location = new Point(30, 230);
+            btnInventory.Location = new Point(30, 262);
             btnInventory.Name = "btnInventory";
             btnInventory.Size = new Size(180, 45);
             btnInventory.TabIndex = 3;
@@ -155,7 +156,7 @@
             btnPOS.ForeColor = Color.White;
             btnPOS.Image = (Image)resources.GetObject("btnPOS.Image");
             btnPOS.ImageAlign = ContentAlignment.MiddleLeft;
-            btnPOS.Location = new Point(30, 175);
+            btnPOS.Location = new Point(30, 207);
             btnPOS.Name = "btnPOS";
             btnPOS.Size = new Size(180, 45);
             btnPOS.TabIndex = 2;
@@ -174,7 +175,7 @@
             btnDashboard.ForeColor = Color.White;
             btnDashboard.Image = (Image)resources.GetObject("btnDashboard.Image");
             btnDashboard.ImageAlign = ContentAlignment.MiddleLeft;
-            btnDashboard.Location = new Point(30, 120);
+            btnDashboard.Location = new Point(30, 154);
             btnDashboard.Name = "btnDashboard";
             btnDashboard.Size = new Size(180, 45);
             btnDashboard.TabIndex = 1;
@@ -190,8 +191,9 @@
             topActionPanel.Dock = DockStyle.Top;
             topActionPanel.Location = new Point(240, 0);
             topActionPanel.Name = "topActionPanel";
-            topActionPanel.Size = new Size(1040, 80);
+            topActionPanel.Size = new Size(1610, 80);
             topActionPanel.TabIndex = 3;
+            topActionPanel.Paint += topActionPanel_Paint;
             // 
             // textBox1
             // 
@@ -256,9 +258,9 @@
             rightOrderPanel.Controls.Add(separatorPanel);
             rightOrderPanel.Controls.Add(label2);
             rightOrderPanel.Dock = DockStyle.Right;
-            rightOrderPanel.Location = new Point(930, 80);
+            rightOrderPanel.Location = new Point(1500, 80);
             rightOrderPanel.Name = "rightOrderPanel";
-            rightOrderPanel.Size = new Size(350, 640);
+            rightOrderPanel.Size = new Size(350, 840);
             rightOrderPanel.TabIndex = 9;
             // 
             // panel1
@@ -341,12 +343,22 @@
             label2.TabIndex = 10;
             label2.Text = "Order List";
             // 
+            // panel2
+            // 
+            panel2.AutoScroll = true;
+            panel2.Location = new Point(279, 156);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1200, 729);
+            panel2.TabIndex = 11;
+            panel2.Visible = false;
+            // 
             // pos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 22, 23);
-            ClientSize = new Size(1280, 720);
+            ClientSize = new Size(1850, 920);
+            Controls.Add(panel2);
             Controls.Add(rightOrderPanel);
             Controls.Add(button5);
             Controls.Add(button4);
@@ -359,8 +371,9 @@
             Name = "pos";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "pos";
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            Load += pos_Load;
             leftNavPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             topActionPanel.ResumeLayout(false);
             topActionPanel.PerformLayout();
             rightOrderPanel.ResumeLayout(false);
@@ -369,8 +382,6 @@
         }
 
         #endregion
-
-        private PictureBox pictureBox1;
         private Panel leftNavPanel;
         private Button btnSettings;
         private Button btnSales;
@@ -394,5 +405,7 @@
         private Label label4;
         private FlowLayoutPanel orderedItemsFlowPanel;
         private Panel panel1;
+        private PictureBox pictureBox1;
+        private FlowLayoutPanel panel2;
     }
 }

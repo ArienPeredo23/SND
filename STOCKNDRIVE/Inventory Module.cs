@@ -15,6 +15,9 @@ namespace STOCKNDRIVE
         {
             InitializeComponent();
             inventoryGrid.DataBindingComplete += inventoryGrid_DataBindingComplete;
+            inventoryGrid.SelectionChanged += inventoryGrid_SelectionChanged;
+            inventoryGrid.CellMouseEnter += inventoryGrid_CellMouseEnter;
+            inventoryGrid.MouseLeave += inventoryGrid_MouseLeave;
         }
 
         private void Inventory_Module_Load(object sender, EventArgs e)
@@ -22,6 +25,72 @@ namespace STOCKNDRIVE
             StyleInventoryGrid();
             LoadInventoryData();
             lblClearSearch.Visible = false;
+        }
+        private int hoveredRowIndex = -1;
+        private void inventoryGrid_SelectionChanged(object sender, EventArgs e)
+        {
+            foreach (DataGridViewCell cell in inventoryGrid.SelectedCells)
+            {
+                cell.Style.SelectionBackColor = cell.Style.BackColor;
+                cell.Style.SelectionForeColor = cell.Style.ForeColor;
+            }
+        }
+        private void inventoryGrid_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.RowIndex != this.hoveredRowIndex)
+            {
+                if (this.hoveredRowIndex >= 0)
+                {
+                    RestoreRowStyle(this.hoveredRowIndex);
+                }
+                this.hoveredRowIndex = e.RowIndex;
+                inventoryGrid.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(255, 223, 0); 
+            }
+        }
+
+        private void inventoryGrid_MouseLeave(object sender, EventArgs e)
+        {
+            if (this.hoveredRowIndex >= 0)
+            {
+                RestoreRowStyle(this.hoveredRowIndex);
+                this.hoveredRowIndex = -1;
+            }
+        }
+
+        private void RestoreRowStyle(int rowIndex)
+        {
+            if (rowIndex >= 0 && rowIndex < inventoryGrid.Rows.Count)
+            {
+                DataGridViewRow row = inventoryGrid.Rows[rowIndex];
+
+                if (rowIndex % 2 == 0)
+                {
+                    row.DefaultCellStyle.BackColor = inventoryGrid.DefaultCellStyle.BackColor;
+                }
+                else
+                {
+                    row.DefaultCellStyle.BackColor = inventoryGrid.AlternatingRowsDefaultCellStyle.BackColor;
+                }
+
+                if (row.Cells["Status"].Value != null)
+                {
+                    string status = row.Cells["Status"].Value.ToString();
+                    DataGridViewCellStyle style = row.Cells["Status"].Style; 
+
+                    switch (status)
+                    {
+                        case "Good":
+                            style.BackColor = Color.FromArgb(223, 240, 216);
+                            break;
+                        case "Low Stock":
+                            style.BackColor = Color.FromArgb(252, 248, 227);
+                            break;
+                        case "Out of Stock":
+                            style.BackColor = Color.FromArgb(242, 222, 222);
+                            break;
+                    }
+                }
+            }
         }
 
         private void LoadInventoryData()
@@ -95,19 +164,19 @@ namespace STOCKNDRIVE
 
         private void StyleInventoryGrid()
         {
-            inventoryGrid.BorderStyle = BorderStyle.None;
+            inventoryGrid.BorderStyle = BorderStyle.FixedSingle;
+            inventoryGrid.GridColor = Color.Black;
+            inventoryGrid.CellBorderStyle = DataGridViewCellBorderStyle.Single;
             inventoryGrid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
-            inventoryGrid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            inventoryGrid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(210, 210, 210);
-            inventoryGrid.DefaultCellStyle.SelectionForeColor = Color.Black;
             inventoryGrid.BackgroundColor = Color.White;
             inventoryGrid.RowHeadersVisible = false;
             inventoryGrid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             inventoryGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             inventoryGrid.EnableHeadersVisualStyles = false;
-            inventoryGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            inventoryGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             inventoryGrid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(232, 232, 232);
             inventoryGrid.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            inventoryGrid.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(232, 232, 232);
             inventoryGrid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             inventoryGrid.ColumnHeadersDefaultCellStyle.Padding = new Padding(0, 10, 0, 10);
             inventoryGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;

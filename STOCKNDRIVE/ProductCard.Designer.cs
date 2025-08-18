@@ -28,26 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            picProduct = new PictureBox();
+            picProductImage = new PictureBox();
             lblProductName = new Label();
-            label1 = new Label();
-            label2 = new Label();
-            lblPrice = new Label();
+            php = new Label();
             btnMinus = new Button();
             lblQuantity = new Label();
             btnPlus = new Button();
             btnAddToCart = new Button();
-            ((System.ComponentModel.ISupportInitialize)picProduct).BeginInit();
+            lblBrand = new Label();
+            lblManufacturer = new Label();
+            lblPrice = new Label();
+            ((System.ComponentModel.ISupportInitialize)picProductImage).BeginInit();
             SuspendLayout();
             // 
-            // picProduct
+            // picProductImage
             // 
-            picProduct.Location = new Point(20, 10);
-            picProduct.Name = "picProduct";
-            picProduct.Size = new Size(200, 120);
-            picProduct.SizeMode = PictureBoxSizeMode.Zoom;
-            picProduct.TabIndex = 0;
-            picProduct.TabStop = false;
+            picProductImage.Location = new Point(20, 10);
+            picProductImage.Name = "picProductImage";
+            picProductImage.Size = new Size(200, 120);
+            picProductImage.SizeMode = PictureBoxSizeMode.Zoom;
+            picProductImage.TabIndex = 0;
+            picProductImage.TabStop = false;
             // 
             // lblProductName
             // 
@@ -60,39 +61,17 @@
             lblProductName.TabIndex = 1;
             lblProductName.Text = "label1";
             // 
-            // label1
+            // php
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.LightGray;
-            label1.Location = new Point(20, 163);
-            label1.Name = "label1";
-            label1.Size = new Size(41, 15);
-            label1.TabIndex = 2;
-            label1.Text = "Brand:";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.LightGray;
-            label2.Location = new Point(20, 180);
-            label2.Name = "label2";
-            label2.Size = new Size(82, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Manufacturer:";
-            // 
-            // lblPrice
-            // 
-            lblPrice.AutoSize = true;
-            lblPrice.BackColor = Color.Transparent;
-            lblPrice.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblPrice.ForeColor = Color.FromArgb(204, 141, 26);
-            lblPrice.Location = new Point(15, 215);
-            lblPrice.Name = "lblPrice";
-            lblPrice.Size = new Size(34, 17);
-            lblPrice.TabIndex = 4;
-            lblPrice.Text = "PHP";
+            php.AutoSize = true;
+            php.BackColor = Color.Transparent;
+            php.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            php.ForeColor = Color.FromArgb(204, 141, 26);
+            php.Location = new Point(15, 215);
+            php.Name = "php";
+            php.Size = new Size(34, 17);
+            php.TabIndex = 4;
+            php.Text = "PHP";
             // 
             // btnMinus
             // 
@@ -149,37 +128,72 @@
             btnAddToCart.Text = "Add to Cart";
             btnAddToCart.UseVisualStyleBackColor = false;
             // 
+            // lblBrand
+            // 
+            lblBrand.AutoSize = true;
+            lblBrand.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBrand.ForeColor = Color.LightGray;
+            lblBrand.Location = new Point(15, 166);
+            lblBrand.Name = "lblBrand";
+            lblBrand.Size = new Size(41, 15);
+            lblBrand.TabIndex = 9;
+            lblBrand.Text = "Brand:";
+            // 
+            // lblManufacturer
+            // 
+            lblManufacturer.AutoSize = true;
+            lblManufacturer.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblManufacturer.ForeColor = Color.LightGray;
+            lblManufacturer.Location = new Point(15, 190);
+            lblManufacturer.Name = "lblManufacturer";
+            lblManufacturer.Size = new Size(82, 15);
+            lblManufacturer.TabIndex = 10;
+            lblManufacturer.Text = "Manufacturer:";
+            // 
+            // lblPrice
+            // 
+            lblPrice.AutoSize = true;
+            lblPrice.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblPrice.ForeColor = Color.White;
+            lblPrice.Location = new Point(55, 215);
+            lblPrice.Name = "lblPrice";
+            lblPrice.Size = new Size(45, 17);
+            lblPrice.TabIndex = 11;
+            lblPrice.Text = "label1";
+            // 
             // ProductCard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(30, 30, 30);
+            Controls.Add(lblPrice);
+            Controls.Add(lblManufacturer);
+            Controls.Add(lblBrand);
             Controls.Add(btnAddToCart);
             Controls.Add(btnPlus);
             Controls.Add(lblQuantity);
             Controls.Add(btnMinus);
-            Controls.Add(lblPrice);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(php);
             Controls.Add(lblProductName);
-            Controls.Add(picProduct);
+            Controls.Add(picProductImage);
             Name = "ProductCard";
             Size = new Size(240, 280);
-            ((System.ComponentModel.ISupportInitialize)picProduct).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picProductImage).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private PictureBox picProduct;
+        private PictureBox picProductImage;
         private Label lblProductName;
-        private Label label1;
-        private Label label2;
-        private Label lblPrice;
+        private Label php;
         private Button btnMinus;
         private Label lblQuantity;
         private Button btnPlus;
         private Button btnAddToCart;
+        private Label lblBrand;
+        private Label lblManufacturer;
+        private Label lblPrice;
     }
 }

@@ -300,6 +300,7 @@
             Name = "AddItem";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Add Item";
+            Load += AddItem_Load;
             ((System.ComponentModel.ISupportInitialize)picItemImage).EndInit();
             ((System.ComponentModel.ISupportInitialize)numPrice).EndInit();
             ((System.ComponentModel.ISupportInitialize)numItemCount).EndInit();
