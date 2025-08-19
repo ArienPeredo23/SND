@@ -14,19 +14,7 @@ namespace STOCKNDRIVE
 {
     public partial class pos : Form
     {
-        private void Card_AddToCartClicked(object sender, EventArgs e)
-        {
-            ProductCard card = sender as ProductCard;
-            string name = card.ProductName;
-            string price = card.ProductPrice;
-            int qty = card.Quantity;
 
-            Label orderItemLabel = new Label();
-            orderItemLabel.Text = $"x{qty}  {name}          {price}";
-            orderItemLabel.ForeColor = Color.White;
-            orderItemLabel.AutoSize = true;
-            MessageBox.Show($"{qty} x {name} added to cart!");
-        }
 
         public pos()
         {
@@ -97,6 +85,7 @@ namespace STOCKNDRIVE
 
                             int stockQuantity = Convert.ToInt32(reader["QuantityInStock"]);
                             card.StockQuantityText = stockQuantity.ToString();
+                            card.StockQuantity = stockQuantity; // <-- ADDED THIS LINE
 
                             if (reader["ProductImage"] != DBNull.Value)
                             {
@@ -132,6 +121,29 @@ namespace STOCKNDRIVE
             {
                 MessageBox.Show("Error loading products: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void Card_AddToCartClicked(object sender, EventArgs e)
+        {
+            ProductCard card = sender as ProductCard;
+            string name = card.ProductName;
+            string price = card.ProductPrice;
+            int maxStock = card.StockQuantity;
+
+            foreach (Control control in Orderlistpanel.Controls)
+            {
+                if (control is CartItem existingCartItem && existingCartItem.ProductName == name)
+                {
+                    existingCartItem.IncrementQuantity();
+                    return;
+                }
+            }
+
+            CartItem newCartItem = new CartItem();
+            newCartItem.ProductName = name;
+            newCartItem.SetPriceAndStock(Convert.ToDecimal(price), maxStock);
+
+            Orderlistpanel.Controls.Add(newCartItem);
         }
         private Image CreateOutOfStockOverlay(Image originalImage)
         {

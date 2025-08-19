@@ -46,7 +46,7 @@
             button5 = new Button();
             rightOrderPanel = new Panel();
             panel1 = new Panel();
-            orderedItemsFlowPanel = new FlowLayoutPanel();
+            Orderlistpanel = new FlowLayoutPanel();
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
@@ -250,7 +250,7 @@
             // rightOrderPanel
             // 
             rightOrderPanel.Controls.Add(panel1);
-            rightOrderPanel.Controls.Add(orderedItemsFlowPanel);
+            rightOrderPanel.Controls.Add(Orderlistpanel);
             rightOrderPanel.Controls.Add(label5);
             rightOrderPanel.Controls.Add(label4);
             rightOrderPanel.Controls.Add(label3);
@@ -258,9 +258,9 @@
             rightOrderPanel.Controls.Add(separatorPanel);
             rightOrderPanel.Controls.Add(label2);
             rightOrderPanel.Dock = DockStyle.Right;
-            rightOrderPanel.Location = new Point(1500, 80);
+            rightOrderPanel.Location = new Point(1319, 80);
             rightOrderPanel.Name = "rightOrderPanel";
-            rightOrderPanel.Size = new Size(350, 840);
+            rightOrderPanel.Size = new Size(531, 840);
             rightOrderPanel.TabIndex = 9;
             // 
             // panel1
@@ -268,17 +268,18 @@
             panel1.BackColor = Color.FromArgb(50, 50, 50);
             panel1.Location = new Point(20, 73);
             panel1.Name = "panel1";
-            panel1.Size = new Size(310, 2);
+            panel1.Size = new Size(490, 2);
             panel1.TabIndex = 12;
             // 
-            // orderedItemsFlowPanel
+            // Orderlistpanel
             // 
-            orderedItemsFlowPanel.FlowDirection = FlowDirection.TopDown;
-            orderedItemsFlowPanel.Location = new Point(20, 76);
-            orderedItemsFlowPanel.Name = "orderedItemsFlowPanel";
-            orderedItemsFlowPanel.Size = new Size(310, 368);
-            orderedItemsFlowPanel.TabIndex = 10;
-            orderedItemsFlowPanel.WrapContents = false;
+            Orderlistpanel.AutoScroll = true;
+            Orderlistpanel.FlowDirection = FlowDirection.TopDown;
+            Orderlistpanel.Location = new Point(3, 81);
+            Orderlistpanel.Name = "Orderlistpanel";
+            Orderlistpanel.Size = new Size(525, 363);
+            Orderlistpanel.TabIndex = 10;
+            Orderlistpanel.WrapContents = false;
             // 
             // label5
             // 
@@ -329,7 +330,7 @@
             separatorPanel.BackColor = Color.FromArgb(50, 50, 50);
             separatorPanel.Location = new Point(20, 450);
             separatorPanel.Name = "separatorPanel";
-            separatorPanel.Size = new Size(310, 2);
+            separatorPanel.Size = new Size(490, 2);
             separatorPanel.TabIndex = 11;
             // 
             // label2
@@ -348,7 +349,7 @@
             panel2.AutoScroll = true;
             panel2.Location = new Point(279, 156);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1200, 729);
+            panel2.Size = new Size(1034, 729);
             panel2.TabIndex = 11;
             panel2.Visible = false;
             // 
@@ -403,7 +404,7 @@
         private FlowLayoutPanel productFlowPanel;
         private Label label5;
         private Label label4;
-        private FlowLayoutPanel orderedItemsFlowPanel;
+        private FlowLayoutPanel Orderlistpanel;
         private Panel panel1;
         private PictureBox pictureBox1;
         private FlowLayoutPanel panel2;

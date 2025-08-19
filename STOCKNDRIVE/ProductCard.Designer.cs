@@ -97,6 +97,7 @@
             btnAddToCart.TabIndex = 8;
             btnAddToCart.Text = "Add to Cart";
             btnAddToCart.UseVisualStyleBackColor = false;
+            btnAddToCart.Click += btnAddToCart_Click_1;
             // 
             // lblBrand
             // 

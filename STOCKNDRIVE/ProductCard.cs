@@ -20,13 +20,14 @@ namespace STOCKNDRIVE
 
         public event EventHandler AddToCartClicked;
 
-        private void btnAddToCart_Click(object sender, EventArgs e)
-        {
-            AddToCartClicked?.Invoke(this, EventArgs.Empty);
-        }
-
+        public int StockQuantity { get; set; }
         private void ProductCard_Load(object sender, EventArgs e)
         {
+        }
+
+        private void btnAddToCart_Click_1(object sender, EventArgs e)
+        {
+            AddToCartClicked?.Invoke(this, EventArgs.Empty);
         }
 
         public string ProductName
