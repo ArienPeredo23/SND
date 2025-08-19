@@ -14,11 +14,33 @@ namespace STOCKNDRIVE
 {
     public partial class pos : Form
     {
-
+        private decimal currentDiscount = 0;
 
         public pos()
         {
             InitializeComponent();
+            Orderlistpanel.ControlRemoved += (s, e) => UpdatePaymentSummary();
+        }
+        private void UpdatePaymentSummary()
+        {
+            int totalItems = 0;
+            decimal subtotal = 0;
+
+            foreach (Control control in Orderlistpanel.Controls)
+            {
+                if (control is CartItem cartItem)
+                {
+                    totalItems += cartItem.Quantity;
+                    subtotal += cartItem.TotalPrice;
+                }
+            }
+
+            decimal totalAmount = subtotal - currentDiscount;
+
+            lblnumberofitem.Text = totalItems.ToString();
+            lblsubtotal.Text = subtotal.ToString("0.00");
+            lbldiscount.Text = currentDiscount.ToString("0.00");
+            lbltotalamount.Text = totalAmount.ToString("0.00");
         }
 
         private void btnDashboard_Click(object sender, EventArgs e)
@@ -56,6 +78,7 @@ namespace STOCKNDRIVE
         private void pos_Load(object sender, EventArgs e)
         {
             LoadProductCards();
+            UpdatePaymentSummary();
         }
 
         private void LoadProductCards()
@@ -142,8 +165,10 @@ namespace STOCKNDRIVE
             CartItem newCartItem = new CartItem();
             newCartItem.ProductName = name;
             newCartItem.SetPriceAndStock(Convert.ToDecimal(price), maxStock);
+            newCartItem.CartItemChanged += (s, ev) => UpdatePaymentSummary();
 
             Orderlistpanel.Controls.Add(newCartItem);
+            UpdatePaymentSummary();
         }
         private Image CreateOutOfStockOverlay(Image originalImage)
         {
@@ -174,5 +199,16 @@ namespace STOCKNDRIVE
             return bitmap;
         }
 
+        private void adddiscountbtn_Click(object sender, EventArgs e)
+        {
+            using (DiscountInputForm discountForm = new DiscountInputForm())
+            {
+                if (discountForm.ShowDialog() == DialogResult.OK)
+                {
+                    currentDiscount = discountForm.DiscountAmount;
+                    UpdatePaymentSummary();
+                }
+            }
+        }
     }
 }

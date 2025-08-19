@@ -42,9 +42,15 @@
             button1 = new Button();
             button2 = new Button();
             button3 = new Button();
-            button4 = new Button();
+            adddiscountbtn = new Button();
             button5 = new Button();
             rightOrderPanel = new Panel();
+            lbldiscount = new Label();
+            label6 = new Label();
+            php = new Label();
+            lbltotalamount = new Label();
+            lblsubtotal = new Label();
+            lblnumberofitem = new Label();
             panel1 = new Panel();
             Orderlistpanel = new FlowLayoutPanel();
             label5 = new Label();
@@ -229,28 +235,43 @@
             button3.Text = "button3";
             button3.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // adddiscountbtn
             // 
-            button4.Location = new Point(620, 104);
-            button4.Name = "button4";
-            button4.Size = new Size(75, 23);
-            button4.TabIndex = 7;
-            button4.Text = "button4";
-            button4.UseVisualStyleBackColor = true;
+            adddiscountbtn.BackColor = Color.FromArgb(30, 30, 30);
+            adddiscountbtn.FlatStyle = FlatStyle.Flat;
+            adddiscountbtn.ForeColor = Color.FromArgb(255, 255, 128);
+            adddiscountbtn.Location = new Point(384, 603);
+            adddiscountbtn.Name = "adddiscountbtn";
+            adddiscountbtn.Size = new Size(115, 23);
+            adddiscountbtn.TabIndex = 7;
+            adddiscountbtn.Text = "Add Discount";
+            adddiscountbtn.UseVisualStyleBackColor = false;
+            adddiscountbtn.Click += adddiscountbtn_Click;
             // 
             // button5
             // 
-            button5.Location = new Point(715, 104);
+            button5.BackColor = Color.FromArgb(204, 141, 26);
+            button5.FlatStyle = FlatStyle.Flat;
+            button5.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            button5.Location = new Point(20, 776);
             button5.Name = "button5";
-            button5.Size = new Size(75, 23);
+            button5.Size = new Size(490, 34);
             button5.TabIndex = 8;
-            button5.Text = "button5";
-            button5.UseVisualStyleBackColor = true;
+            button5.Text = "Proceed Transaction";
+            button5.UseVisualStyleBackColor = false;
             // 
             // rightOrderPanel
             // 
+            rightOrderPanel.Controls.Add(adddiscountbtn);
+            rightOrderPanel.Controls.Add(lbldiscount);
+            rightOrderPanel.Controls.Add(label6);
+            rightOrderPanel.Controls.Add(php);
+            rightOrderPanel.Controls.Add(lbltotalamount);
+            rightOrderPanel.Controls.Add(lblsubtotal);
+            rightOrderPanel.Controls.Add(lblnumberofitem);
             rightOrderPanel.Controls.Add(panel1);
             rightOrderPanel.Controls.Add(Orderlistpanel);
+            rightOrderPanel.Controls.Add(button5);
             rightOrderPanel.Controls.Add(label5);
             rightOrderPanel.Controls.Add(label4);
             rightOrderPanel.Controls.Add(label3);
@@ -262,6 +283,77 @@
             rightOrderPanel.Name = "rightOrderPanel";
             rightOrderPanel.Size = new Size(531, 840);
             rightOrderPanel.TabIndex = 9;
+            // 
+            // lbldiscount
+            // 
+            lbldiscount.AutoSize = true;
+            lbldiscount.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            lbldiscount.ForeColor = Color.White;
+            lbldiscount.Location = new Point(430, 564);
+            lbldiscount.Name = "lbldiscount";
+            lbldiscount.Size = new Size(20, 25);
+            lbldiscount.TabIndex = 21;
+            lbldiscount.Text = "-";
+            lbldiscount.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(35, 570);
+            label6.Name = "label6";
+            label6.Size = new Size(64, 17);
+            label6.TabIndex = 20;
+            label6.Text = "Discount:";
+            // 
+            // php
+            // 
+            php.AutoSize = true;
+            php.BackColor = Color.Transparent;
+            php.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            php.ForeColor = Color.FromArgb(204, 141, 26);
+            php.Location = new Point(312, 679);
+            php.Name = "php";
+            php.Size = new Size(34, 17);
+            php.TabIndex = 19;
+            php.Text = "PHP";
+            // 
+            // lbltotalamount
+            // 
+            lbltotalamount.AutoSize = true;
+            lbltotalamount.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            lbltotalamount.ForeColor = Color.White;
+            lbltotalamount.Location = new Point(430, 670);
+            lbltotalamount.Name = "lbltotalamount";
+            lbltotalamount.Size = new Size(20, 28);
+            lbltotalamount.TabIndex = 18;
+            lbltotalamount.Text = "-";
+            lbltotalamount.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblsubtotal
+            // 
+            lblsubtotal.AutoSize = true;
+            lblsubtotal.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            lblsubtotal.ForeColor = Color.White;
+            lblsubtotal.Location = new Point(430, 539);
+            lblsubtotal.Name = "lblsubtotal";
+            lblsubtotal.Size = new Size(20, 25);
+            lblsubtotal.TabIndex = 17;
+            lblsubtotal.Text = "-";
+            lblsubtotal.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblnumberofitem
+            // 
+            lblnumberofitem.AutoSize = true;
+            lblnumberofitem.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            lblnumberofitem.ForeColor = Color.White;
+            lblnumberofitem.Location = new Point(430, 514);
+            lblnumberofitem.Name = "lblnumberofitem";
+            lblnumberofitem.Size = new Size(20, 25);
+            lblnumberofitem.TabIndex = 16;
+            lblnumberofitem.Text = "-";
+            lblnumberofitem.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panel1
             // 
@@ -286,7 +378,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(25, 600);
+            label5.Location = new Point(25, 679);
             label5.Name = "label5";
             label5.Size = new Size(114, 17);
             label5.TabIndex = 15;
@@ -361,8 +453,6 @@
             ClientSize = new Size(1850, 920);
             Controls.Add(panel2);
             Controls.Add(rightOrderPanel);
-            Controls.Add(button5);
-            Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
@@ -394,7 +484,7 @@
         private Button button1;
         private Button button2;
         private Button button3;
-        private Button button4;
+        private Button adddiscountbtn;
         private Button button5;
         private Panel rightOrderPanel;
         private Label label3;
@@ -408,5 +498,11 @@
         private Panel panel1;
         private PictureBox pictureBox1;
         private FlowLayoutPanel panel2;
+        private Label lblnumberofitem;
+        private Label lbltotalamount;
+        private Label lblsubtotal;
+        private Label php;
+        private Label lbldiscount;
+        private Label label6;
     }
 }

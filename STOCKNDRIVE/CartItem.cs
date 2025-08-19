@@ -15,6 +15,9 @@ namespace STOCKNDRIVE
         private int _quantity = 1;
         private decimal _basePrice = 0;
         private int _maxQuantity = 0;
+        public event EventHandler CartItemChanged;
+
+        public decimal TotalPrice { get; private set; }
 
         public CartItem()
         {
@@ -46,6 +49,7 @@ namespace STOCKNDRIVE
             {
                 _quantity++;
                 UpdateDisplay();
+                CartItemChanged?.Invoke(this, EventArgs.Empty);
             }
             else
             {
@@ -56,8 +60,8 @@ namespace STOCKNDRIVE
         private void UpdateDisplay()
         {
             lblQuantity.Text = _quantity.ToString();
-            decimal totalPrice = _basePrice * _quantity;
-            lblPrice.Text = totalPrice.ToString("0.00");
+            this.TotalPrice = _basePrice * _quantity;
+            lblPrice.Text = this.TotalPrice.ToString("0.00");
         }
 
         private void add_Click(object sender, EventArgs e)
@@ -71,6 +75,7 @@ namespace STOCKNDRIVE
             {
                 _quantity--;
                 UpdateDisplay();
+                CartItemChanged?.Invoke(this, EventArgs.Empty);
             }
             else
             {
