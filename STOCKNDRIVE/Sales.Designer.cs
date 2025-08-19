@@ -46,6 +46,7 @@
             btnFilter = new Button();
             btnExport = new Button();
             label2 = new Label();
+            lblwelcome = new Label();
             leftNavPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             reportPanel.SuspendLayout();
@@ -276,12 +277,24 @@
             label2.TabIndex = 0;
             label2.Text = "Sales Report";
             // 
+            // lblwelcome
+            // 
+            lblwelcome.AutoSize = true;
+            lblwelcome.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblwelcome.ForeColor = Color.FromArgb(204, 141, 26);
+            lblwelcome.Location = new Point(271, 12);
+            lblwelcome.Name = "lblwelcome";
+            lblwelcome.Size = new Size(16, 21);
+            lblwelcome.TabIndex = 10;
+            lblwelcome.Text = "-";
+            // 
             // Sales
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 22, 23);
             ClientSize = new Size(1850, 920);
+            Controls.Add(lblwelcome);
             Controls.Add(reportPanel);
             Controls.Add(panel4);
             Controls.Add(label1);
@@ -290,6 +303,7 @@
             Name = "Sales";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Inventory";
+            Load += Sales_Load;
             leftNavPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             reportPanel.ResumeLayout(false);
@@ -316,5 +330,6 @@
         private Button btnFilter;
         private DataGridView dgvSalesReport;
         private PictureBox pictureBox1;
+        private Label lblwelcome;
     }
 }

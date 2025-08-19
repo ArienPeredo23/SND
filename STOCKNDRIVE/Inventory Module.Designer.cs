@@ -71,6 +71,7 @@
             textBox1 = new TextBox();
             label10 = new Label();
             pictureBox1 = new PictureBox();
+            lblwelcome = new Label();
             leftNavPanel.SuspendLayout();
             totalItemsCard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -594,12 +595,24 @@
             pictureBox1.TabIndex = 14;
             pictureBox1.TabStop = false;
             // 
+            // lblwelcome
+            // 
+            lblwelcome.AutoSize = true;
+            lblwelcome.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblwelcome.ForeColor = Color.FromArgb(204, 141, 26);
+            lblwelcome.Location = new Point(271, 12);
+            lblwelcome.Name = "lblwelcome";
+            lblwelcome.Size = new Size(16, 21);
+            lblwelcome.TabIndex = 15;
+            lblwelcome.Text = "-";
+            // 
             // Inventory_Module
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 22, 23);
             ClientSize = new Size(1850, 920);
+            Controls.Add(lblwelcome);
             Controls.Add(pictureBox1);
             Controls.Add(panel7);
             Controls.Add(inventoryOverviewCard);
@@ -681,5 +694,6 @@
         private Label defectedtxt;
         private Label outofstocktxt;
         private PictureBox pictureBox1;
+        private Label lblwelcome;
     }
 }

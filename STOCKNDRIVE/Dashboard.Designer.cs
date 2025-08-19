@@ -50,6 +50,7 @@
             label7 = new Label();
             panel3 = new Panel();
             panel4 = new Panel();
+            lblwelcome = new Label();
             leftNavPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             revenueCard.SuspendLayout();
@@ -319,12 +320,24 @@
             panel4.Size = new Size(1550, 2);
             panel4.TabIndex = 5;
             // 
+            // lblwelcome
+            // 
+            lblwelcome.AutoSize = true;
+            lblwelcome.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblwelcome.ForeColor = Color.FromArgb(204, 141, 26);
+            lblwelcome.Location = new Point(271, 12);
+            lblwelcome.Name = "lblwelcome";
+            lblwelcome.Size = new Size(16, 21);
+            lblwelcome.TabIndex = 6;
+            lblwelcome.Text = "-";
+            // 
             // Dashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 22, 23);
             ClientSize = new Size(1850, 920);
+            Controls.Add(lblwelcome);
             Controls.Add(panel4);
             Controls.Add(panel3);
             Controls.Add(panel2);
@@ -376,5 +389,6 @@
         private Label label3;
         private Label label6;
         private Label label7;
+        private Label lblwelcome;
     }
 }

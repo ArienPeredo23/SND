@@ -147,6 +147,7 @@
             Controls.Add(picProductImage);
             Name = "ProductCard";
             Size = new Size(240, 280);
+            Load += ProductCard_Load_1;
             ((System.ComponentModel.ISupportInitialize)picProductImage).EndInit();
             ResumeLayout(false);
             PerformLayout();

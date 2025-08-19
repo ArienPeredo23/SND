@@ -15,6 +15,10 @@ namespace STOCKNDRIVE
         public Sales()
         {
             InitializeComponent();
+            if (!string.IsNullOrEmpty(UserSession.Fullname))
+            {
+                lblwelcome.Text = $"Welcome back, {UserSession.Fullname}!";
+            }
         }
 
         private void btnDashboard_Click(object sender, EventArgs e)
@@ -43,6 +47,21 @@ namespace STOCKNDRIVE
             Sales sales = new Sales();
             sales.Show();
             this.Close();
+        }
+
+        private void Sales_Load(object sender, EventArgs e)
+        {
+            if (UserSession.UserId >= 2)
+            {
+                Point dashboardLocation = btnDashboard.Location;
+                Point posLocation = btnPOS.Location;
+
+                btnDashboard.Visible = false;
+                btnInventory.Visible = false;
+
+                btnPOS.Location = dashboardLocation;
+                btnSales.Location = posLocation;
+            }
         }
     }
 }

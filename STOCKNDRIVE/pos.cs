@@ -19,8 +19,13 @@ namespace STOCKNDRIVE
         public pos()
         {
             InitializeComponent();
+            if (!string.IsNullOrEmpty(UserSession.Fullname))
+            {
+                lblwelcome.Text = $"Welcome back, {UserSession.Fullname}!";
+            }
             Orderlistpanel.ControlRemoved += (s, e) => UpdatePaymentSummary();
         }
+
         private void UpdatePaymentSummary()
         {
             int totalItems = 0;
@@ -79,6 +84,19 @@ namespace STOCKNDRIVE
         {
             LoadProductCards();
             UpdatePaymentSummary();
+            lblclear.Visible = false;
+
+            if (UserSession.UserId >= 2)
+            {
+                Point dashboardLocation = btnDashboard.Location;
+                Point posLocation = btnPOS.Location;
+
+                btnDashboard.Visible = false;
+                btnInventory.Visible = false;
+
+                btnPOS.Location = dashboardLocation;
+                btnSales.Location = posLocation;
+            }
         }
 
         private void LoadProductCards()
@@ -86,7 +104,7 @@ namespace STOCKNDRIVE
             panel2.Visible = true;
             panel2.Controls.Clear();
 
-            string query = "SELECT ProductName, Brand, Manufacturer, Price, ProductImage, QuantityInStock FROM Products";
+            string query = "SELECT ProductName, Brand, Manufacturer, Price, ProductImage, QuantityInStock, Category FROM Products";
 
             try
             {
@@ -105,10 +123,11 @@ namespace STOCKNDRIVE
                             card.BrandText = reader["Brand"].ToString();
                             card.ManufacturerText = reader["Manufacturer"].ToString();
                             card.ProductPrice = Convert.ToDecimal(reader["Price"]).ToString("0.00");
+                            card.Category = reader["Category"].ToString(); // Add this line
 
                             int stockQuantity = Convert.ToInt32(reader["QuantityInStock"]);
                             card.StockQuantityText = stockQuantity.ToString();
-                            card.StockQuantity = stockQuantity; // <-- ADDED THIS LINE
+                            card.StockQuantity = stockQuantity;
 
                             if (reader["ProductImage"] != DBNull.Value)
                             {
@@ -207,6 +226,85 @@ namespace STOCKNDRIVE
                 {
                     currentDiscount = discountForm.DiscountAmount;
                     UpdatePaymentSummary();
+                }
+            }
+        }
+
+        private void searchtb_TextChanged(object sender, EventArgs e)
+        {
+            lblclear.Visible = !string.IsNullOrEmpty(searchtb.Text);
+            string searchText = searchtb.Text.Trim().ToLower();
+
+            foreach (Control control in panel2.Controls)
+            {
+                if (control is ProductCard card)
+                {
+                    string productName = card.ProductName.ToLower();
+                    card.Visible = productName.Contains(searchText);
+                }
+            }
+        }
+
+        private void lblclear_Click(object sender, EventArgs e)
+        {
+            searchtb.Clear();
+            searchtb.Focus();
+        }
+
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            ContextMenuStrip contextMenu = new ContextMenuStrip();
+            var categories = new List<string>
+    {
+        "Show All",
+        "---",
+        "Engine & Performance Parts",
+        "Electrical & Lighting",
+        "Tires & Wheels",
+        "Brakes & Suspension",
+        "Body & Frame Parts",
+        "Transmission & Drivetrain",
+        "Tools & Maintenance",
+        "Riding Gear & Accessories",
+        "Fluids & Consumables",
+        "Customization & Decorative Items"
+    };
+
+            foreach (string category in categories)
+            {
+                if (category == "---")
+                {
+                    contextMenu.Items.Add(new ToolStripSeparator());
+                }
+                else
+                {
+                    ToolStripMenuItem menuItem = new ToolStripMenuItem(category);
+                    menuItem.Click += FilterMenuItem_Click;
+                    contextMenu.Items.Add(menuItem);
+                }
+            }
+            Point screenPoint = btnFilter.PointToScreen(new Point(0, btnFilter.Height));
+            contextMenu.Show(screenPoint);
+
+        }
+
+        private void FilterMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
+            string selectedCategory = clickedItem.Text;
+
+            foreach (Control control in panel2.Controls)
+            {
+                if (control is ProductCard card)
+                {
+                    if (selectedCategory == "Show All")
+                    {
+                        card.Visible = true;
+                    }
+                    else
+                    {
+                        card.Visible = (card.Category == selectedCategory);
+                    }
                 }
             }
         }

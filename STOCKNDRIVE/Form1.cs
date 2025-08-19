@@ -32,67 +32,55 @@ namespace STOCKNDRIVE
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            // 1. Get username and password from the textboxes
             string username = txtUsername.Text;
             string password = txtPassword.Text;
 
-            // 2. Check if the textboxes are empty
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Please enter both username and password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return; // Stop the method here
+                return;
             }
 
-            // 3. Prepare the SQL query
-            // This query selects the UserId if the username and password match.
-            // Using @parameters is VERY IMPORTANT to prevent SQL Injection attacks.
-            string query = "SELECT UserId FROM [user] WHERE Username = @Username AND Password = @Password";
+            string query = "SELECT UserId, Fullname FROM [user] WHERE Username = @Username AND Password = @Password";
 
-            // 4. Connect to the database and run the query
             try
             {
                 using (SqlConnection connection = DBConnection.GetConnection())
                 {
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        // Add the values from your textboxes as parameters
                         command.Parameters.AddWithValue("@Username", username);
-                        command.Parameters.AddWithValue("@Password", password); // Note: See security warning below
+                        command.Parameters.AddWithValue("@Password", password);
 
                         connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
 
-                        // ExecuteScalar is good for getting a single value (like one UserId)
-                        object result = command.ExecuteScalar();
-
-                        // 5. Check the result
-                        if (result != null) // This means a user was found
+                        if (reader.Read())
                         {
-                            int userId = Convert.ToInt32(result);
+                            int userId = Convert.ToInt32(reader["UserId"]);
+                            string fullname = reader["Fullname"].ToString();
 
-                            if (userId == 1) // Check if the user is the admin/main user
+                            // Set the global user session
+                            UserSession.SetCurrentUser(userId, fullname);
+
+                            if (userId == 1) // Admin user
                             {
-                                // Open the Dashboard form
                                 Dashboard dashboardForm = new Dashboard();
                                 dashboardForm.Show();
-
-                                // Hide the current login form
                                 this.Hide();
                             }
-                            else
+                            else // Any other user (ID >= 2)
                             {
-                                // Handle other users if needed, or show a generic success message
-                                MessageBox.Show("Login successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                pos posForm = new pos();
+                                posForm.Show();
+                                this.Hide();
                             }
                         }
-                        else // This means no user was found with that combination
+                        else
                         {
                             MessageBox.Show("Invalid username or password. Please try again.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                            // Clear the username and password fields
                             txtUsername.Clear();
                             txtPassword.Clear();
-
-                            // Set the focus back to the username field for convenience
                             txtUsername.Focus();
                         }
                     }
@@ -100,7 +88,6 @@ namespace STOCKNDRIVE
             }
             catch (Exception ex)
             {
-                // Show a general error message if something goes wrong with the database
                 MessageBox.Show("An error occurred while connecting to the database: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

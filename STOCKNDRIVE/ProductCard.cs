@@ -30,6 +30,11 @@ namespace STOCKNDRIVE
             AddToCartClicked?.Invoke(this, EventArgs.Empty);
         }
 
+        private void ProductCard_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
         public string ProductName
         {
             get { return lblProductName.Text; }
@@ -71,5 +76,7 @@ namespace STOCKNDRIVE
         {
             get { return 1; }
         }
+
+        public string Category { get; set; }
     }
 }

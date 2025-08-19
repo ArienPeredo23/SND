@@ -14,6 +14,10 @@ namespace STOCKNDRIVE
         public Inventory_Module()
         {
             InitializeComponent();
+            if (!string.IsNullOrEmpty(UserSession.Fullname))
+            {
+                lblwelcome.Text = $"Welcome back, {UserSession.Fullname}!";
+            }
             inventoryGrid.DataBindingComplete += inventoryGrid_DataBindingComplete;
             inventoryGrid.SelectionChanged += inventoryGrid_SelectionChanged;
             inventoryGrid.CellMouseEnter += inventoryGrid_CellMouseEnter;

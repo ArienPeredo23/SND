@@ -38,10 +38,8 @@
             btnPOS = new Button();
             btnDashboard = new Button();
             topActionPanel = new Panel();
-            textBox1 = new TextBox();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            label7 = new Label();
+            lblwelcome = new Label();
             adddiscountbtn = new Button();
             button5 = new Button();
             rightOrderPanel = new Panel();
@@ -60,6 +58,9 @@
             separatorPanel = new Panel();
             label2 = new Label();
             panel2 = new FlowLayoutPanel();
+            lblclear = new Label();
+            searchtb = new TextBox();
+            btnFilter = new Button();
             leftNavPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             topActionPanel.SuspendLayout();
@@ -193,7 +194,8 @@
             // 
             // topActionPanel
             // 
-            topActionPanel.Controls.Add(textBox1);
+            topActionPanel.Controls.Add(label7);
+            topActionPanel.Controls.Add(lblwelcome);
             topActionPanel.Dock = DockStyle.Top;
             topActionPanel.Location = new Point(240, 0);
             topActionPanel.Name = "topActionPanel";
@@ -201,39 +203,27 @@
             topActionPanel.TabIndex = 3;
             topActionPanel.Paint += topActionPanel_Paint;
             // 
-            // textBox1
+            // label7
             // 
-            textBox1.Location = new Point(350, 25);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(250, 23);
-            textBox1.TabIndex = 4;
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
+            label7.ForeColor = Color.White;
+            label7.Location = new Point(20, 30);
+            label7.Name = "label7";
+            label7.Size = new Size(224, 45);
+            label7.TabIndex = 12;
+            label7.Text = "Point of Sales";
             // 
-            // button1
+            // lblwelcome
             // 
-            button1.Location = new Point(325, 104);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 4;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(427, 104);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 5;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(523, 104);
-            button3.Name = "button3";
-            button3.Size = new Size(75, 23);
-            button3.TabIndex = 6;
-            button3.Text = "button3";
-            button3.UseVisualStyleBackColor = true;
+            lblwelcome.AutoSize = true;
+            lblwelcome.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblwelcome.ForeColor = Color.FromArgb(204, 141, 26);
+            lblwelcome.Location = new Point(31, 12);
+            lblwelcome.Name = "lblwelcome";
+            lblwelcome.Size = new Size(16, 21);
+            lblwelcome.TabIndex = 0;
+            lblwelcome.Text = "-";
             // 
             // adddiscountbtn
             // 
@@ -445,17 +435,55 @@
             panel2.TabIndex = 11;
             panel2.Visible = false;
             // 
+            // lblclear
+            // 
+            lblclear.AutoSize = true;
+            lblclear.BackColor = Color.White;
+            lblclear.Cursor = Cursors.Hand;
+            lblclear.Font = new Font("Segoe UI", 9F);
+            lblclear.Location = new Point(1139, 110);
+            lblclear.Name = "lblclear";
+            lblclear.Size = new Size(14, 15);
+            lblclear.TabIndex = 13;
+            lblclear.Text = "X";
+            lblclear.Visible = false;
+            lblclear.Click += lblclear_Click;
+            // 
+            // searchtb
+            // 
+            searchtb.Location = new Point(880, 106);
+            searchtb.Name = "searchtb";
+            searchtb.Size = new Size(282, 23);
+            searchtb.TabIndex = 12;
+            searchtb.TextChanged += searchtb_TextChanged;
+            // 
+            // btnFilter
+            // 
+            btnFilter.BackColor = Color.White;
+            btnFilter.FlatAppearance.BorderColor = Color.FromArgb(224, 224, 224);
+            btnFilter.FlatStyle = FlatStyle.Flat;
+            btnFilter.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnFilter.Image = (Image)resources.GetObject("btnFilter.Image");
+            btnFilter.Location = new Point(1182, 106);
+            btnFilter.Name = "btnFilter";
+            btnFilter.Size = new Size(70, 30);
+            btnFilter.TabIndex = 14;
+            btnFilter.Text = "Filter";
+            btnFilter.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnFilter.UseVisualStyleBackColor = false;
+            btnFilter.Click += btnFilter_Click;
+            // 
             // pos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 22, 23);
             ClientSize = new Size(1850, 920);
+            Controls.Add(btnFilter);
+            Controls.Add(lblclear);
+            Controls.Add(searchtb);
             Controls.Add(panel2);
             Controls.Add(rightOrderPanel);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
             Controls.Add(topActionPanel);
             Controls.Add(leftNavPanel);
             FormBorderStyle = FormBorderStyle.None;
@@ -470,6 +498,7 @@
             rightOrderPanel.ResumeLayout(false);
             rightOrderPanel.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -480,10 +509,6 @@
         private Button btnPOS;
         private Button btnDashboard;
         private Panel topActionPanel;
-        private TextBox textBox1;
-        private Button button1;
-        private Button button2;
-        private Button button3;
         private Button adddiscountbtn;
         private Button button5;
         private Panel rightOrderPanel;
@@ -504,5 +529,10 @@
         private Label php;
         private Label lbldiscount;
         private Label label6;
+        private Label lblwelcome;
+        private Label label7;
+        private Label lblclear;
+        private TextBox searchtb;
+        private Button btnFilter;
     }
 }

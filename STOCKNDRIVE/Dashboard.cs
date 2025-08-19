@@ -15,8 +15,11 @@ namespace STOCKNDRIVE
         public Dashboard()
         {
             InitializeComponent();
+            if (!string.IsNullOrEmpty(UserSession.Fullname))
+            {
+                lblwelcome.Text = $"Welcome back, {UserSession.Fullname}!";
+            }
         }
-
         private void Dashboard_Load(object sender, EventArgs e)
         {
         }
