@@ -166,6 +166,7 @@
             numPrice.DecimalPlaces = 2;
             numPrice.Font = new Font("Segoe UI", 10F);
             numPrice.Location = new Point(330, 225);
+            numPrice.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             numPrice.Name = "numPrice";
             numPrice.Size = new Size(220, 25);
             numPrice.TabIndex = 11;
@@ -175,6 +176,7 @@
             numItemCount.DecimalPlaces = 2;
             numItemCount.Font = new Font("Segoe UI", 10F);
             numItemCount.Location = new Point(590, 225);
+            numItemCount.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             numItemCount.Name = "numItemCount";
             numItemCount.Size = new Size(220, 25);
             numItemCount.TabIndex = 12;

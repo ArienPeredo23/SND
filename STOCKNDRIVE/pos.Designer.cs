@@ -304,11 +304,11 @@
             // lblwelcome
             // 
             lblwelcome.AutoSize = true;
-            lblwelcome.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblwelcome.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
             lblwelcome.ForeColor = Color.FromArgb(204, 141, 26);
-            lblwelcome.Location = new Point(31, 12);
+            lblwelcome.Location = new Point(460, 43);
             lblwelcome.Name = "lblwelcome";
-            lblwelcome.Size = new Size(16, 21);
+            lblwelcome.Size = new Size(20, 28);
             lblwelcome.TabIndex = 0;
             lblwelcome.Text = "-";
             // 

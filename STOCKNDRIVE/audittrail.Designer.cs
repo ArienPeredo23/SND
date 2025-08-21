@@ -93,6 +93,7 @@
             Name = "audittrail";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "audittrail";
+            Load += audittrail_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();

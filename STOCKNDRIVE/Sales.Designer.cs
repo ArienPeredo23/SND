@@ -259,7 +259,7 @@
             panel4.BackColor = Color.Gray;
             panel4.Location = new Point(260, 79);
             panel4.Name = "panel4";
-            panel4.Size = new Size(980, 2);
+            panel4.Size = new Size(1550, 2);
             panel4.TabIndex = 8;
             // 
             // reportPanel
@@ -354,11 +354,11 @@
             // lblwelcome
             // 
             lblwelcome.AutoSize = true;
-            lblwelcome.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblwelcome.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
             lblwelcome.ForeColor = Color.FromArgb(204, 141, 26);
-            lblwelcome.Location = new Point(271, 12);
+            lblwelcome.Location = new Point(700, 43);
             lblwelcome.Name = "lblwelcome";
-            lblwelcome.Size = new Size(16, 21);
+            lblwelcome.Size = new Size(20, 28);
             lblwelcome.TabIndex = 10;
             lblwelcome.Text = "-";
             // 

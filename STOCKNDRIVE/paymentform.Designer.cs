@@ -266,7 +266,7 @@
             amountpaid.Font = new Font("Segoe UI", 12F);
             amountpaid.ForeColor = Color.White;
             amountpaid.Location = new Point(377, 576);
-            amountpaid.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
+            amountpaid.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             amountpaid.Name = "amountpaid";
             amountpaid.Size = new Size(117, 29);
             amountpaid.TabIndex = 39;
