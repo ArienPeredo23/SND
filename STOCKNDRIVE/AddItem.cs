@@ -16,20 +16,20 @@ namespace STOCKNDRIVE
     {
         private int currentProductId = 0;
 
-        // Constructor for ADDING a new item
         public AddItem()
         {
             InitializeComponent();
             SetupFormForAdd();
+            SetupEventHandlers(); 
         }
 
-        // Constructor for EDITING an existing item
         public AddItem(int productId)
         {
             InitializeComponent();
             this.currentProductId = productId;
             SetupFormForEdit();
             LoadProductData();
+            SetupEventHandlers(); 
         }
 
         private void SetupFormForAdd()
@@ -46,6 +46,48 @@ namespace STOCKNDRIVE
             btnDone.Visible = false;
             btnUpdate.Visible = true;
             btnDelete.Visible = true;
+        }
+
+        private void SetupEventHandlers()
+        {
+            this.numPrice.Click += new System.EventHandler(this.NumericUpDown_SelectAll);
+            this.numPrice.Enter += new System.EventHandler(this.NumericUpDown_SelectAll);
+            this.numItemCount.Click += new System.EventHandler(this.NumericUpDown_SelectAll);
+            this.numItemCount.Enter += new System.EventHandler(this.NumericUpDown_SelectAll);
+        }
+
+        private void NumericUpDown_SelectAll(object sender, EventArgs e)
+        {
+            NumericUpDown control = sender as NumericUpDown;
+            if (control != null)
+            {
+                control.Select(0, control.Text.Length);
+            }
+        }
+
+        private bool ValidateInputs()
+        {
+            if (string.IsNullOrWhiteSpace(txtProductName.Text))
+            {
+                MessageBox.Show("Product Name is a required field.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (numPrice.Value <= 0)
+            {
+                MessageBox.Show("Price must be greater than zero.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (numItemCount.Value < 0)
+            {
+                MessageBox.Show("Item Count cannot be negative.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(cmbCategory.Text))
+            {
+                MessageBox.Show("Category is a required field.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
         }
 
         private void LoadProductData()
@@ -91,9 +133,8 @@ namespace STOCKNDRIVE
 
         private void btnDone_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtProductName.Text))
+            if (!ValidateInputs()) // Add this block
             {
-                MessageBox.Show("Product Name is a required field.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -124,9 +165,8 @@ namespace STOCKNDRIVE
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtProductName.Text))
+            if (!ValidateInputs())
             {
-                MessageBox.Show("Product Name is a required field.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

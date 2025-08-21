@@ -18,6 +18,8 @@ namespace STOCKNDRIVE
             InitializeComponent();
         }
 
+        public int ProductId { get; set; }
+
         public event EventHandler AddToCartClicked;
 
         public int StockQuantity { get; set; }

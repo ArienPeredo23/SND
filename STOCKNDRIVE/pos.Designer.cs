@@ -41,8 +41,10 @@
             label7 = new Label();
             lblwelcome = new Label();
             adddiscountbtn = new Button();
-            button5 = new Button();
+            Proceed = new Button();
             rightOrderPanel = new Panel();
+            cleardiscount = new Label();
+            clearpanellbl = new Label();
             lbldiscount = new Label();
             label6 = new Label();
             php = new Label();
@@ -61,6 +63,7 @@
             lblclear = new Label();
             searchtb = new TextBox();
             btnFilter = new Button();
+            lbldiscountdescription = new Label();
             leftNavPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             topActionPanel.SuspendLayout();
@@ -238,20 +241,24 @@
             adddiscountbtn.UseVisualStyleBackColor = false;
             adddiscountbtn.Click += adddiscountbtn_Click;
             // 
-            // button5
+            // Proceed
             // 
-            button5.BackColor = Color.FromArgb(204, 141, 26);
-            button5.FlatStyle = FlatStyle.Flat;
-            button5.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            button5.Location = new Point(20, 776);
-            button5.Name = "button5";
-            button5.Size = new Size(490, 34);
-            button5.TabIndex = 8;
-            button5.Text = "Proceed Transaction";
-            button5.UseVisualStyleBackColor = false;
+            Proceed.BackColor = Color.FromArgb(204, 141, 26);
+            Proceed.FlatStyle = FlatStyle.Flat;
+            Proceed.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            Proceed.Location = new Point(20, 776);
+            Proceed.Name = "Proceed";
+            Proceed.Size = new Size(490, 34);
+            Proceed.TabIndex = 8;
+            Proceed.Text = "Proceed Transaction";
+            Proceed.UseVisualStyleBackColor = false;
+            Proceed.Click += Proceed_Click;
             // 
             // rightOrderPanel
             // 
+            rightOrderPanel.Controls.Add(lbldiscountdescription);
+            rightOrderPanel.Controls.Add(cleardiscount);
+            rightOrderPanel.Controls.Add(clearpanellbl);
             rightOrderPanel.Controls.Add(adddiscountbtn);
             rightOrderPanel.Controls.Add(lbldiscount);
             rightOrderPanel.Controls.Add(label6);
@@ -261,7 +268,7 @@
             rightOrderPanel.Controls.Add(lblnumberofitem);
             rightOrderPanel.Controls.Add(panel1);
             rightOrderPanel.Controls.Add(Orderlistpanel);
-            rightOrderPanel.Controls.Add(button5);
+            rightOrderPanel.Controls.Add(Proceed);
             rightOrderPanel.Controls.Add(label5);
             rightOrderPanel.Controls.Add(label4);
             rightOrderPanel.Controls.Add(label3);
@@ -273,6 +280,36 @@
             rightOrderPanel.Name = "rightOrderPanel";
             rightOrderPanel.Size = new Size(531, 840);
             rightOrderPanel.TabIndex = 9;
+            // 
+            // cleardiscount
+            // 
+            cleardiscount.AutoSize = true;
+            cleardiscount.BackColor = Color.Transparent;
+            cleardiscount.Cursor = Cursors.Hand;
+            cleardiscount.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cleardiscount.ForeColor = Color.White;
+            cleardiscount.Location = new Point(311, 605);
+            cleardiscount.Name = "cleardiscount";
+            cleardiscount.Size = new Size(46, 21);
+            cleardiscount.TabIndex = 22;
+            cleardiscount.Text = "Clear";
+            cleardiscount.Visible = false;
+            cleardiscount.Click += cleardiscount_Click;
+            // 
+            // clearpanellbl
+            // 
+            clearpanellbl.AutoSize = true;
+            clearpanellbl.BackColor = Color.Transparent;
+            clearpanellbl.Cursor = Cursors.Hand;
+            clearpanellbl.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            clearpanellbl.ForeColor = Color.White;
+            clearpanellbl.Location = new Point(464, 40);
+            clearpanellbl.Name = "clearpanellbl";
+            clearpanellbl.Size = new Size(46, 21);
+            clearpanellbl.TabIndex = 15;
+            clearpanellbl.Text = "Clear";
+            clearpanellbl.Visible = false;
+            clearpanellbl.Click += clearpanellbl_Click;
             // 
             // lbldiscount
             // 
@@ -473,6 +510,18 @@
             btnFilter.UseVisualStyleBackColor = false;
             btnFilter.Click += btnFilter_Click;
             // 
+            // lbldiscountdescription
+            // 
+            lbldiscountdescription.AutoSize = true;
+            lbldiscountdescription.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            lbldiscountdescription.ForeColor = Color.White;
+            lbldiscountdescription.Location = new Point(105, 564);
+            lbldiscountdescription.Name = "lbldiscountdescription";
+            lbldiscountdescription.Size = new Size(20, 25);
+            lbldiscountdescription.TabIndex = 23;
+            lbldiscountdescription.Text = "-";
+            lbldiscountdescription.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // pos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -510,7 +559,7 @@
         private Button btnDashboard;
         private Panel topActionPanel;
         private Button adddiscountbtn;
-        private Button button5;
+        private Button Proceed;
         private Panel rightOrderPanel;
         private Label label3;
         private Label label1;
@@ -534,5 +583,8 @@
         private Label lblclear;
         private TextBox searchtb;
         private Button btnFilter;
+        private Label clearpanellbl;
+        private Label cleardiscount;
+        private Label lbldiscountdescription;
     }
 }

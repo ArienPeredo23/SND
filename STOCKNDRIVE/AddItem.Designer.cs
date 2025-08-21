@@ -231,12 +231,16 @@
             // 
             // button1
             // 
-            button1.Location = new Point(758, 12);
+            button1.BackColor = SystemColors.Control;
+            button1.BackgroundImage = (Image)resources.GetObject("button1.BackgroundImage");
+            button1.BackgroundImageLayout = ImageLayout.Stretch;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.ForeColor = SystemColors.Control;
+            button1.Location = new Point(814, 12);
             button1.Name = "button1";
-            button1.Size = new Size(75, 23);
+            button1.Size = new Size(34, 34);
             button1.TabIndex = 17;
-            button1.Text = "eks";
-            button1.UseVisualStyleBackColor = true;
+            button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
             // btnUpdate

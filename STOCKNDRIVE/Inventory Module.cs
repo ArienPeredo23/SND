@@ -99,7 +99,7 @@ namespace STOCKNDRIVE
 
         private void LoadInventoryData()
         {
-            string query = "SELECT ProductID, ProductName, Brand, Manufacturer, Price, QuantityInStock, Category FROM Products ORDER BY ProductName";
+            string query = "SELECT ProductID, ProductName, Brand, Manufacturer, Price, QuantityInStock, Category, LastUpdated FROM Products ORDER BY ProductName";
 
             try
             {
@@ -202,6 +202,9 @@ namespace STOCKNDRIVE
             inventoryGrid.Columns["QuantityInStock"].HeaderText = "Quantity";
             inventoryGrid.Columns["Price"].HeaderText = "Price (₱)";
             inventoryGrid.Columns["Price"].DefaultCellStyle.Format = "N2";
+
+            inventoryGrid.Columns["LastUpdated"].HeaderText = "Date Updated";
+            inventoryGrid.Columns["LastUpdated"].DefaultCellStyle.Format = "MMMM dd, yyyy h:mm tt";
 
             foreach (DataGridViewRow row in inventoryGrid.Rows)
             {

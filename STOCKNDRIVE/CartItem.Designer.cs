@@ -130,7 +130,6 @@
             Margin = new Padding(4, 3, 4, 3);
             Name = "CartItem";
             Size = new Size(500, 52);
-            Load += CartItem_Load;
             ResumeLayout(false);
             PerformLayout();
 

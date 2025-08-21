@@ -15,6 +15,7 @@ namespace STOCKNDRIVE
     public partial class pos : Form
     {
         private decimal currentDiscount = 0;
+        private string currentDiscountDescription = "";
 
         public pos()
         {
@@ -46,6 +47,43 @@ namespace STOCKNDRIVE
             lblsubtotal.Text = subtotal.ToString("0.00");
             lbldiscount.Text = currentDiscount.ToString("0.00");
             lbltotalamount.Text = totalAmount.ToString("0.00");
+            lbldiscountdescription.Text = currentDiscountDescription;
+
+            if (Orderlistpanel.Controls.Count > 0)
+            {
+                Proceed.Enabled = true;
+                Proceed.BackColor = Color.FromArgb(204, 141, 26);
+                adddiscountbtn.Enabled = true;
+                adddiscountbtn.BackColor = Color.FromArgb(30, 30, 30);
+                clearpanellbl.Visible = true;
+            }
+            else
+            {
+                Proceed.Enabled = false;
+                Proceed.BackColor = Color.Gray;
+                adddiscountbtn.Enabled = false;
+                adddiscountbtn.BackColor = Color.Gray;
+                clearpanellbl.Visible = false;
+            }
+
+            bool hasDiscount = currentDiscount > 0;
+            cleardiscount.Visible = hasDiscount;
+            lbldiscountdescription.Visible = hasDiscount;
+        }
+
+        private void clearpanellbl_Click(object sender, EventArgs e)
+        {
+            Orderlistpanel.Controls.Clear();
+            currentDiscount = 0;
+            currentDiscountDescription = "";
+            UpdatePaymentSummary();
+        }
+
+        private void cleardiscount_Click(object sender, EventArgs e)
+        {
+            currentDiscount = 0;
+            currentDiscountDescription = "";
+            UpdatePaymentSummary();
         }
 
         private void btnDashboard_Click(object sender, EventArgs e)
@@ -104,7 +142,7 @@ namespace STOCKNDRIVE
             panel2.Visible = true;
             panel2.Controls.Clear();
 
-            string query = "SELECT ProductName, Brand, Manufacturer, Price, ProductImage, QuantityInStock, Category FROM Products";
+            string query = "SELECT ProductID, ProductName, Brand, Manufacturer, Price, ProductImage, QuantityInStock, Category FROM Products";
 
             try
             {
@@ -119,11 +157,12 @@ namespace STOCKNDRIVE
                             ProductCard card = new ProductCard();
                             Image productImage = null;
 
+                            card.ProductId = Convert.ToInt32(reader["ProductID"]); // Add this line
                             card.ProductName = reader["ProductName"].ToString();
                             card.BrandText = reader["Brand"].ToString();
                             card.ManufacturerText = reader["Manufacturer"].ToString();
                             card.ProductPrice = Convert.ToDecimal(reader["Price"]).ToString("0.00");
-                            card.Category = reader["Category"].ToString(); // Add this line
+                            card.Category = reader["Category"].ToString();
 
                             int stockQuantity = Convert.ToInt32(reader["QuantityInStock"]);
                             card.StockQuantityText = stockQuantity.ToString();
@@ -168,13 +207,14 @@ namespace STOCKNDRIVE
         private void Card_AddToCartClicked(object sender, EventArgs e)
         {
             ProductCard card = sender as ProductCard;
+            int productId = card.ProductId;
             string name = card.ProductName;
             string price = card.ProductPrice;
             int maxStock = card.StockQuantity;
 
             foreach (Control control in Orderlistpanel.Controls)
             {
-                if (control is CartItem existingCartItem && existingCartItem.ProductName == name)
+                if (control is CartItem existingCartItem && existingCartItem.ProductId == productId)
                 {
                     existingCartItem.IncrementQuantity();
                     return;
@@ -182,6 +222,7 @@ namespace STOCKNDRIVE
             }
 
             CartItem newCartItem = new CartItem();
+            newCartItem.ProductId = productId;
             newCartItem.ProductName = name;
             newCartItem.SetPriceAndStock(Convert.ToDecimal(price), maxStock);
             newCartItem.CartItemChanged += (s, ev) => UpdatePaymentSummary();
@@ -225,6 +266,7 @@ namespace STOCKNDRIVE
                 if (discountForm.ShowDialog() == DialogResult.OK)
                 {
                     currentDiscount = discountForm.DiscountAmount;
+                    currentDiscountDescription = discountForm.DiscountDescription;
                     UpdatePaymentSummary();
                 }
             }
@@ -255,20 +297,20 @@ namespace STOCKNDRIVE
         {
             ContextMenuStrip contextMenu = new ContextMenuStrip();
             var categories = new List<string>
-    {
-        "Show All",
-        "---",
-        "Engine & Performance Parts",
-        "Electrical & Lighting",
-        "Tires & Wheels",
-        "Brakes & Suspension",
-        "Body & Frame Parts",
-        "Transmission & Drivetrain",
-        "Tools & Maintenance",
-        "Riding Gear & Accessories",
-        "Fluids & Consumables",
-        "Customization & Decorative Items"
-    };
+            {
+                "Show All",
+                "---",
+                "Engine & Performance Parts",
+                "Electrical & Lighting",
+                "Tires & Wheels",
+                "Brakes & Suspension",
+                "Body & Frame Parts",
+                "Transmission & Drivetrain",
+                "Tools & Maintenance",
+                "Riding Gear & Accessories",
+                "Fluids & Consumables",
+                "Customization & Decorative Items"
+            };
 
             foreach (string category in categories)
             {
@@ -304,6 +346,37 @@ namespace STOCKNDRIVE
                     else
                     {
                         card.Visible = (card.Category == selectedCategory);
+                    }
+                }
+            }
+        }
+
+
+        private void Proceed_Click(object sender, EventArgs e)
+        {
+            if (Orderlistpanel.Controls.Count > 0)
+            {
+                List<CartItem> cartItems = new List<CartItem>();
+                foreach (Control control in Orderlistpanel.Controls)
+                {
+                    if (control is CartItem item)
+                    {
+                        cartItems.Add(item);
+                    }
+                }
+
+                string numberOfItems = lblnumberofitem.Text;
+                string subtotal = lblsubtotal.Text;
+                string discount = lbldiscount.Text;
+                string totalAmount = lbltotalamount.Text;
+                string discountDescription = currentDiscountDescription;
+
+                using (paymentform paymentForm = new paymentform(cartItems, numberOfItems, subtotal, discount, totalAmount, discountDescription))
+                {
+                    if (paymentForm.ShowDialog() == DialogResult.OK)
+                    {
+                        Orderlistpanel.Controls.Clear();
+                        LoadProductCards();
                     }
                 }
             }

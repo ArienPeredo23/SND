@@ -18,6 +18,7 @@ namespace STOCKNDRIVE
         public event EventHandler CartItemChanged;
 
         public decimal TotalPrice { get; private set; }
+        public int ProductId { get; set; }
 
         public CartItem()
         {
@@ -34,6 +35,11 @@ namespace STOCKNDRIVE
         public int Quantity
         {
             get { return _quantity; }
+        }
+
+        public decimal BasePrice
+        {
+            get { return _basePrice; }
         }
 
         public void SetPriceAndStock(decimal basePrice, int maxStock)
@@ -81,11 +87,6 @@ namespace STOCKNDRIVE
             {
                 this.Parent.Controls.Remove(this);
             }
-        }
-
-        private void CartItem_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
