@@ -13,11 +13,13 @@ namespace STOCKNDRIVE
         private bool isPanelExpanded = false;
         private int settingsPanelStartHeight;
         private int settingsPanelTargetHeight;
+        private bool _sortByStatusOnLoad = false;
 
-
-        public Inventory_Module()
+        public Inventory_Module(bool sortByStatus = false)
         {
             InitializeComponent();
+            _sortByStatusOnLoad = sortByStatus;
+
             if (!string.IsNullOrEmpty(UserSession.Fullname))
             {
                 lblwelcome.Text = $"Welcome back, {UserSession.Fullname}!";
@@ -160,6 +162,7 @@ namespace STOCKNDRIVE
                     adapter.Fill(this.inventoryDataTable);
 
                     this.inventoryDataTable.Columns.Add("Status", typeof(string));
+                    this.inventoryDataTable.Columns.Add("SortOrder", typeof(int));
 
                     foreach (DataRow row in this.inventoryDataTable.Rows)
                     {
@@ -167,16 +170,27 @@ namespace STOCKNDRIVE
                         if (quantity == 0)
                         {
                             row["Status"] = "Out of Stock";
+                            row["SortOrder"] = 1; // Highest priority
                         }
                         else if (quantity <= 5)
                         {
                             row["Status"] = "Low Stock";
+                            row["SortOrder"] = 2; // Second priority
                         }
                         else
                         {
                             row["Status"] = "Good";
+                            row["SortOrder"] = 3; // Lowest priority
                         }
                     }
+                    if (_sortByStatusOnLoad)
+            {
+                this.inventoryDataTable.DefaultView.Sort = "SortOrder ASC, ProductName ASC";
+            }
+            else
+            {
+                this.inventoryDataTable.DefaultView.Sort = "ProductName ASC";
+            }
 
                     inventoryGrid.DataSource = this.inventoryDataTable;
                     UpdateStatusCounts();

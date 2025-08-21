@@ -31,6 +31,10 @@ namespace STOCKNDRIVE
             get { return lblProductName.Text; }
             set { lblProductName.Text = value; }
         }
+        public int MaxQuantity
+        {
+            get { return _maxQuantity; }
+        }
 
         public int Quantity
         {

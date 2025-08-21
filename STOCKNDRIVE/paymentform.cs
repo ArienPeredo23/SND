@@ -156,7 +156,29 @@ namespace STOCKNDRIVE
                 MessageBox.Show("Amount paid is less than the total amount.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            bool showLowStockWarning = false;
+            foreach (var item in _cartItems)
+            {
+                int remainingStock = item.MaxQuantity - item.Quantity;
+                if (remainingStock <= 5)
+                {
+                    showLowStockWarning = true;
+                    break;
+                }
+            }
 
+            if (showLowStockWarning)
+            {
+                DialogResult confirmResult = MessageBox.Show("One or more items will be at or below 5 stock after this sale. Are you sure you want to complete this transaction?",
+                                                             "Low Stock Warning & Confirmation",
+                                                             MessageBoxButtons.YesNo,
+                                                             MessageBoxIcon.Warning);
+
+                if (confirmResult == DialogResult.No)
+                {
+                    return;
+                }
+            }
             SqlConnection conn = DBConnection.GetConnection();
             SqlTransaction transaction = null;
 

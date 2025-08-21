@@ -21,6 +21,7 @@ namespace STOCKNDRIVE
         public int ProductId { get; set; }
 
         public event EventHandler AddToCartClicked;
+        private string _noteText = "";
 
         public int StockQuantity { get; set; }
         private void ProductCard_Load(object sender, EventArgs e)
@@ -32,9 +33,25 @@ namespace STOCKNDRIVE
             AddToCartClicked?.Invoke(this, EventArgs.Empty);
         }
 
+        public string NoteText
+        {
+            set
+            {
+                _noteText = value;
+                btnViewNote.Visible = !string.IsNullOrEmpty(_noteText);
+            }
+        }
         private void ProductCard_Load_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(_noteText))
+            {
+                MessageBox.Show(_noteText, "Product Note for " + this.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         public string ProductName

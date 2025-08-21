@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProductCard));
             picProductImage = new PictureBox();
             lblProductName = new Label();
             php = new Label();
@@ -36,6 +37,7 @@
             lblBrand = new Label();
             lblManufacturer = new Label();
             lblPrice = new Label();
+            btnViewNote = new Button();
             ((System.ComponentModel.ISupportInitialize)picProductImage).BeginInit();
             SuspendLayout();
             // 
@@ -132,11 +134,27 @@
             lblPrice.TabIndex = 11;
             lblPrice.Text = "label1";
             // 
+            // btnViewNote
+            // 
+            btnViewNote.BackgroundImage = (Image)resources.GetObject("btnViewNote.BackgroundImage");
+            btnViewNote.BackgroundImageLayout = ImageLayout.Stretch;
+            btnViewNote.FlatAppearance.BorderSize = 0;
+            btnViewNote.FlatStyle = FlatStyle.Flat;
+            btnViewNote.ForeColor = Color.FromArgb(30, 30, 30);
+            btnViewNote.Location = new Point(191, 3);
+            btnViewNote.Name = "btnViewNote";
+            btnViewNote.Size = new Size(46, 46);
+            btnViewNote.TabIndex = 12;
+            btnViewNote.UseVisualStyleBackColor = true;
+            btnViewNote.Visible = false;
+            btnViewNote.Click += button1_Click;
+            // 
             // ProductCard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(30, 30, 30);
+            Controls.Add(btnViewNote);
             Controls.Add(lblPrice);
             Controls.Add(lblManufacturer);
             Controls.Add(lblBrand);
@@ -163,5 +181,6 @@
         private Label lblBrand;
         private Label lblManufacturer;
         private Label lblPrice;
+        private Button btnViewNote;
     }
 }

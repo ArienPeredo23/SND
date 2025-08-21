@@ -192,7 +192,7 @@ namespace STOCKNDRIVE
             panel2.Visible = true;
             panel2.Controls.Clear();
 
-            string query = "SELECT ProductID, ProductName, Brand, Manufacturer, Price, ProductImage, QuantityInStock, Category FROM Products";
+            string query = "SELECT ProductID, ProductName, Brand, Manufacturer, Price, ProductImage, QuantityInStock, Category, NoteText FROM Products";
 
             try
             {
@@ -213,6 +213,7 @@ namespace STOCKNDRIVE
                             card.ManufacturerText = reader["Manufacturer"].ToString();
                             card.ProductPrice = Convert.ToDecimal(reader["Price"]).ToString("0.00");
                             card.Category = reader["Category"].ToString();
+                            card.NoteText = reader["NoteText"].ToString();
 
                             int stockQuantity = Convert.ToInt32(reader["QuantityInStock"]);
                             card.StockQuantityText = stockQuantity.ToString();

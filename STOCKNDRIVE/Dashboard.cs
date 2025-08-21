@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
 
 namespace STOCKNDRIVE
 {
@@ -32,6 +33,47 @@ namespace STOCKNDRIVE
             settingsPanelTargetHeight = settingsPanel.Height; // Store the original height
             settingsPanel.Height = 0; // Start with the panel collapsed
             slideTimer.Tick += SlideTimer_Tick; // Subscribe to the timer's tick event
+        }
+        private void CheckForLowStock()
+        {
+            try
+            {
+                string query = "SELECT COUNT(*) FROM Products WHERE QuantityInStock <= 5";
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        conn.Open();
+                        int lowStockCount = (int)cmd.ExecuteScalar();
+                        LowStockWarning.Visible = (lowStockCount > 0);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to check for low stock: " + ex.Message);
+            }
+        }
+
+        private void CheckForOutOfStock()
+        {
+            try
+            {
+                string query = "SELECT COUNT(*) FROM Products WHERE QuantityInStock = 0";
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        conn.Open();
+                        int outOfStockCount = (int)cmd.ExecuteScalar();
+                        Outofstockwarning.Visible = (outOfStockCount > 0);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to check for out of stock items: " + ex.Message);
+            }
         }
         private void SlideTimer_Tick(object sender, EventArgs e)
         {
@@ -72,6 +114,14 @@ namespace STOCKNDRIVE
         }
         private void Dashboard_Load(object sender, EventArgs e)
         {
+            CheckForLowStock();
+            CheckForOutOfStock();
+        }
+        private void LowStockWarning_Click(object sender, EventArgs e)
+        {
+            Inventory_Module inventory = new Inventory_Module(true);
+            inventory.Show();
+            this.Close();
         }
 
         private void btnDashboard_Click(object sender, EventArgs e)
@@ -148,6 +198,13 @@ namespace STOCKNDRIVE
                 }
             }
         }
+
+        private void Outofstockwarning_Click(object sender, EventArgs e)
+        {
+            Inventory_Module inventory = new Inventory_Module(true);
+            inventory.Show();
+            this.Close();
+        }
     }
-    
+
 }

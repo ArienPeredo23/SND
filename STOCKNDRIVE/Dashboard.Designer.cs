@@ -57,6 +57,8 @@
             lblwelcome = new Label();
             panel2 = new Panel();
             label7 = new Label();
+            LowStockWarning = new Button();
+            Outofstockwarning = new Button();
             leftNavPanel.SuspendLayout();
             settingsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -409,12 +411,54 @@
             label7.TabIndex = 9;
             label7.Text = "Sales Overview";
             // 
+            // LowStockWarning
+            // 
+            LowStockWarning.BackgroundImageLayout = ImageLayout.Stretch;
+            LowStockWarning.FlatAppearance.BorderSize = 0;
+            LowStockWarning.FlatStyle = FlatStyle.Flat;
+            LowStockWarning.Font = new Font("Segoe UI", 12F);
+            LowStockWarning.ForeColor = Color.Yellow;
+            LowStockWarning.Image = (Image)resources.GetObject("LowStockWarning.Image");
+            LowStockWarning.ImageAlign = ContentAlignment.MiddleLeft;
+            LowStockWarning.Location = new Point(1589, 15);
+            LowStockWarning.Name = "LowStockWarning";
+            LowStockWarning.Size = new Size(221, 58);
+            LowStockWarning.TabIndex = 13;
+            LowStockWarning.Text = "Low Stocks Warning!";
+            LowStockWarning.TextAlign = ContentAlignment.MiddleRight;
+            LowStockWarning.TextImageRelation = TextImageRelation.ImageBeforeText;
+            LowStockWarning.UseVisualStyleBackColor = true;
+            LowStockWarning.Visible = false;
+            LowStockWarning.Click += LowStockWarning_Click;
+            // 
+            // Outofstockwarning
+            // 
+            Outofstockwarning.BackgroundImageLayout = ImageLayout.Stretch;
+            Outofstockwarning.FlatAppearance.BorderSize = 0;
+            Outofstockwarning.FlatStyle = FlatStyle.Flat;
+            Outofstockwarning.Font = new Font("Segoe UI", 12F);
+            Outofstockwarning.ForeColor = Color.Red;
+            Outofstockwarning.Image = (Image)resources.GetObject("Outofstockwarning.Image");
+            Outofstockwarning.ImageAlign = ContentAlignment.MiddleLeft;
+            Outofstockwarning.Location = new Point(1342, 15);
+            Outofstockwarning.Name = "Outofstockwarning";
+            Outofstockwarning.Size = new Size(231, 58);
+            Outofstockwarning.TabIndex = 14;
+            Outofstockwarning.Text = "Out of Stocks Warning!";
+            Outofstockwarning.TextAlign = ContentAlignment.MiddleRight;
+            Outofstockwarning.TextImageRelation = TextImageRelation.ImageBeforeText;
+            Outofstockwarning.UseVisualStyleBackColor = true;
+            Outofstockwarning.Visible = false;
+            Outofstockwarning.Click += Outofstockwarning_Click;
+            // 
             // Dashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 22, 23);
             ClientSize = new Size(1850, 920);
+            Controls.Add(Outofstockwarning);
+            Controls.Add(LowStockWarning);
             Controls.Add(lblwelcome);
             Controls.Add(panel4);
             Controls.Add(panel3);
@@ -427,7 +471,6 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "Dashboard";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Dashboard";
             Load += Dashboard_Load;
             leftNavPanel.ResumeLayout(false);
             settingsPanel.ResumeLayout(false);
@@ -474,5 +517,7 @@
         private Label lblwelcome;
         private Panel panel2;
         private Label label7;
+        private Button LowStockWarning;
+        private Button Outofstockwarning;
     }
 }
