@@ -119,6 +119,29 @@ namespace STOCKNDRIVE
             this.Close();
         }
 
+        private void LogActivity(string actionType, string actionDetails)
+        {
+            try
+            {
+                string query = "INSERT INTO AuditTrail (UserID, ActionType, ActionDetails, Timestamp) VALUES (@UserID, @ActionType, @ActionDetails, @Timestamp)";
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserID", UserSession.UserId);
+                        cmd.Parameters.AddWithValue("@ActionType", actionType);
+                        cmd.Parameters.AddWithValue("@ActionDetails", actionDetails);
+                        cmd.Parameters.AddWithValue("@Timestamp", DateTime.Now);
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Audit Log Failed: " + ex.Message);
+            }
+        }
         private void Proceed_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(tbname.Text))
@@ -142,12 +165,12 @@ namespace STOCKNDRIVE
                 conn.Open();
                 transaction = conn.BeginTransaction();
 
-                // Step 1: Insert into Sales and get the new SaleID
+                long saleId;
                 string salesQuery = @"INSERT INTO Sales (TransactionDate, UserID, TotalAmount, AmountPaid, ChangeGiven, Subtotal, DiscountDescription, Discount, CustomerName)
                               VALUES (@TransactionDate, @UserID, @TotalAmount, @AmountPaid, @ChangeGiven, @Subtotal, @DiscountDescription, @Discount, @CustomerName);
                               SELECT SCOPE_IDENTITY();";
 
-                long saleId;
+                
                 using (SqlCommand cmd = new SqlCommand(salesQuery, conn, transaction))
                 {
                     cmd.Parameters.AddWithValue("@TransactionDate", DateTime.Now);
@@ -189,6 +212,8 @@ namespace STOCKNDRIVE
                 }
 
                 transaction.Commit();
+                string details = $"{UserSession.Fullname} processed a sale (ID: {saleId}) for customer '{tbname.Text}' with a total amount of {totalAmount:0.00}.";
+                LogActivity("Process Sale", details);
                 MessageBox.Show("Transaction completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
                 this.Close();

@@ -16,6 +16,9 @@ namespace STOCKNDRIVE
     {
         private decimal currentDiscount = 0;
         private string currentDiscountDescription = "";
+        private bool isPanelExpanded = false;
+        private int settingsPanelStartHeight;
+        private int settingsPanelTargetHeight;
 
         public pos()
         {
@@ -25,6 +28,51 @@ namespace STOCKNDRIVE
                 lblwelcome.Text = $"Welcome back, {UserSession.Fullname}!";
             }
             Orderlistpanel.ControlRemoved += (s, e) => UpdatePaymentSummary();
+
+            InitializeSettingsPanel();
+        }
+
+        private void InitializeSettingsPanel()
+        {
+            settingsPanel.Location = new Point(btnSettings.Location.X, btnSettings.Location.Y - settingsPanel.Height);
+            settingsPanelTargetHeight = settingsPanel.Height;
+            settingsPanel.Height = 0;
+            slideTimer.Tick += SlideTimer_Tick;
+        }
+
+        private void SlideTimer_Tick(object sender, EventArgs e)
+        {
+            int step = 20;
+
+            if (!isPanelExpanded)
+            {
+                settingsPanel.Visible = true;
+                if (settingsPanel.Height + step < settingsPanelTargetHeight)
+                {
+                    settingsPanel.Height += step;
+                }
+                else
+                {
+                    settingsPanel.Height = settingsPanelTargetHeight;
+                    isPanelExpanded = true;
+                    slideTimer.Stop();
+                }
+            }
+            else
+            {
+                if (settingsPanel.Height - step > 0)
+                {
+                    settingsPanel.Height -= step;
+                }
+                else
+                {
+                    settingsPanel.Height = 0;
+                    settingsPanel.Visible = false;
+                    isPanelExpanded = false;
+                    slideTimer.Stop();
+                }
+            }
+            settingsPanel.Location = new Point(btnSettings.Location.X, btnSettings.Location.Y - settingsPanel.Height);
         }
 
         private void UpdatePaymentSummary()
@@ -134,6 +182,8 @@ namespace STOCKNDRIVE
 
                 btnPOS.Location = dashboardLocation;
                 btnSales.Location = posLocation;
+                btnusermanagement.Visible = false;
+                btnaudittrail.Visible = false;
             }
         }
 
@@ -378,6 +428,42 @@ namespace STOCKNDRIVE
                         Orderlistpanel.Controls.Clear();
                         LoadProductCards();
                     }
+                }
+            }
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            slideTimer.Start();
+        }
+
+        private void btnaudittrail_Click(object sender, EventArgs e)
+        {
+            audittrail audittrail = new audittrail();
+            audittrail.ShowDialog();
+            isPanelExpanded = false;
+            settingsPanel.Visible = false;
+        }
+
+        private void btnusermanagement_Click(object sender, EventArgs e)
+        {
+            usermanagement usermanagement = new usermanagement();
+            usermanagement.ShowDialog();
+            isPanelExpanded = false;
+            settingsPanel.Visible = false;
+        }
+
+        private void btnlogout_Click(object sender, EventArgs e)
+        {
+            using (logout logoutForm = new logout())
+            {
+                isPanelExpanded = false;
+                settingsPanel.Height = 0;
+                settingsPanel.Visible = false;
+
+                if (logoutForm.ShowDialog() == DialogResult.OK)
+                {
+                    this.Close();
                 }
             }
         }

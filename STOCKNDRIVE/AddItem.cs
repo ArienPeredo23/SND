@@ -133,7 +133,7 @@ namespace STOCKNDRIVE
 
         private void btnDone_Click(object sender, EventArgs e)
         {
-            if (!ValidateInputs()) // Add this block
+            if (!ValidateInputs()) 
             {
                 return;
             }
@@ -151,6 +151,8 @@ namespace STOCKNDRIVE
                         AddParametersToCommand(cmd, imageData);
                         conn.Open();
                         cmd.ExecuteNonQuery();
+                        string details = $"{UserSession.Fullname} added a product ('{txtProductName.Text}') to the inventory.";
+                        LogActivity("Add Product", details);
                         MessageBox.Show("Item added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.DialogResult = DialogResult.OK;
                         this.Close();
@@ -369,7 +371,8 @@ namespace STOCKNDRIVE
 
                         conn.Open();
                         cmd.ExecuteNonQuery();
-
+                        string details = $"{UserSession.Fullname} updated a product ('{txtProductName.Text}') in the inventory.";
+                        LogActivity("Update Product", details);
                         MessageBox.Show("Item updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.DialogResult = DialogResult.OK;
                         this.Close();
@@ -391,6 +394,8 @@ namespace STOCKNDRIVE
 
             if (confirmResult == DialogResult.Yes)
             {
+                string productNameForLog = txtProductName.Text;
+
                 string query = "DELETE FROM Products WHERE ProductID = @ProductID";
 
                 try
@@ -402,7 +407,8 @@ namespace STOCKNDRIVE
                             cmd.Parameters.AddWithValue("@ProductID", this.currentProductId);
                             conn.Open();
                             cmd.ExecuteNonQuery();
-
+                            string details = $"{UserSession.Fullname} deleted a product ('{productNameForLog}') from the inventory.";
+                            LogActivity("Delete Product", details);
                             MessageBox.Show("Item deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             this.DialogResult = DialogResult.OK;
                             this.Close();
@@ -413,6 +419,32 @@ namespace STOCKNDRIVE
                 {
                     MessageBox.Show("Failed to delete item.\nError: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private void LogActivity(string actionType, string actionDetails)
+        {
+            try
+            {
+                string query = "INSERT INTO AuditTrail (UserID, ActionType, ActionDetails, Timestamp) VALUES (@UserID, @ActionType, @ActionDetails, @Timestamp)";
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserID", UserSession.UserId);
+                        cmd.Parameters.AddWithValue("@ActionType", actionType);
+                        cmd.Parameters.AddWithValue("@ActionDetails", actionDetails);
+                        cmd.Parameters.AddWithValue("@Timestamp", DateTime.Now);
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log to console or a file, but don't show a message box
+                // to avoid interrupting the user's primary action.
+                Console.WriteLine("Audit Log Failed: " + ex.Message);
             }
         }
 

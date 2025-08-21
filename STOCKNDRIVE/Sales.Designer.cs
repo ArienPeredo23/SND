@@ -28,14 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Sales));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             btnSales = new Button();
             btnInventory = new Button();
             btnPOS = new Button();
             btnDashboard = new Button();
             leftNavPanel = new Panel();
+            settingsPanel = new Panel();
+            btnaudittrail = new Button();
+            btnusermanagement = new Button();
+            btnlogout = new Button();
             pictureBox1 = new PictureBox();
             btnSettings = new Button();
             label1 = new Label();
@@ -47,7 +52,9 @@
             btnExport = new Button();
             label2 = new Label();
             lblwelcome = new Label();
+            slideTimer = new System.Windows.Forms.Timer(components);
             leftNavPanel.SuspendLayout();
+            settingsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             reportPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSalesReport).BeginInit();
@@ -130,6 +137,7 @@
             // leftNavPanel
             // 
             leftNavPanel.BackColor = Color.FromArgb(30, 30, 30);
+            leftNavPanel.Controls.Add(settingsPanel);
             leftNavPanel.Controls.Add(pictureBox1);
             leftNavPanel.Controls.Add(btnSettings);
             leftNavPanel.Controls.Add(btnSales);
@@ -141,6 +149,71 @@
             leftNavPanel.Name = "leftNavPanel";
             leftNavPanel.Size = new Size(240, 920);
             leftNavPanel.TabIndex = 1;
+            // 
+            // settingsPanel
+            // 
+            settingsPanel.Controls.Add(btnaudittrail);
+            settingsPanel.Controls.Add(btnusermanagement);
+            settingsPanel.Controls.Add(btnlogout);
+            settingsPanel.Location = new Point(12, 650);
+            settingsPanel.Name = "settingsPanel";
+            settingsPanel.Size = new Size(198, 189);
+            settingsPanel.TabIndex = 14;
+            settingsPanel.Visible = false;
+            // 
+            // btnaudittrail
+            // 
+            btnaudittrail.BackColor = Color.FromArgb(30, 30, 30);
+            btnaudittrail.FlatAppearance.BorderSize = 0;
+            btnaudittrail.FlatStyle = FlatStyle.Flat;
+            btnaudittrail.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnaudittrail.ForeColor = Color.White;
+            btnaudittrail.Image = (Image)resources.GetObject("btnaudittrail.Image");
+            btnaudittrail.ImageAlign = ContentAlignment.MiddleLeft;
+            btnaudittrail.Location = new Point(18, 73);
+            btnaudittrail.Name = "btnaudittrail";
+            btnaudittrail.Size = new Size(163, 30);
+            btnaudittrail.TabIndex = 2;
+            btnaudittrail.Text = " Audit Trail";
+            btnaudittrail.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnaudittrail.UseVisualStyleBackColor = false;
+            btnaudittrail.Click += btnaudittrail_Click;
+            // 
+            // btnusermanagement
+            // 
+            btnusermanagement.BackColor = Color.FromArgb(30, 30, 30);
+            btnusermanagement.FlatAppearance.BorderSize = 0;
+            btnusermanagement.FlatStyle = FlatStyle.Flat;
+            btnusermanagement.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnusermanagement.ForeColor = Color.White;
+            btnusermanagement.Image = (Image)resources.GetObject("btnusermanagement.Image");
+            btnusermanagement.ImageAlign = ContentAlignment.MiddleLeft;
+            btnusermanagement.Location = new Point(18, 109);
+            btnusermanagement.Name = "btnusermanagement";
+            btnusermanagement.Size = new Size(163, 30);
+            btnusermanagement.TabIndex = 1;
+            btnusermanagement.Text = " User Management";
+            btnusermanagement.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnusermanagement.UseVisualStyleBackColor = false;
+            btnusermanagement.Click += btnusermanagement_Click;
+            // 
+            // btnlogout
+            // 
+            btnlogout.BackColor = Color.FromArgb(30, 30, 30);
+            btnlogout.FlatAppearance.BorderSize = 0;
+            btnlogout.FlatStyle = FlatStyle.Flat;
+            btnlogout.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnlogout.ForeColor = Color.White;
+            btnlogout.Image = (Image)resources.GetObject("btnlogout.Image");
+            btnlogout.ImageAlign = ContentAlignment.MiddleLeft;
+            btnlogout.Location = new Point(18, 147);
+            btnlogout.Name = "btnlogout";
+            btnlogout.Size = new Size(97, 30);
+            btnlogout.TabIndex = 0;
+            btnlogout.Text = " Logout";
+            btnlogout.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnlogout.UseVisualStyleBackColor = false;
+            btnlogout.Click += btnlogout_Click;
             // 
             // pictureBox1
             // 
@@ -168,6 +241,7 @@
             btnSettings.TextAlign = ContentAlignment.MiddleLeft;
             btnSettings.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnSettings.UseVisualStyleBackColor = true;
+            btnSettings.Click += btnSettings_Click;
             // 
             // label1
             // 
@@ -208,23 +282,23 @@
             dgvSalesReport.BackgroundColor = Color.White;
             dgvSalesReport.BorderStyle = BorderStyle.None;
             dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle1.SelectionBackColor = Color.White;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.White;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle5.SelectionBackColor = Color.White;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvSalesReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle6;
             dgvSalesReport.GridColor = SystemColors.ButtonFace;
             dgvSalesReport.Location = new Point(25, 80);
             dgvSalesReport.Name = "dgvSalesReport";
@@ -288,6 +362,10 @@
             lblwelcome.TabIndex = 10;
             lblwelcome.Text = "-";
             // 
+            // slideTimer
+            // 
+            slideTimer.Interval = 15;
+            // 
             // Sales
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -305,6 +383,7 @@
             Text = "Inventory";
             Load += Sales_Load;
             leftNavPanel.ResumeLayout(false);
+            settingsPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             reportPanel.ResumeLayout(false);
             reportPanel.PerformLayout();
@@ -331,5 +410,10 @@
         private DataGridView dgvSalesReport;
         private PictureBox pictureBox1;
         private Label lblwelcome;
+        private Panel settingsPanel;
+        private Button btnaudittrail;
+        private Button btnusermanagement;
+        private Button btnlogout;
+        private System.Windows.Forms.Timer slideTimer;
     }
 }

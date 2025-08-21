@@ -28,15 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Inventory_Module));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             btnSettings = new Button();
             btnSales = new Button();
             btnInventory = new Button();
             btnPOS = new Button();
             btnDashboard = new Button();
             leftNavPanel = new Panel();
+            settingsPanel = new Panel();
+            btnaudittrail = new Button();
+            btnusermanagement = new Button();
+            btnlogout = new Button();
             panel4 = new Panel();
             label1 = new Label();
             totalItemsCard = new Panel();
@@ -72,7 +77,9 @@
             label10 = new Label();
             pictureBox1 = new PictureBox();
             lblwelcome = new Label();
+            slideTimer = new System.Windows.Forms.Timer(components);
             leftNavPanel.SuspendLayout();
+            settingsPanel.SuspendLayout();
             totalItemsCard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             panel1.SuspendLayout();
@@ -102,6 +109,7 @@
             btnSettings.TextAlign = ContentAlignment.MiddleLeft;
             btnSettings.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnSettings.UseVisualStyleBackColor = true;
+            btnSettings.Click += btnSettings_Click;
             // 
             // btnSales
             // 
@@ -180,6 +188,7 @@
             // leftNavPanel
             // 
             leftNavPanel.BackColor = Color.FromArgb(30, 30, 30);
+            leftNavPanel.Controls.Add(settingsPanel);
             leftNavPanel.Controls.Add(btnSettings);
             leftNavPanel.Controls.Add(btnSales);
             leftNavPanel.Controls.Add(btnInventory);
@@ -190,6 +199,71 @@
             leftNavPanel.Name = "leftNavPanel";
             leftNavPanel.Size = new Size(240, 920);
             leftNavPanel.TabIndex = 1;
+            // 
+            // settingsPanel
+            // 
+            settingsPanel.Controls.Add(btnaudittrail);
+            settingsPanel.Controls.Add(btnusermanagement);
+            settingsPanel.Controls.Add(btnlogout);
+            settingsPanel.Location = new Point(12, 650);
+            settingsPanel.Name = "settingsPanel";
+            settingsPanel.Size = new Size(198, 189);
+            settingsPanel.TabIndex = 14;
+            settingsPanel.Visible = false;
+            // 
+            // btnaudittrail
+            // 
+            btnaudittrail.BackColor = Color.FromArgb(30, 30, 30);
+            btnaudittrail.FlatAppearance.BorderSize = 0;
+            btnaudittrail.FlatStyle = FlatStyle.Flat;
+            btnaudittrail.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnaudittrail.ForeColor = Color.White;
+            btnaudittrail.Image = (Image)resources.GetObject("btnaudittrail.Image");
+            btnaudittrail.ImageAlign = ContentAlignment.MiddleLeft;
+            btnaudittrail.Location = new Point(18, 73);
+            btnaudittrail.Name = "btnaudittrail";
+            btnaudittrail.Size = new Size(163, 30);
+            btnaudittrail.TabIndex = 2;
+            btnaudittrail.Text = " Audit Trail";
+            btnaudittrail.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnaudittrail.UseVisualStyleBackColor = false;
+            btnaudittrail.Click += btnaudittrail_Click;
+            // 
+            // btnusermanagement
+            // 
+            btnusermanagement.BackColor = Color.FromArgb(30, 30, 30);
+            btnusermanagement.FlatAppearance.BorderSize = 0;
+            btnusermanagement.FlatStyle = FlatStyle.Flat;
+            btnusermanagement.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnusermanagement.ForeColor = Color.White;
+            btnusermanagement.Image = (Image)resources.GetObject("btnusermanagement.Image");
+            btnusermanagement.ImageAlign = ContentAlignment.MiddleLeft;
+            btnusermanagement.Location = new Point(18, 109);
+            btnusermanagement.Name = "btnusermanagement";
+            btnusermanagement.Size = new Size(163, 30);
+            btnusermanagement.TabIndex = 1;
+            btnusermanagement.Text = " User Management";
+            btnusermanagement.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnusermanagement.UseVisualStyleBackColor = false;
+            btnusermanagement.Click += btnusermanagement_Click;
+            // 
+            // btnlogout
+            // 
+            btnlogout.BackColor = Color.FromArgb(30, 30, 30);
+            btnlogout.FlatAppearance.BorderSize = 0;
+            btnlogout.FlatStyle = FlatStyle.Flat;
+            btnlogout.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnlogout.ForeColor = Color.White;
+            btnlogout.Image = (Image)resources.GetObject("btnlogout.Image");
+            btnlogout.ImageAlign = ContentAlignment.MiddleLeft;
+            btnlogout.Location = new Point(18, 147);
+            btnlogout.Name = "btnlogout";
+            btnlogout.Size = new Size(97, 30);
+            btnlogout.TabIndex = 0;
+            btnlogout.Text = " Logout";
+            btnlogout.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnlogout.UseVisualStyleBackColor = false;
+            btnlogout.Click += btnlogout_Click;
             // 
             // panel4
             // 
@@ -524,30 +598,30 @@
             inventoryGrid.BackgroundColor = Color.White;
             inventoryGrid.BorderStyle = BorderStyle.None;
             inventoryGrid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle1.SelectionBackColor = Color.White;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            inventoryGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.White;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle5.SelectionBackColor = Color.White;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            inventoryGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             inventoryGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            inventoryGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            inventoryGrid.DefaultCellStyle = dataGridViewCellStyle6;
             inventoryGrid.Dock = DockStyle.Bottom;
             inventoryGrid.GridColor = SystemColors.ButtonFace;
-            inventoryGrid.Location = new Point(0, 103);
+            inventoryGrid.Location = new Point(0, 74);
             inventoryGrid.Name = "inventoryGrid";
             inventoryGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             inventoryGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            inventoryGrid.Size = new Size(1508, 502);
+            inventoryGrid.Size = new Size(1508, 531);
             inventoryGrid.TabIndex = 4;
             inventoryGrid.CellClick += inventoryGrid_CellClick;
             // 
@@ -606,6 +680,10 @@
             lblwelcome.TabIndex = 15;
             lblwelcome.Text = "-";
             // 
+            // slideTimer
+            // 
+            slideTimer.Interval = 15;
+            // 
             // Inventory_Module
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -632,6 +710,7 @@
             Text = "Inventory_Module";
             Load += Inventory_Module_Load;
             leftNavPanel.ResumeLayout(false);
+            settingsPanel.ResumeLayout(false);
             totalItemsCard.ResumeLayout(false);
             totalItemsCard.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -695,5 +774,10 @@
         private Label outofstocktxt;
         private PictureBox pictureBox1;
         private Label lblwelcome;
+        private Panel settingsPanel;
+        private Button btnaudittrail;
+        private Button btnusermanagement;
+        private Button btnlogout;
+        private System.Windows.Forms.Timer slideTimer;
     }
 }

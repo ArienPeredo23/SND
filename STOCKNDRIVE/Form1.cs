@@ -9,7 +9,12 @@ namespace STOCKNDRIVE
             InitializeComponent();
             this.AcceptButton = btnLogin;
         }
-
+        public void ClearCredentials()
+        {
+            txtUsername.Clear();
+            txtPassword.Clear();
+            txtUsername.Focus();
+        }
         private void label2_Click(object sender, EventArgs e)
         {
 
@@ -28,6 +33,32 @@ namespace STOCKNDRIVE
         private void txtPassword_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void LogActivity(int userId, string fullname)
+        {
+            try
+            {
+                string query = "INSERT INTO AuditTrail (UserID, ActionType, ActionDetails, Timestamp) VALUES (@UserID, @ActionType, @ActionDetails, @Timestamp)";
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserID", userId);
+                        cmd.Parameters.AddWithValue("@ActionType", "User Login");
+                        cmd.Parameters.AddWithValue("@ActionDetails", $"{fullname} logged in to the system.");
+                        cmd.Parameters.AddWithValue("@Timestamp", DateTime.Now);
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Optionally, handle or log the error if the audit trail fails.
+                // For a login screen, it's often best to not show a blocking error message here.
+                Console.WriteLine("Failed to log activity: " + ex.Message);
+            }
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -60,16 +91,18 @@ namespace STOCKNDRIVE
                             int userId = Convert.ToInt32(reader["UserId"]);
                             string fullname = reader["Fullname"].ToString();
 
-                            // Set the global user session
+                            // --- ADDED LOGIC IS HERE ---
                             UserSession.SetCurrentUser(userId, fullname);
+                            LogActivity(userId, fullname); // Call the new logging method
+                                                           // --- END OF ADDED LOGIC ---
 
-                            if (userId == 1) // Admin user
+                            if (userId == 1)
                             {
                                 Dashboard dashboardForm = new Dashboard();
                                 dashboardForm.Show();
                                 this.Hide();
                             }
-                            else // Any other user (ID >= 2)
+                            else
                             {
                                 pos posForm = new pos();
                                 posForm.Show();

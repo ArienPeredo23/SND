@@ -28,8 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             leftNavPanel = new Panel();
+            settingsPanel = new Panel();
+            btnaudittrail = new Button();
+            btnusermanagement = new Button();
+            btnlogout = new Button();
             btnSettings = new Button();
             btnSales = new Button();
             btnInventory = new Button();
@@ -46,12 +51,14 @@
             panel1 = new Panel();
             label6 = new Label();
             dataGridView1 = new DataGridView();
-            panel2 = new Panel();
-            label7 = new Label();
             panel3 = new Panel();
+            slideTimer = new System.Windows.Forms.Timer(components);
             panel4 = new Panel();
             lblwelcome = new Label();
+            panel2 = new Panel();
+            label7 = new Label();
             leftNavPanel.SuspendLayout();
+            settingsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             revenueCard.SuspendLayout();
             ordersCard.SuspendLayout();
@@ -63,6 +70,7 @@
             // leftNavPanel
             // 
             leftNavPanel.BackColor = Color.FromArgb(30, 30, 30);
+            leftNavPanel.Controls.Add(settingsPanel);
             leftNavPanel.Controls.Add(btnSettings);
             leftNavPanel.Controls.Add(btnSales);
             leftNavPanel.Controls.Add(btnInventory);
@@ -75,6 +83,71 @@
             leftNavPanel.Size = new Size(240, 920);
             leftNavPanel.TabIndex = 0;
             leftNavPanel.Paint += leftNavPanel_Paint;
+            // 
+            // settingsPanel
+            // 
+            settingsPanel.Controls.Add(btnaudittrail);
+            settingsPanel.Controls.Add(btnusermanagement);
+            settingsPanel.Controls.Add(btnlogout);
+            settingsPanel.Location = new Point(12, 650);
+            settingsPanel.Name = "settingsPanel";
+            settingsPanel.Size = new Size(198, 189);
+            settingsPanel.TabIndex = 13;
+            settingsPanel.Visible = false;
+            // 
+            // btnaudittrail
+            // 
+            btnaudittrail.BackColor = Color.FromArgb(30, 30, 30);
+            btnaudittrail.FlatAppearance.BorderSize = 0;
+            btnaudittrail.FlatStyle = FlatStyle.Flat;
+            btnaudittrail.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnaudittrail.ForeColor = Color.White;
+            btnaudittrail.Image = (Image)resources.GetObject("btnaudittrail.Image");
+            btnaudittrail.ImageAlign = ContentAlignment.MiddleLeft;
+            btnaudittrail.Location = new Point(18, 73);
+            btnaudittrail.Name = "btnaudittrail";
+            btnaudittrail.Size = new Size(163, 30);
+            btnaudittrail.TabIndex = 2;
+            btnaudittrail.Text = " Audit Trail";
+            btnaudittrail.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnaudittrail.UseVisualStyleBackColor = false;
+            btnaudittrail.Click += btnaudittrail_Click;
+            // 
+            // btnusermanagement
+            // 
+            btnusermanagement.BackColor = Color.FromArgb(30, 30, 30);
+            btnusermanagement.FlatAppearance.BorderSize = 0;
+            btnusermanagement.FlatStyle = FlatStyle.Flat;
+            btnusermanagement.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnusermanagement.ForeColor = Color.White;
+            btnusermanagement.Image = (Image)resources.GetObject("btnusermanagement.Image");
+            btnusermanagement.ImageAlign = ContentAlignment.MiddleLeft;
+            btnusermanagement.Location = new Point(18, 109);
+            btnusermanagement.Name = "btnusermanagement";
+            btnusermanagement.Size = new Size(163, 30);
+            btnusermanagement.TabIndex = 1;
+            btnusermanagement.Text = " User Management";
+            btnusermanagement.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnusermanagement.UseVisualStyleBackColor = false;
+            btnusermanagement.Click += btnusermanagement_Click;
+            // 
+            // btnlogout
+            // 
+            btnlogout.BackColor = Color.FromArgb(30, 30, 30);
+            btnlogout.FlatAppearance.BorderSize = 0;
+            btnlogout.FlatStyle = FlatStyle.Flat;
+            btnlogout.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnlogout.ForeColor = Color.White;
+            btnlogout.Image = (Image)resources.GetObject("btnlogout.Image");
+            btnlogout.ImageAlign = ContentAlignment.MiddleLeft;
+            btnlogout.Location = new Point(18, 147);
+            btnlogout.Name = "btnlogout";
+            btnlogout.Size = new Size(97, 30);
+            btnlogout.TabIndex = 0;
+            btnlogout.Text = " Logout";
+            btnlogout.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnlogout.UseVisualStyleBackColor = false;
+            btnlogout.Click += btnlogout_Click;
             // 
             // btnSettings
             // 
@@ -92,6 +165,7 @@
             btnSettings.TextAlign = ContentAlignment.MiddleLeft;
             btnSettings.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnSettings.UseVisualStyleBackColor = true;
+            btnSettings.Click += btnSettings_Click;
             // 
             // btnSales
             // 
@@ -284,26 +358,6 @@
             dataGridView1.Size = new Size(675, 458);
             dataGridView1.TabIndex = 0;
             // 
-            // panel2
-            // 
-            panel2.BackColor = Color.White;
-            panel2.Controls.Add(label7);
-            panel2.Location = new Point(280, 107);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(813, 450);
-            panel2.TabIndex = 3;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label7.ForeColor = SystemColors.ControlText;
-            label7.Location = new Point(20, 23);
-            label7.Name = "label7";
-            label7.Size = new Size(185, 32);
-            label7.TabIndex = 9;
-            label7.Text = "Sales Overview";
-            // 
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(45, 45, 45);
@@ -311,6 +365,10 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(813, 317);
             panel3.TabIndex = 4;
+            // 
+            // slideTimer
+            // 
+            slideTimer.Interval = 15;
             // 
             // panel4
             // 
@@ -330,6 +388,26 @@
             lblwelcome.Size = new Size(16, 21);
             lblwelcome.TabIndex = 6;
             lblwelcome.Text = "-";
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.White;
+            panel2.Controls.Add(label7);
+            panel2.Location = new Point(280, 107);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(813, 450);
+            panel2.TabIndex = 3;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            label7.ForeColor = SystemColors.ControlText;
+            label7.Location = new Point(20, 23);
+            label7.Name = "label7";
+            label7.Size = new Size(185, 32);
+            label7.TabIndex = 9;
+            label7.Text = "Sales Overview";
             // 
             // Dashboard
             // 
@@ -352,6 +430,7 @@
             Text = "Dashboard";
             Load += Dashboard_Load;
             leftNavPanel.ResumeLayout(false);
+            settingsPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             revenueCard.ResumeLayout(false);
             revenueCard.PerformLayout();
@@ -380,15 +459,20 @@
         private Panel ordersCard;
         private Panel panel1;
         private DataGridView dataGridView1;
-        private Panel panel2;
         private Panel panel3;
-        private Panel panel4;
         private Label label4;
         private Label label2;
         private Label label5;
         private Label label3;
         private Label label6;
-        private Label label7;
+        private Panel settingsPanel;
+        private Button btnaudittrail;
+        private Button btnusermanagement;
+        private Button btnlogout;
+        private System.Windows.Forms.Timer slideTimer;
+        private Panel panel4;
         private Label lblwelcome;
+        private Panel panel2;
+        private Label label7;
     }
 }
