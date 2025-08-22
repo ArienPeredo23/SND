@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Data.SqlClient;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace STOCKNDRIVE
 {
@@ -16,6 +18,9 @@ namespace STOCKNDRIVE
         private bool isPanelExpanded = false;
         private int settingsPanelStartHeight;
         private int settingsPanelTargetHeight;
+
+        private Font activeFont;
+        private Font inactiveFont;
 
         public Dashboard()
         {
@@ -116,6 +121,172 @@ namespace STOCKNDRIVE
         {
             CheckForLowStock();
             CheckForOutOfStock();
+            StyleSalesChart();
+            inactiveFont = new Font("Segoe UI", 9F, FontStyle.Regular);
+
+            activeFont = new Font("Arial Black", 9F, FontStyle.Bold);
+
+            btnMonthly_Click(null, null);
+        }
+
+        private void LoadWeeklySalesChart()
+        {
+            try
+            {
+                var series = salesChart.Series["SalesData"];
+                series.Points.Clear();
+
+                // --- START OF CHANGES ---
+
+                // This query now only gets sales data that actually exists within the last 7 days.
+                string query = @"
+            SELECT 
+                CAST(TransactionDate AS DATE) as SalesDate,
+                SUM(TotalAmount) as TotalSales
+            FROM Sales
+            WHERE TransactionDate >= DATEADD(day, -6, CAST(GETDATE() AS DATE))
+            GROUP BY CAST(TransactionDate AS DATE)";
+
+                // 1. Create a dictionary to hold the results from the database.
+                var salesDataFromDb = new Dictionary<DateTime, decimal>();
+
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        conn.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            DateTime date = Convert.ToDateTime(reader["SalesDate"]);
+                            decimal total = Convert.ToDecimal(reader["TotalSales"]);
+                            salesDataFromDb[date] = total;
+                        }
+                    }
+                }
+
+                // 2. Create the final, complete list of the last 7 days.
+                var completeWeeklyData = new Dictionary<DateTime, decimal>();
+                for (int i = 6; i >= 0; i--)
+                {
+                    DateTime day = DateTime.Today.AddDays(-i);
+                    completeWeeklyData[day] = 0; // Initialize each day with 0 sales
+                }
+
+                // 3. Populate the complete list with data from the database where it exists.
+                foreach (var dbData in salesDataFromDb)
+                {
+                    if (completeWeeklyData.ContainsKey(dbData.Key))
+                    {
+                        completeWeeklyData[dbData.Key] = dbData.Value;
+                    }
+                }
+
+                // 4. Add the final, complete data to the chart.
+                foreach (var dayData in completeWeeklyData)
+                {
+                    series.Points.AddXY(dayData.Key.ToString("ddd"), dayData.Value); // "ddd" gives "Mon", "Tue", etc.
+                }
+                decimal maxSales = completeWeeklyData.Values.Max();
+                if (maxSales == 0) maxSales = 100; // Set a default height if there are no sales
+                salesChart.ChartAreas["SalesArea"].AxisY.Maximum = (double)maxSales * 1.2;
+                // --- END OF CHANGES ---
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to load weekly sales chart data: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void StyleSalesChart()
+        {
+            var chart = salesChart;
+            chart.Series.Clear();
+            chart.ChartAreas.Clear();
+            chart.Legends.Clear();
+
+            ChartArea chartArea = new ChartArea("SalesArea");
+            chart.ChartAreas.Add(chartArea);
+
+            chartArea.BackColor = Color.White;
+            chartArea.AxisX.MajorGrid.LineColor = Color.Gainsboro;
+            chartArea.AxisY.MajorGrid.LineColor = Color.Gainsboro;
+            chartArea.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
+            chartArea.AxisX.LineColor = Color.Transparent;
+            chartArea.AxisY.LineColor = Color.Transparent;
+            chartArea.AxisX.LabelStyle.Font = new Font("Segoe UI", 10F);
+            chartArea.AxisY.LabelStyle.Font = new Font("Segoe UI", 10F);
+            chartArea.AxisX.MajorTickMark.Enabled = false;
+            chartArea.AxisY.MajorTickMark.Enabled = false;
+            chartArea.AxisY.IsStartedFromZero = true;
+
+            chartArea.AxisX.Interval = 1;
+
+            Series series = new Series("SalesData");
+
+            series.IsXValueIndexed = true;
+
+            chart.Series.Add(series);
+            chart.Series["SalesData"].ChartType = SeriesChartType.SplineArea;
+
+            series.Color = Color.FromArgb(150, 237, 213, 159);
+            series.BorderColor = Color.FromArgb(217, 177, 108);
+            series.BorderWidth = 3;
+        }
+
+        private void LoadMonthlySalesChart()
+        {
+            try
+            {
+                var series = salesChart.Series["SalesData"];
+                series.Points.Clear();
+
+                string query = @"
+                    SELECT 
+                        MONTH(TransactionDate) as SalesMonth, 
+                        SUM(TotalAmount) as TotalSales
+                    FROM Sales
+                    WHERE YEAR(TransactionDate) = YEAR(GETDATE())
+                    GROUP BY MONTH(TransactionDate)
+                    ORDER BY SalesMonth ASC";
+
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        conn.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        var monthlySales = new Dictionary<int, decimal>();
+                        for (int i = 1; i <= 12; i++)
+                        {
+                            monthlySales[i] = 0;
+                        }
+
+                        while (reader.Read())
+                        {
+                            int month = Convert.ToInt32(reader["SalesMonth"]);
+                            decimal total = Convert.ToDecimal(reader["TotalSales"]);
+                            monthlySales[month] = total;
+                        }
+
+                        foreach (var monthData in monthlySales)
+                        {
+                            string monthName = new DateTime(DateTime.Now.Year, monthData.Key, 1).ToString("MMM");
+
+                            series.Points.AddXY(monthName, monthData.Value);
+                        }
+
+                        decimal maxSales = monthlySales.Values.Max();
+                        if (maxSales == 0) maxSales = 100;
+                        salesChart.ChartAreas["SalesArea"].AxisY.Maximum = (double)maxSales * 1.2;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to load sales chart data: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void LowStockWarning_Click(object sender, EventArgs e)
         {
@@ -204,6 +375,20 @@ namespace STOCKNDRIVE
             Inventory_Module inventory = new Inventory_Module(true);
             inventory.Show();
             this.Close();
+        }
+
+        private void btnWeekly_Click(object sender, EventArgs e)
+        {
+            LoadWeeklySalesChart();
+            btnWeekly.Font = activeFont;
+            btnMonthly.Font = inactiveFont;
+        }
+
+        private void btnMonthly_Click(object sender, EventArgs e)
+        {
+            LoadMonthlySalesChart();
+            btnMonthly.Font = activeFont;
+            btnWeekly.Font = inactiveFont;
         }
     }
 

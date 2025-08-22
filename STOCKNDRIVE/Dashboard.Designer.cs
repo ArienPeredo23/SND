@@ -30,6 +30,9 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             leftNavPanel = new Panel();
             settingsPanel = new Panel();
             btnaudittrail = new Button();
@@ -56,9 +59,13 @@
             panel4 = new Panel();
             lblwelcome = new Label();
             panel2 = new Panel();
+            btnWeekly = new Button();
+            btnMonthly = new Button();
+            salesChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             label7 = new Label();
             LowStockWarning = new Button();
             Outofstockwarning = new Button();
+            sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             leftNavPanel.SuspendLayout();
             settingsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -67,6 +74,7 @@
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)salesChart).BeginInit();
             SuspendLayout();
             // 
             // leftNavPanel
@@ -394,11 +402,62 @@
             // panel2
             // 
             panel2.BackColor = Color.White;
+            panel2.Controls.Add(btnWeekly);
+            panel2.Controls.Add(btnMonthly);
+            panel2.Controls.Add(salesChart);
             panel2.Controls.Add(label7);
             panel2.Location = new Point(280, 107);
             panel2.Name = "panel2";
             panel2.Size = new Size(813, 450);
             panel2.TabIndex = 3;
+            // 
+            // btnWeekly
+            // 
+            btnWeekly.BackColor = Color.Transparent;
+            btnWeekly.BackgroundImageLayout = ImageLayout.Stretch;
+            btnWeekly.FlatAppearance.BorderSize = 0;
+            btnWeekly.FlatStyle = FlatStyle.Flat;
+            btnWeekly.ForeColor = Color.White;
+            btnWeekly.Image = (Image)resources.GetObject("btnWeekly.Image");
+            btnWeekly.Location = new Point(649, 23);
+            btnWeekly.Name = "btnWeekly";
+            btnWeekly.Size = new Size(71, 32);
+            btnWeekly.TabIndex = 12;
+            btnWeekly.Text = "Weekly";
+            btnWeekly.UseVisualStyleBackColor = false;
+            btnWeekly.Click += btnWeekly_Click;
+            // 
+            // btnMonthly
+            // 
+            btnMonthly.BackColor = Color.Transparent;
+            btnMonthly.BackgroundImageLayout = ImageLayout.Stretch;
+            btnMonthly.FlatAppearance.BorderSize = 0;
+            btnMonthly.FlatStyle = FlatStyle.Flat;
+            btnMonthly.ForeColor = Color.FromArgb(0, 0, 0, 1);
+            btnMonthly.Image = (Image)resources.GetObject("btnMonthly.Image");
+            btnMonthly.Location = new Point(717, 23);
+            btnMonthly.Name = "btnMonthly";
+            btnMonthly.Size = new Size(71, 32);
+            btnMonthly.TabIndex = 11;
+            btnMonthly.Text = "Monthly";
+            btnMonthly.UseVisualStyleBackColor = false;
+            btnMonthly.Click += btnMonthly_Click;
+            // 
+            // salesChart
+            // 
+            chartArea1.Name = "ChartArea1";
+            salesChart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            salesChart.Legends.Add(legend1);
+            salesChart.Location = new Point(20, 80);
+            salesChart.Name = "salesChart";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            salesChart.Series.Add(series1);
+            salesChart.Size = new Size(768, 355);
+            salesChart.TabIndex = 10;
+            salesChart.Text = "chart1";
             // 
             // label7
             // 
@@ -451,6 +510,11 @@
             Outofstockwarning.Visible = false;
             Outofstockwarning.Click += Outofstockwarning_Click;
             // 
+            // sqlCommand1
+            // 
+            sqlCommand1.CommandTimeout = 30;
+            sqlCommand1.EnableOptimizedParameterBinding = false;
+            // 
             // Dashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -484,6 +548,7 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)salesChart).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -519,5 +584,9 @@
         private Label label7;
         private Button LowStockWarning;
         private Button Outofstockwarning;
+        private System.Windows.Forms.DataVisualization.Charting.Chart salesChart;
+        private Microsoft.Data.SqlClient.SqlCommand sqlCommand1;
+        private Button btnWeekly;
+        private Button btnMonthly;
     }
 }
