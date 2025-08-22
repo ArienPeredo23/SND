@@ -171,6 +171,8 @@ namespace STOCKNDRIVE
             LoadProductCards();
             UpdatePaymentSummary();
             lblclear.Visible = false;
+            searchtb.Text = "Search for Product Name";
+            searchtb.ForeColor = Color.Gray;
 
             if (UserSession.UserId >= 2)
             {
@@ -325,15 +327,32 @@ namespace STOCKNDRIVE
 
         private void searchtb_TextChanged(object sender, EventArgs e)
         {
-            lblclear.Visible = !string.IsNullOrEmpty(searchtb.Text);
-            string searchText = searchtb.Text.Trim().ToLower();
+            lblclear.Visible = !string.IsNullOrEmpty(searchtb.Text) && searchtb.Text != "Search for Product Name";
 
-            foreach (Control control in panel2.Controls)
+            // --- THIS IS THE FIX ---
+            // Only filter if the text is not the placeholder and the data is loaded
+            if (searchtb.Text != "Search for Product Name" && panel2.Controls.Count > 0)
             {
-                if (control is ProductCard card)
+                string searchText = searchtb.Text.Trim().ToLower();
+
+                foreach (Control control in panel2.Controls)
                 {
-                    string productName = card.ProductName.ToLower();
-                    card.Visible = productName.Contains(searchText);
+                    if (control is ProductCard card)
+                    {
+                        string productName = card.ProductName.ToLower();
+                        card.Visible = productName.Contains(searchText);
+                    }
+                }
+            }
+            // If the text IS the placeholder, ensure all cards are visible
+            else if (searchtb.Text == "Search for Product Name")
+            {
+                foreach (Control control in panel2.Controls)
+                {
+                    if (control is ProductCard card)
+                    {
+                        card.Visible = true;
+                    }
                 }
             }
         }
@@ -466,6 +485,24 @@ namespace STOCKNDRIVE
                 {
                     this.Close();
                 }
+            }
+        }
+
+        private void searchtb_Enter(object sender, EventArgs e)
+        {
+            if (searchtb.Text == "Search for Product Name")
+            {
+                searchtb.Text = "";
+                searchtb.ForeColor = Color.White; // Or your normal text color
+            }
+        }
+
+        private void searchtb_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(searchtb.Text))
+            {
+                searchtb.Text = "Search for Product Name";
+                searchtb.ForeColor = Color.Gray;
             }
         }
     }

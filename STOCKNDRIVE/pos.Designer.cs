@@ -584,11 +584,14 @@
             // 
             // searchtb
             // 
-            searchtb.Location = new Point(880, 106);
+            searchtb.Font = new Font("Segoe UI", 13F);
+            searchtb.Location = new Point(767, 106);
             searchtb.Name = "searchtb";
-            searchtb.Size = new Size(282, 23);
+            searchtb.Size = new Size(396, 31);
             searchtb.TabIndex = 12;
             searchtb.TextChanged += searchtb_TextChanged;
+            searchtb.Enter += searchtb_Enter;
+            searchtb.Leave += searchtb_Leave;
             // 
             // btnFilter
             // 

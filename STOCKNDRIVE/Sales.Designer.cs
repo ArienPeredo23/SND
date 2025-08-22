@@ -30,8 +30,8 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Sales));
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             btnSales = new Button();
             btnInventory = new Button();
             btnPOS = new Button();
@@ -47,17 +47,22 @@
             panel4 = new Panel();
             reportPanel = new Panel();
             dgvSalesReport = new DataGridView();
-            txtSearch = new TextBox();
+            NameSearchtb = new TextBox();
             btnFilter = new Button();
-            btnExport = new Button();
             label2 = new Label();
+            btnExport = new Button();
             lblwelcome = new Label();
             slideTimer = new System.Windows.Forms.Timer(components);
+            panelDateFilter = new Panel();
+            lblDateRange = new Label();
+            btnClearFilter = new Button();
+            monthCalendar1 = new MonthCalendar();
             leftNavPanel.SuspendLayout();
             settingsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             reportPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSalesReport).BeginInit();
+            panelDateFilter.SuspendLayout();
             SuspendLayout();
             // 
             // btnSales
@@ -266,13 +271,12 @@
             // 
             reportPanel.BackColor = Color.White;
             reportPanel.Controls.Add(dgvSalesReport);
-            reportPanel.Controls.Add(txtSearch);
+            reportPanel.Controls.Add(NameSearchtb);
             reportPanel.Controls.Add(btnFilter);
-            reportPanel.Controls.Add(btnExport);
             reportPanel.Controls.Add(label2);
             reportPanel.Location = new Point(260, 98);
             reportPanel.Name = "reportPanel";
-            reportPanel.Size = new Size(1550, 793);
+            reportPanel.Size = new Size(1255, 793);
             reportPanel.TabIndex = 9;
             // 
             // dgvSalesReport
@@ -282,36 +286,40 @@
             dgvSalesReport.BackgroundColor = Color.White;
             dgvSalesReport.BorderStyle = BorderStyle.None;
             dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = Color.White;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle5.ForeColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle5.SelectionBackColor = Color.White;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle3.SelectionBackColor = Color.White;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvSalesReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle4;
             dgvSalesReport.GridColor = SystemColors.ButtonFace;
             dgvSalesReport.Location = new Point(25, 80);
             dgvSalesReport.Name = "dgvSalesReport";
             dgvSalesReport.RowHeadersVisible = false;
-            dgvSalesReport.Size = new Size(925, 485);
+            dgvSalesReport.Size = new Size(1206, 485);
             dgvSalesReport.TabIndex = 4;
             // 
-            // txtSearch
+            // NameSearchtb
             // 
-            txtSearch.Location = new Point(507, 23);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(250, 23);
-            txtSearch.TabIndex = 3;
+            NameSearchtb.Font = new Font("Segoe UI", 12F);
+            NameSearchtb.Location = new Point(765, 36);
+            NameSearchtb.Name = "NameSearchtb";
+            NameSearchtb.Size = new Size(356, 29);
+            NameSearchtb.TabIndex = 3;
+            NameSearchtb.TextChanged += NameSearchtb_TextChanged;
+            NameSearchtb.Enter += NameSearchtb_Enter;
+            NameSearchtb.Leave += NameSearchtb_Leave;
             // 
             // btnFilter
             // 
@@ -319,13 +327,24 @@
             btnFilter.FlatStyle = FlatStyle.Flat;
             btnFilter.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnFilter.Image = (Image)resources.GetObject("btnFilter.Image");
-            btnFilter.Location = new Point(774, 20);
+            btnFilter.Location = new Point(1127, 36);
             btnFilter.Name = "btnFilter";
-            btnFilter.Size = new Size(70, 30);
+            btnFilter.Size = new Size(104, 30);
             btnFilter.TabIndex = 2;
-            btnFilter.Text = "Filter";
+            btnFilter.Text = "Date Filter";
             btnFilter.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnFilter.UseVisualStyleBackColor = true;
+            btnFilter.Click += btnFilter_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            label2.Location = new Point(25, 36);
+            label2.Name = "label2";
+            label2.Size = new Size(162, 32);
+            label2.TabIndex = 0;
+            label2.Text = "Sales History";
             // 
             // btnExport
             // 
@@ -334,22 +353,12 @@
             btnExport.FlatStyle = FlatStyle.Flat;
             btnExport.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnExport.ForeColor = Color.White;
-            btnExport.Location = new Point(858, 20);
+            btnExport.Location = new Point(1745, 860);
             btnExport.Name = "btnExport";
             btnExport.Size = new Size(90, 30);
             btnExport.TabIndex = 1;
             btnExport.Text = "Export";
             btnExport.UseVisualStyleBackColor = false;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(25, 20);
-            label2.Name = "label2";
-            label2.Size = new Size(135, 30);
-            label2.TabIndex = 0;
-            label2.Text = "Sales Report";
             // 
             // lblwelcome
             // 
@@ -366,14 +375,61 @@
             // 
             slideTimer.Interval = 15;
             // 
+            // panelDateFilter
+            // 
+            panelDateFilter.Controls.Add(lblDateRange);
+            panelDateFilter.Controls.Add(btnClearFilter);
+            panelDateFilter.Controls.Add(monthCalendar1);
+            panelDateFilter.Location = new Point(1531, 98);
+            panelDateFilter.Name = "panelDateFilter";
+            panelDateFilter.Size = new Size(307, 396);
+            panelDateFilter.TabIndex = 11;
+            panelDateFilter.Visible = false;
+            // 
+            // lblDateRange
+            // 
+            lblDateRange.AutoSize = true;
+            lblDateRange.Font = new Font("Segoe UI", 14F);
+            lblDateRange.ForeColor = Color.Yellow;
+            lblDateRange.Location = new Point(74, 8);
+            lblDateRange.Name = "lblDateRange";
+            lblDateRange.Size = new Size(161, 25);
+            lblDateRange.TabIndex = 4;
+            lblDateRange.Text = "Select a start date";
+            // 
+            // btnClearFilter
+            // 
+            btnClearFilter.BackColor = Color.Gray;
+            btnClearFilter.FlatAppearance.BorderSize = 0;
+            btnClearFilter.FlatStyle = FlatStyle.Flat;
+            btnClearFilter.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnClearFilter.ForeColor = Color.White;
+            btnClearFilter.Location = new Point(214, 363);
+            btnClearFilter.Name = "btnClearFilter";
+            btnClearFilter.Size = new Size(90, 30);
+            btnClearFilter.TabIndex = 3;
+            btnClearFilter.Text = "Clear";
+            btnClearFilter.UseVisualStyleBackColor = false;
+            btnClearFilter.Click += btnClearFilter_Click;
+            // 
+            // monthCalendar1
+            // 
+            monthCalendar1.CalendarDimensions = new Size(1, 2);
+            monthCalendar1.Location = new Point(41, 42);
+            monthCalendar1.Name = "monthCalendar1";
+            monthCalendar1.TabIndex = 2;
+            monthCalendar1.DateSelected += monthCalendar1_DateSelected;
+            // 
             // Sales
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 22, 23);
             ClientSize = new Size(1850, 920);
+            Controls.Add(panelDateFilter);
             Controls.Add(lblwelcome);
             Controls.Add(reportPanel);
+            Controls.Add(btnExport);
             Controls.Add(panel4);
             Controls.Add(label1);
             Controls.Add(leftNavPanel);
@@ -388,6 +444,8 @@
             reportPanel.ResumeLayout(false);
             reportPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSalesReport).EndInit();
+            panelDateFilter.ResumeLayout(false);
+            panelDateFilter.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -405,7 +463,7 @@
         private Panel reportPanel;
         private Button btnExport;
         private Label label2;
-        private TextBox txtSearch;
+        private TextBox NameSearchtb;
         private Button btnFilter;
         private DataGridView dgvSalesReport;
         private PictureBox pictureBox1;
@@ -415,5 +473,9 @@
         private Button btnusermanagement;
         private Button btnlogout;
         private System.Windows.Forms.Timer slideTimer;
+        private Panel panelDateFilter;
+        private Label lblDateRange;
+        private Button btnClearFilter;
+        private MonthCalendar monthCalendar1;
     }
 }

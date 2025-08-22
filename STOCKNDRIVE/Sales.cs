@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
 
 namespace STOCKNDRIVE
 {
@@ -15,6 +16,10 @@ namespace STOCKNDRIVE
         private bool isPanelExpanded = false;
         private int settingsPanelStartHeight;
         private int settingsPanelTargetHeight;
+
+        private DataTable salesDataTable;
+        private DateTime? startDate = null;
+        private DateTime? endDate = null;
         public Sales()
         {
             InitializeComponent();
@@ -100,6 +105,11 @@ namespace STOCKNDRIVE
 
         private void Sales_Load(object sender, EventArgs e)
         {
+            LoadSalesData();
+            StyleSalesGrid();
+            NameSearchtb.Text = "Search for Customer Name";
+            NameSearchtb.ForeColor = Color.Gray;
+
             if (UserSession.UserId >= 2)
             {
                 Point dashboardLocation = btnDashboard.Location;
@@ -113,6 +123,116 @@ namespace STOCKNDRIVE
                 btnusermanagement.Visible = false;
                 btnaudittrail.Visible = false;
             }
+        }
+
+        private void LoadSalesData()
+        {
+            try
+            {
+                string query = @"
+            SELECT 
+                s.SaleID, 
+                s.TransactionDate, 
+                'Processed by ' + u.Fullname AS ProcessedBy, 
+                s.Subtotal, 
+                s.Discount, 
+                s.DiscountDescription, 
+                s.TotalAmount, 
+                s.AmountPaid, 
+                s.ChangeGiven, 
+                s.CustomerName,
+                s.NoteText -- Add this line
+            FROM Sales s
+            LEFT JOIN [user] u ON s.UserID = u.UserID
+            ORDER BY s.TransactionDate DESC";
+
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                    this.salesDataTable = new DataTable();
+                    adapter.Fill(this.salesDataTable);
+
+                    this.salesDataTable.Columns.Add("FormattedSaleID", typeof(string));
+
+                    foreach (DataRow row in this.salesDataTable.Rows)
+                    {
+                        long originalSaleId = Convert.ToInt64(row["SaleID"]);
+                        row["FormattedSaleID"] = originalSaleId.ToString("D6");
+                    }
+
+                    dgvSalesReport.DataSource = this.salesDataTable;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to load sales report data: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void StyleSalesGrid()
+        {
+            dgvSalesReport.RowTemplate.Height = 35;
+            dgvSalesReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvSalesReport.ColumnHeadersHeight = 50;
+            dgvSalesReport.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgvSalesReport.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgvSalesReport.BackgroundColor = Color.White;
+            dgvSalesReport.BorderStyle = BorderStyle.None;
+            dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            dgvSalesReport.GridColor = Color.LightGray;
+
+            dgvSalesReport.DefaultCellStyle.Font = new Font("Segoe UI", 12F, GraphicsUnit.Pixel);
+            dgvSalesReport.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            dgvSalesReport.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            dgvSalesReport.ReadOnly = true;
+            dgvSalesReport.AllowUserToAddRows = false;
+            dgvSalesReport.AllowUserToDeleteRows = false;
+            dgvSalesReport.AllowUserToOrderColumns = false;
+            dgvSalesReport.AllowUserToResizeColumns = true;
+            dgvSalesReport.AllowUserToResizeRows = false;
+            dgvSalesReport.RowHeadersVisible = false;
+            dgvSalesReport.MultiSelect = false;
+            dgvSalesReport.EnableHeadersVisualStyles = false;
+
+            foreach (DataGridViewColumn column in dgvSalesReport.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
+
+            dgvSalesReport.DefaultCellStyle.BackColor = Color.White;
+            dgvSalesReport.DefaultCellStyle.ForeColor = Color.Black;
+            dgvSalesReport.DefaultCellStyle.SelectionBackColor = Color.White;
+            dgvSalesReport.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+
+            dgvSalesReport.Columns["SaleID"].Visible = false;
+            dgvSalesReport.Columns["FormattedSaleID"].HeaderText = "Sale ID";
+            dgvSalesReport.Columns["TransactionDate"].HeaderText = "Transaction";
+            dgvSalesReport.Columns["ProcessedBy"].HeaderText = "Processed By";
+            dgvSalesReport.Columns["Subtotal"].HeaderText = "Subtotal";
+            dgvSalesReport.Columns["Discount"].HeaderText = "Discount";
+            dgvSalesReport.Columns["DiscountDescription"].HeaderText = "Discount";
+            dgvSalesReport.Columns["TotalAmount"].HeaderText = "Total Amount";
+            dgvSalesReport.Columns["AmountPaid"].HeaderText = "Amount Paid";
+            dgvSalesReport.Columns["ChangeGiven"].HeaderText = "Change";
+            dgvSalesReport.Columns["CustomerName"].HeaderText = "Customer";
+            dgvSalesReport.Columns["NoteText"].HeaderText = "Note";
+
+
+            dgvSalesReport.Columns["TransactionDate"].DefaultCellStyle.Format = "MMMM dd, yyyy";
+            dgvSalesReport.Columns["Subtotal"].DefaultCellStyle.Format = "N2";
+            dgvSalesReport.Columns["Discount"].DefaultCellStyle.Format = "N2";
+            dgvSalesReport.Columns["TotalAmount"].DefaultCellStyle.Format = "N2";
+            dgvSalesReport.Columns["AmountPaid"].DefaultCellStyle.Format = "N2";
+            dgvSalesReport.Columns["ChangeGiven"].DefaultCellStyle.Format = "N2";
+
+
+            dgvSalesReport.Columns["FormattedSaleID"].DisplayIndex = 0;
+            dgvSalesReport.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
@@ -148,6 +268,92 @@ namespace STOCKNDRIVE
                 {
                     this.Close();
                 }
+            }
+        }
+
+        private void monthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            if (startDate == null)
+            {
+                startDate = e.Start;
+                endDate = null;
+                lblDateRange.Text = "Select an end date...";
+                monthCalendar1.SelectionRange = new SelectionRange(startDate.Value, startDate.Value);
+            }
+            else
+            {
+                endDate = e.Start;
+                if (endDate < startDate)
+                {
+                    var temp = startDate;
+                    startDate = endDate;
+                    endDate = temp;
+                }
+
+                monthCalendar1.SelectionRange = new SelectionRange(startDate.Value, endDate.Value);
+
+                string filterExpression = $"TransactionDate >= #{startDate.Value:MM/dd/yyyy}# AND TransactionDate < #{endDate.Value.AddDays(1):MM/dd/yyyy}#";
+                this.salesDataTable.DefaultView.RowFilter = filterExpression;
+
+                lblDateRange.Text = $"Range: {startDate:d} - {endDate:d}";
+                startDate = null;
+                endDate = null;
+
+                Task.Delay(500).ContinueWith(t => this.Invoke((MethodInvoker)delegate
+                {
+                    panelDateFilter.Visible = false;
+                }));
+            }
+        }
+
+        private void btnClearFilter_Click(object sender, EventArgs e)
+        {
+            this.salesDataTable.DefaultView.RowFilter = string.Empty;
+            startDate = null;
+            endDate = null;
+            lblDateRange.Text = "Select a start date...";
+            monthCalendar1.SelectionRange = null;
+            panelDateFilter.Visible = false;
+        }
+
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            panelDateFilter.Visible = !panelDateFilter.Visible;
+            startDate = null;
+            endDate = null;
+            lblDateRange.Text = "Select a start date...";
+        }
+
+        private void NameSearchtb_Enter(object sender, EventArgs e)
+        {
+            if (NameSearchtb.Text == "Search for Customer Name")
+            {
+                NameSearchtb.Text = "";
+                NameSearchtb.ForeColor = Color.Black;
+            }
+        }
+
+        private void NameSearchtb_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(NameSearchtb.Text))
+            {
+                NameSearchtb.Text = "Search for Customer Name";
+                NameSearchtb.ForeColor = Color.Gray;
+            }
+        }
+
+        private void NameSearchtb_TextChanged(object sender, EventArgs e)
+        {
+            if (salesDataTable == null) return;
+
+            if (NameSearchtb.Text != "Search for Customer Name")
+            {
+                string searchText = NameSearchtb.Text.Trim().Replace("'", "''");
+                salesDataTable.DefaultView.RowFilter = $"CustomerName LIKE '%{searchText}%'";
+            }
+            else if (salesDataTable.DefaultView.RowFilter != string.Empty)
+            {
+                salesDataTable.DefaultView.RowFilter = string.Empty;
             }
         }
     }

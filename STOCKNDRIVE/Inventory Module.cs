@@ -261,6 +261,7 @@ namespace STOCKNDRIVE
 
             inventoryGrid.Columns["Category"].Visible = false;
             inventoryGrid.Columns["ProductID"].Visible = false;
+            inventoryGrid.Columns["SortOrder"].Visible = false;
 
             inventoryGrid.Columns["ProductName"].HeaderText = "Product Name";
             inventoryGrid.Columns["QuantityInStock"].HeaderText = "Quantity";
