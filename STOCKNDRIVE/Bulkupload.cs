@@ -206,7 +206,16 @@ namespace STOCKNDRIVE
                         cmd.Parameters.AddWithValue("@NoteText", Convert.ToString(row.Cells["NoteText"].Value) ?? "");
 
                         byte[] imageData = row.Cells["ProductImage"].Tag as byte[];
-                        cmd.Parameters.AddWithValue("@ProductImage", imageData ?? (object)DBNull.Value);
+                        if (imageData != null)
+                        {
+                            cmd.Parameters.AddWithValue("@ProductImage", imageData);
+                        }
+                        else
+                        {
+                            SqlParameter imageParam = new SqlParameter("@ProductImage", SqlDbType.VarBinary, -1);
+                            imageParam.Value = DBNull.Value;
+                            cmd.Parameters.Add(imageParam);
+                        }
 
                         cmd.ExecuteNonQuery();
                         itemsAdded++;
@@ -219,7 +228,8 @@ namespace STOCKNDRIVE
                 transaction.Commit();
                 string bulkDetails = $"{UserSession.Fullname} performed a bulk upload, adding {itemsAdded} item(s).";
                 LogActivity(conn, null, "Bulk Upload", bulkDetails);
-                MessageBox.Show($"{itemsAdded} item(s) added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string successMessage = $"{itemsAdded} item(s) added successfully!";
+                new AutoClosingMessageBox(successMessage, "Success", 3000).ShowDialog();
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

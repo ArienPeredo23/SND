@@ -91,10 +91,20 @@ namespace STOCKNDRIVE
                             int userId = Convert.ToInt32(reader["UserId"]);
                             string fullname = reader["Fullname"].ToString();
 
-                            // --- ADDED LOGIC IS HERE ---
+                         
                             UserSession.SetCurrentUser(userId, fullname);
-                            LogActivity(userId, fullname); // Call the new logging method
-                                                           // --- END OF ADDED LOGIC ---
+                            LogActivity(userId, fullname);
+
+                            string successMessage = "";
+                            if (userId == 1)
+                            {
+                                successMessage = "Admin Login Authorized!";
+                            }
+                            else
+                            {
+                                successMessage = "Staff Login Authorized!";
+                            }
+                            new AutoClosingMessageBox(successMessage, "Success", 1500).ShowDialog();
 
                             if (userId == 1)
                             {

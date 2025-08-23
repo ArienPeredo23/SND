@@ -269,13 +269,14 @@ namespace STOCKNDRIVE
                 transaction.Commit();
                 string details = $"{UserSession.Fullname} processed a sale (ID: {saleId}) for customer '{tbname.Text}' with a total amount of {totalAmount:0.00}.";
                 LogActivity("Process Sale", details);
+                string successMessage = $"Transaction Complete!";
+                new AutoClosingMessageBox(successMessage, "Success", 1500).ShowDialog();
                 using (DigitalReceipt receiptForm = new DigitalReceipt(
                        saleId, _cartItems, tbname.Text, amountpaid.Value, decimal.Parse(lblchange.Text),
                        notetb.Text, _numberOfItems, _subtotal, _discount, _totalAmount))
                             {
                                 receiptForm.ShowDialog();
                             }
-
                             this.DialogResult = DialogResult.OK;
                             this.Close();
                         }

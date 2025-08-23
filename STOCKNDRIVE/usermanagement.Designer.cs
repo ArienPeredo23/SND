@@ -89,6 +89,7 @@
             button4.BackColor = Color.FromArgb(50, 50, 50);
             button4.BackgroundImage = (Image)resources.GetObject("button4.BackgroundImage");
             button4.BackgroundImageLayout = ImageLayout.Stretch;
+            button4.FlatAppearance.BorderSize = 0;
             button4.FlatStyle = FlatStyle.Flat;
             button4.ForeColor = SystemColors.Control;
             button4.Location = new Point(814, 12);

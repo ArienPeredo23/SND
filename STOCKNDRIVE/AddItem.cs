@@ -155,7 +155,8 @@ namespace STOCKNDRIVE
                         cmd.ExecuteNonQuery();
                         string details = $"{UserSession.Fullname} added a product ('{txtProductName.Text}') to the inventory.";
                         LogActivity("Add Product", details);
-                        MessageBox.Show("Item added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        string successMessage = $" Item Added successfully!";
+                        new AutoClosingMessageBox(successMessage, "Success", 1500).ShowDialog();
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                     }
@@ -224,7 +225,8 @@ namespace STOCKNDRIVE
                             cmd.Parameters.AddWithValue("@ProductID", this.currentProductId);
                             conn.Open();
                             cmd.ExecuteNonQuery();
-                            MessageBox.Show("Item deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            string successMessage = $" Item Deleted successfully!";
+                            new AutoClosingMessageBox(successMessage, "Success", 1500).ShowDialog();
                             this.DialogResult = DialogResult.OK;
                             this.Close();
                         }
@@ -375,7 +377,8 @@ namespace STOCKNDRIVE
                         cmd.ExecuteNonQuery();
                         string details = $"{UserSession.Fullname} updated a product ('{txtProductName.Text}') in the inventory.";
                         LogActivity("Update Product", details);
-                        MessageBox.Show("Item updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        string successMessage = $" Item Updated successfully!";
+                        new AutoClosingMessageBox(successMessage, "Success", 1500).ShowDialog();
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                     }
@@ -411,7 +414,8 @@ namespace STOCKNDRIVE
                             cmd.ExecuteNonQuery();
                             string details = $"{UserSession.Fullname} deleted a product ('{productNameForLog}') from the inventory.";
                             LogActivity("Delete Product", details);
-                            MessageBox.Show("Item deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            string successMessage = $" Item Deleted successfully!";
+                            new AutoClosingMessageBox(successMessage, "Success", 1500).ShowDialog();
                             this.DialogResult = DialogResult.OK;
                             this.Close();
                         }
