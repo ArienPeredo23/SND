@@ -30,8 +30,8 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Inventory_Module));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             btnSettings = new Button();
             btnSales = new Button();
             btnInventory = new Button();
@@ -69,6 +69,7 @@
             panel6 = new Panel();
             panel8 = new Panel();
             inventoryOverviewCard = new Panel();
+            label11 = new Label();
             lblClearSearch = new Label();
             btnFilter = new Button();
             inventoryGrid = new DataGridView();
@@ -78,6 +79,7 @@
             pictureBox1 = new PictureBox();
             lblwelcome = new Label();
             slideTimer = new System.Windows.Forms.Timer(components);
+            backupbtn = new Button();
             leftNavPanel.SuspendLayout();
             settingsPanel.SuspendLayout();
             totalItemsCard.SuspendLayout();
@@ -123,7 +125,7 @@
             btnSales.Name = "btnSales";
             btnSales.Size = new Size(180, 45);
             btnSales.TabIndex = 4;
-            btnSales.Text = " Sales";
+            btnSales.Text = " Sales history";
             btnSales.TextAlign = ContentAlignment.MiddleLeft;
             btnSales.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnSales.UseVisualStyleBackColor = true;
@@ -202,6 +204,7 @@
             // 
             // settingsPanel
             // 
+            settingsPanel.Controls.Add(backupbtn);
             settingsPanel.Controls.Add(btnaudittrail);
             settingsPanel.Controls.Add(btnusermanagement);
             settingsPanel.Controls.Add(btnlogout);
@@ -551,6 +554,7 @@
             // 
             inventoryOverviewCard.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             inventoryOverviewCard.BackColor = Color.White;
+            inventoryOverviewCard.Controls.Add(label11);
             inventoryOverviewCard.Controls.Add(lblClearSearch);
             inventoryOverviewCard.Controls.Add(btnFilter);
             inventoryOverviewCard.Controls.Add(inventoryGrid);
@@ -562,6 +566,17 @@
             inventoryOverviewCard.Name = "inventoryOverviewCard";
             inventoryOverviewCard.Size = new Size(1508, 605);
             inventoryOverviewCard.TabIndex = 13;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI Light", 14F);
+            label11.ForeColor = SystemColors.AppWorkspace;
+            label11.Location = new Point(793, 26);
+            label11.Name = "label11";
+            label11.Size = new Size(211, 25);
+            label11.TabIndex = 7;
+            label11.Text = "Search for Product Name";
             // 
             // lblClearSearch
             // 
@@ -598,23 +613,23 @@
             inventoryGrid.BackgroundColor = Color.White;
             inventoryGrid.BorderStyle = BorderStyle.None;
             inventoryGrid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle1.SelectionBackColor = Color.White;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            inventoryGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle3.SelectionBackColor = Color.White;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            inventoryGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             inventoryGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            inventoryGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            inventoryGrid.DefaultCellStyle = dataGridViewCellStyle4;
             inventoryGrid.Dock = DockStyle.Bottom;
             inventoryGrid.GridColor = SystemColors.ButtonFace;
             inventoryGrid.Location = new Point(0, 74);
@@ -683,6 +698,24 @@
             // slideTimer
             // 
             slideTimer.Interval = 15;
+            // 
+            // backupbtn
+            // 
+            backupbtn.BackColor = Color.FromArgb(30, 30, 30);
+            backupbtn.FlatAppearance.BorderSize = 0;
+            backupbtn.FlatStyle = FlatStyle.Flat;
+            backupbtn.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            backupbtn.ForeColor = Color.White;
+            backupbtn.Image = (Image)resources.GetObject("backupbtn.Image");
+            backupbtn.ImageAlign = ContentAlignment.MiddleLeft;
+            backupbtn.Location = new Point(18, 37);
+            backupbtn.Name = "backupbtn";
+            backupbtn.Size = new Size(163, 30);
+            backupbtn.TabIndex = 4;
+            backupbtn.Text = " Back up";
+            backupbtn.TextImageRelation = TextImageRelation.ImageBeforeText;
+            backupbtn.UseVisualStyleBackColor = false;
+            backupbtn.Click += backupbtn_Click;
             // 
             // Inventory_Module
             // 
@@ -779,5 +812,7 @@
         private Button btnusermanagement;
         private Button btnlogout;
         private System.Windows.Forms.Timer slideTimer;
+        private Label label11;
+        private Button backupbtn;
     }
 }

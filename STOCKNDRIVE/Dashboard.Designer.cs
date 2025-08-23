@@ -30,13 +30,14 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             leftNavPanel = new Panel();
             settingsPanel = new Panel();
+            backupbtn = new Button();
             btnaudittrail = new Button();
             btnusermanagement = new Button();
             btnlogout = new Button();
@@ -106,6 +107,7 @@
             // 
             // settingsPanel
             // 
+            settingsPanel.Controls.Add(backupbtn);
             settingsPanel.Controls.Add(btnaudittrail);
             settingsPanel.Controls.Add(btnusermanagement);
             settingsPanel.Controls.Add(btnlogout);
@@ -114,6 +116,24 @@
             settingsPanel.Size = new Size(198, 189);
             settingsPanel.TabIndex = 13;
             settingsPanel.Visible = false;
+            // 
+            // backupbtn
+            // 
+            backupbtn.BackColor = Color.FromArgb(30, 30, 30);
+            backupbtn.FlatAppearance.BorderSize = 0;
+            backupbtn.FlatStyle = FlatStyle.Flat;
+            backupbtn.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            backupbtn.ForeColor = Color.White;
+            backupbtn.Image = (Image)resources.GetObject("backupbtn.Image");
+            backupbtn.ImageAlign = ContentAlignment.MiddleLeft;
+            backupbtn.Location = new Point(18, 37);
+            backupbtn.Name = "backupbtn";
+            backupbtn.Size = new Size(163, 30);
+            backupbtn.TabIndex = 3;
+            backupbtn.Text = " Back up";
+            backupbtn.TextImageRelation = TextImageRelation.ImageBeforeText;
+            backupbtn.UseVisualStyleBackColor = false;
+            backupbtn.Click += backupbtn_Click;
             // 
             // btnaudittrail
             // 
@@ -199,7 +219,7 @@
             btnSales.Name = "btnSales";
             btnSales.Size = new Size(180, 45);
             btnSales.TabIndex = 4;
-            btnSales.Text = " Sales";
+            btnSales.Text = " Sales history";
             btnSales.TextAlign = ContentAlignment.MiddleLeft;
             btnSales.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnSales.UseVisualStyleBackColor = true;
@@ -454,23 +474,23 @@
             dgvSalesReport.BackgroundColor = Color.FromArgb(45, 45, 45);
             dgvSalesReport.BorderStyle = BorderStyle.None;
             dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle1.SelectionBackColor = Color.White;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle3.SelectionBackColor = Color.White;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvSalesReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle4;
             dgvSalesReport.GridColor = SystemColors.ButtonFace;
             dgvSalesReport.Location = new Point(27, 46);
             dgvSalesReport.Name = "dgvSalesReport";
@@ -577,16 +597,16 @@
             // 
             // salesChart
             // 
-            chartArea1.Name = "ChartArea1";
-            salesChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            salesChart.Legends.Add(legend1);
+            chartArea2.Name = "ChartArea1";
+            salesChart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            salesChart.Legends.Add(legend2);
             salesChart.Location = new Point(20, 80);
             salesChart.Name = "salesChart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            salesChart.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            salesChart.Series.Add(series2);
             salesChart.Size = new Size(834, 355);
             salesChart.TabIndex = 10;
             salesChart.Text = "chart1";
@@ -652,7 +672,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 22, 23);
-            ClientSize = new Size(1916, 920);
+            ClientSize = new Size(1850, 920);
             Controls.Add(Outofstockwarning);
             Controls.Add(LowStockWarning);
             Controls.Add(lblwelcome);
@@ -729,5 +749,6 @@
         private Button invbtn;
         private Label label8;
         private DataGridView dgvSalesReport;
+        private Button backupbtn;
     }
 }

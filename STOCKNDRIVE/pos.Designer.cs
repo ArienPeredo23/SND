@@ -71,6 +71,7 @@
             searchtb = new TextBox();
             btnFilter = new Button();
             slideTimer = new System.Windows.Forms.Timer(components);
+            backupbtn = new Button();
             leftNavPanel.SuspendLayout();
             settingsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -97,6 +98,7 @@
             // 
             // settingsPanel
             // 
+            settingsPanel.Controls.Add(backupbtn);
             settingsPanel.Controls.Add(btnaudittrail);
             settingsPanel.Controls.Add(btnusermanagement);
             settingsPanel.Controls.Add(btnlogout);
@@ -208,7 +210,7 @@
             btnSales.Name = "btnSales";
             btnSales.Size = new Size(180, 45);
             btnSales.TabIndex = 4;
-            btnSales.Text = " Sales";
+            btnSales.Text = " Sales history";
             btnSales.TextAlign = ContentAlignment.MiddleLeft;
             btnSales.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnSales.UseVisualStyleBackColor = true;
@@ -585,6 +587,7 @@
             // searchtb
             // 
             searchtb.Font = new Font("Segoe UI", 13F);
+            searchtb.ForeColor = Color.FromArgb(0, 0, 0, 2);
             searchtb.Location = new Point(767, 106);
             searchtb.Name = "searchtb";
             searchtb.Size = new Size(396, 31);
@@ -612,6 +615,24 @@
             // slideTimer
             // 
             slideTimer.Interval = 15;
+            // 
+            // backupbtn
+            // 
+            backupbtn.BackColor = Color.FromArgb(30, 30, 30);
+            backupbtn.FlatAppearance.BorderSize = 0;
+            backupbtn.FlatStyle = FlatStyle.Flat;
+            backupbtn.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            backupbtn.ForeColor = Color.White;
+            backupbtn.Image = (Image)resources.GetObject("backupbtn.Image");
+            backupbtn.ImageAlign = ContentAlignment.MiddleLeft;
+            backupbtn.Location = new Point(18, 37);
+            backupbtn.Name = "backupbtn";
+            backupbtn.Size = new Size(163, 30);
+            backupbtn.TabIndex = 4;
+            backupbtn.Text = " Back up";
+            backupbtn.TextImageRelation = TextImageRelation.ImageBeforeText;
+            backupbtn.UseVisualStyleBackColor = false;
+            backupbtn.Click += backupbtn_Click;
             // 
             // pos
             // 
@@ -684,5 +705,6 @@
         private Button btnusermanagement;
         private Button btnaudittrail;
         private Panel panel4;
+        private Button backupbtn;
     }
 }

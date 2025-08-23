@@ -172,7 +172,7 @@ namespace STOCKNDRIVE
             UpdatePaymentSummary();
             lblclear.Visible = false;
             searchtb.Text = "Search for Product Name";
-            searchtb.ForeColor = Color.Gray;
+            searchtb.ForeColor = Color.Black;
 
             if (UserSession.UserId >= 2)
             {
@@ -186,6 +186,7 @@ namespace STOCKNDRIVE
                 btnSales.Location = posLocation;
                 btnusermanagement.Visible = false;
                 btnaudittrail.Visible = false;
+                backupbtn.Visible = false;
             }
         }
 
@@ -329,8 +330,6 @@ namespace STOCKNDRIVE
         {
             lblclear.Visible = !string.IsNullOrEmpty(searchtb.Text) && searchtb.Text != "Search for Product Name";
 
-            // --- THIS IS THE FIX ---
-            // Only filter if the text is not the placeholder and the data is loaded
             if (searchtb.Text != "Search for Product Name" && panel2.Controls.Count > 0)
             {
                 string searchText = searchtb.Text.Trim().ToLower();
@@ -344,7 +343,6 @@ namespace STOCKNDRIVE
                     }
                 }
             }
-            // If the text IS the placeholder, ensure all cards are visible
             else if (searchtb.Text == "Search for Product Name")
             {
                 foreach (Control control in panel2.Controls)
@@ -493,7 +491,7 @@ namespace STOCKNDRIVE
             if (searchtb.Text == "Search for Product Name")
             {
                 searchtb.Text = "";
-                searchtb.ForeColor = Color.White; // Or your normal text color
+                searchtb.ForeColor = Color.Black; // Or your normal text color
             }
         }
 
@@ -503,6 +501,87 @@ namespace STOCKNDRIVE
             {
                 searchtb.Text = "Search for Product Name";
                 searchtb.ForeColor = Color.Gray;
+            }
+        }
+        private void LogSystemActivity(string actionType, string actionDetails)
+        {
+            try
+            {
+                string query = "INSERT INTO AuditTrail (UserID, ActionType, ActionDetails, Timestamp) VALUES (@UserID, @ActionType, @ActionDetails, @Timestamp)";
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserID", UserSession.UserId); // Log who initiated the backup
+                        cmd.Parameters.AddWithValue("@ActionType", actionType);
+                        cmd.Parameters.AddWithValue("@ActionDetails", actionDetails);
+                        cmd.Parameters.AddWithValue("@Timestamp", DateTime.Now);
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("System Audit Log Failed: " + ex.Message);
+            }
+        }
+
+        private void backupbtn_Click(object sender, EventArgs e)
+        {
+            // 1. Ask for confirmation from the user
+            DialogResult confirmResult = MessageBox.Show("Are you sure you want to back up the database?",
+                                                         "Confirm Backup",
+                                                         MessageBoxButtons.YesNo,
+                                                         MessageBoxIcon.Question);
+
+            if (confirmResult == DialogResult.No)
+            {
+                return;
+            }
+
+            // 2. Open a Save File Dialog to let the user choose the location and name
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "SQL Backup file (*.bak)|*.bak";
+            saveFileDialog.Title = "Save Database Backup";
+            saveFileDialog.FileName = $"stockndrive_{DateTime.Now:yyyyMMdd_HHmmss}.bak"; // Default file name
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string backupPath = saveFileDialog.FileName;
+
+                try
+                {
+                    // 3. Execute the database backup command
+                    // IMPORTANT: The SQL Server service account MUST have write permissions to the folder you choose.
+                    // This often fails if you try to save to "C:\Program Files" or other protected system locations.
+                    // Saving to "Documents" or a dedicated "Backups" folder on the C: drive is usually safest.
+                    string dbName = "stockndrive";
+                    string query = $"BACKUP DATABASE [{dbName}] TO DISK = @BackupPath";
+
+                    using (SqlConnection conn = DBConnection.GetConnection())
+                    {
+                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@BackupPath", backupPath);
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    // 4. Log the successful backup
+                    string details = $"{UserSession.Fullname} created a database backup at '{backupPath}'.";
+                    LogSystemActivity("Database Backup", details); // Assuming you have this method
+
+                    MessageBox.Show("Database backup completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Database backup failed.\n\n" +
+                                    "Please ensure the SQL Server service has write permissions to the selected folder.\n\n" +
+                                    "Error: " + ex.Message,
+                                    "Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

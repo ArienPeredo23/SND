@@ -38,9 +38,9 @@ namespace STOCKNDRIVE
         {
 
             settingsPanel.Location = new Point(btnSettings.Location.X, btnSettings.Location.Y - settingsPanel.Height);
-            settingsPanelTargetHeight = settingsPanel.Height; 
-            settingsPanel.Height = 0; 
-            slideTimer.Tick += SlideTimer_Tick; 
+            settingsPanelTargetHeight = settingsPanel.Height;
+            settingsPanel.Height = 0;
+            slideTimer.Tick += SlideTimer_Tick;
         }
 
         private void dgvSalesReport_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
@@ -83,14 +83,43 @@ namespace STOCKNDRIVE
         {
             try
             {
-                string query = "SELECT COUNT(*) FROM Products WHERE QuantityInStock <= 5";
+                List<string> lowStockProducts = new List<string>();
+                int lowStockCount = 0;
+
                 using (SqlConnection conn = DBConnection.GetConnection())
                 {
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    conn.Open();
+
+                    string productQuery = "SELECT ProductName FROM Products WHERE QuantityInStock > 0 AND QuantityInStock <= 5";
+                    using (SqlCommand cmd = new SqlCommand(productQuery, conn))
                     {
-                        conn.Open();
-                        int lowStockCount = (int)cmd.ExecuteScalar();
-                        LowStockWarning.Visible = (lowStockCount > 0);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                lowStockProducts.Add(reader["ProductName"].ToString());
+                            }
+                        }
+                    }
+
+                    lowStockCount = lowStockProducts.Count;
+                    LowStockWarning.Visible = (lowStockCount > 0);
+
+                    if (lowStockCount > 0)
+                    {
+                        string auditQuery = "SELECT COUNT(*) FROM AuditTrail WHERE ActionType = 'System Low Stock Alert' AND CAST(Timestamp AS DATE) = CAST(GETDATE() AS DATE)";
+                        int logCountToday;
+                        using (SqlCommand cmd = new SqlCommand(auditQuery, conn))
+                        {
+                            logCountToday = (int)cmd.ExecuteScalar();
+                        }
+
+                        if (logCountToday == 0)
+                        {
+                            string productNames = string.Join(", ", lowStockProducts);
+                            string details = $"System detected low stock for: {productNames}.";
+                            LogSystemActivity("System Low Stock Alert", details);
+                        }
                     }
                 }
             }
@@ -104,20 +133,74 @@ namespace STOCKNDRIVE
         {
             try
             {
-                string query = "SELECT COUNT(*) FROM Products WHERE QuantityInStock = 0";
+                List<string> outOfStockProducts = new List<string>();
+                int outOfStockCount = 0;
+
                 using (SqlConnection conn = DBConnection.GetConnection())
                 {
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    conn.Open();
+
+                    string productQuery = "SELECT ProductName FROM Products WHERE QuantityInStock = 0";
+                    using (SqlCommand cmd = new SqlCommand(productQuery, conn))
                     {
-                        conn.Open();
-                        int outOfStockCount = (int)cmd.ExecuteScalar();
-                        Outofstockwarning.Visible = (outOfStockCount > 0);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                outOfStockProducts.Add(reader["ProductName"].ToString());
+                            }
+                        }
+                    }
+
+                    outOfStockCount = outOfStockProducts.Count;
+                    Outofstockwarning.Visible = (outOfStockCount > 0);
+
+                    if (outOfStockCount > 0)
+                    {
+                        string auditQuery = "SELECT COUNT(*) FROM AuditTrail WHERE ActionType = 'System Out of Stock Alert' AND CAST(Timestamp AS DATE) = CAST(GETDATE() AS DATE)";
+                        int logCountToday;
+                        using (SqlCommand cmd = new SqlCommand(auditQuery, conn))
+                        {
+                            logCountToday = (int)cmd.ExecuteScalar();
+                        }
+
+                        if (logCountToday == 0)
+                        {
+                            string productNames = string.Join(", ", outOfStockProducts);
+                            string details = $"System detected out of stock for: {productNames}.";
+                            LogSystemActivity("System Out of Stock Alert", details);
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Failed to check for out of stock items: " + ex.Message);
+            }
+        }
+
+        private void LogSystemActivity(string actionType, string actionDetails)
+        {
+            try
+            {
+                string query = "INSERT INTO AuditTrail (UserID, ActionType, ActionDetails, Timestamp) VALUES (@UserID, @ActionType, @ActionDetails, @Timestamp)";
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        // Use DBNull.Value for system alerts as no specific user performed the action.
+                        cmd.Parameters.AddWithValue("@UserID", UserSession.UserId);
+                        cmd.Parameters.AddWithValue("@ActionType", actionType);
+                        cmd.Parameters.AddWithValue("@ActionDetails", actionDetails);
+                        cmd.Parameters.AddWithValue("@Timestamp", DateTime.Now);
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("System Audit Log Failed: " + ex.Message);
             }
         }
         private void SlideTimer_Tick(object sender, EventArgs e)
@@ -314,10 +397,6 @@ namespace STOCKNDRIVE
             {
                 var series = salesChart.Series["SalesData"];
                 series.Points.Clear();
-
-                // --- START OF CHANGES ---
-
-                // This query now only gets sales data that actually exists within the last 7 days.
                 string query = @"
             SELECT 
                 CAST(TransactionDate AS DATE) as SalesDate,
@@ -325,8 +404,6 @@ namespace STOCKNDRIVE
             FROM Sales
             WHERE TransactionDate >= DATEADD(day, -6, CAST(GETDATE() AS DATE))
             GROUP BY CAST(TransactionDate AS DATE)";
-
-                // 1. Create a dictionary to hold the results from the database.
                 var salesDataFromDb = new Dictionary<DateTime, decimal>();
 
                 using (SqlConnection conn = DBConnection.GetConnection())
@@ -344,15 +421,14 @@ namespace STOCKNDRIVE
                     }
                 }
 
-                // 2. Create the final, complete list of the last 7 days.
                 var completeWeeklyData = new Dictionary<DateTime, decimal>();
                 for (int i = 6; i >= 0; i--)
                 {
                     DateTime day = DateTime.Today.AddDays(-i);
-                    completeWeeklyData[day] = 0; // Initialize each day with 0 sales
+                    completeWeeklyData[day] = 0;
                 }
 
-                // 3. Populate the complete list with data from the database where it exists.
+
                 foreach (var dbData in salesDataFromDb)
                 {
                     if (completeWeeklyData.ContainsKey(dbData.Key))
@@ -361,15 +437,13 @@ namespace STOCKNDRIVE
                     }
                 }
 
-                // 4. Add the final, complete data to the chart.
                 foreach (var dayData in completeWeeklyData)
                 {
-                    series.Points.AddXY(dayData.Key.ToString("ddd"), dayData.Value); // "ddd" gives "Mon", "Tue", etc.
+                    series.Points.AddXY(dayData.Key.ToString("ddd"), dayData.Value);
                 }
                 decimal maxSales = completeWeeklyData.Values.Max();
-                if (maxSales == 0) maxSales = 100; // Set a default height if there are no sales
+                if (maxSales == 0) maxSales = 100;
                 salesChart.ChartAreas["SalesArea"].AxisY.Maximum = (double)maxSales * 1.2;
-                // --- END OF CHANGES ---
             }
             catch (Exception ex)
             {
@@ -667,7 +741,7 @@ namespace STOCKNDRIVE
 
         private void dgvSalesReport_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return; 
+            if (e.RowIndex < 0) return;
 
             long saleId = Convert.ToInt64(dgvSalesReport.Rows[e.RowIndex].Cells["SaleID"].Value);
             ShowReceiptForSale(saleId);
@@ -752,6 +826,64 @@ namespace STOCKNDRIVE
             catch (Exception ex)
             {
                 MessageBox.Show("Failed to retrieve full receipt details.\nError: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void backupbtn_Click(object sender, EventArgs e)
+        {
+            // 1. Ask for confirmation from the user
+            DialogResult confirmResult = MessageBox.Show("Are you sure you want to back up the database?",
+                                                         "Confirm Backup",
+                                                         MessageBoxButtons.YesNo,
+                                                         MessageBoxIcon.Question);
+
+            if (confirmResult == DialogResult.No)
+            {
+                return;
+            }
+
+            // 2. Open a Save File Dialog to let the user choose the location and name
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "SQL Backup file (*.bak)|*.bak";
+            saveFileDialog.Title = "Save Database Backup";
+            saveFileDialog.FileName = $"stockndrive_{DateTime.Now:yyyyMMdd_HHmmss}.bak"; // Default file name
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string backupPath = saveFileDialog.FileName;
+
+                try
+                {
+                    // 3. Execute the database backup command
+                    // IMPORTANT: The SQL Server service account MUST have write permissions to the folder you choose.
+                    // This often fails if you try to save to "C:\Program Files" or other protected system locations.
+                    // Saving to "Documents" or a dedicated "Backups" folder on the C: drive is usually safest.
+                    string dbName = "stockndrive";
+                    string query = $"BACKUP DATABASE [{dbName}] TO DISK = @BackupPath";
+
+                    using (SqlConnection conn = DBConnection.GetConnection())
+                    {
+                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@BackupPath", backupPath);
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    // 4. Log the successful backup
+                    string details = $"{UserSession.Fullname} created a database backup at '{backupPath}'.";
+                    LogSystemActivity("Database Backup", details); // Assuming you have this method
+
+                    MessageBox.Show("Database backup completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Database backup failed.\n\n" +
+                                    "Please ensure the SQL Server service has write permissions to the selected folder.\n\n" +
+                                    "Error: " + ex.Message,
+                                    "Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }
