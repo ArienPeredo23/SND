@@ -30,6 +30,8 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -46,19 +48,26 @@
             pictureBox1 = new PictureBox();
             label1 = new Label();
             revenueCard = new Panel();
+            Revenuelbl = new Label();
             label4 = new Label();
             label2 = new Label();
             ordersCard = new Panel();
+            posbtn = new Button();
+            totalsaletodaylbl = new Label();
             label5 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            invbtn = new Button();
+            bestsellingpanel = new TableLayoutPanel();
             label6 = new Label();
-            dataGridView1 = new DataGridView();
             panel3 = new Panel();
+            dgvSalesReport = new DataGridView();
+            label8 = new Label();
             slideTimer = new System.Windows.Forms.Timer(components);
             panel4 = new Panel();
             lblwelcome = new Label();
             panel2 = new Panel();
+            Salesbtn = new Button();
             btnWeekly = new Button();
             btnMonthly = new Button();
             salesChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -72,7 +81,8 @@
             revenueCard.SuspendLayout();
             ordersCard.SuspendLayout();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvSalesReport).BeginInit();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)salesChart).BeginInit();
             SuspendLayout();
@@ -274,19 +284,31 @@
             // revenueCard
             // 
             revenueCard.BackColor = Color.FromArgb(45, 45, 45);
+            revenueCard.Controls.Add(Revenuelbl);
             revenueCard.Controls.Add(label4);
             revenueCard.Controls.Add(label2);
-            revenueCard.Location = new Point(1110, 107);
+            revenueCard.Location = new Point(1174, 107);
             revenueCard.Name = "revenueCard";
-            revenueCard.Size = new Size(340, 230);
+            revenueCard.Size = new Size(310, 147);
             revenueCard.TabIndex = 2;
+            // 
+            // Revenuelbl
+            // 
+            Revenuelbl.AutoSize = true;
+            Revenuelbl.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
+            Revenuelbl.ForeColor = Color.White;
+            Revenuelbl.Location = new Point(11, 43);
+            Revenuelbl.Name = "Revenuelbl";
+            Revenuelbl.Size = new Size(33, 45);
+            Revenuelbl.TabIndex = 15;
+            Revenuelbl.Text = "-";
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 9.75F);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(11, 166);
+            label4.Location = new Point(11, 95);
             label4.Name = "label4";
             label4.Size = new Size(197, 34);
             label4.TabIndex = 7;
@@ -296,8 +318,8 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(11, 23);
+            label2.ForeColor = Color.FromArgb(204, 141, 26);
+            label2.Location = new Point(11, 9);
             label2.Name = "label2";
             label2.Size = new Size(203, 32);
             label2.TabIndex = 6;
@@ -306,19 +328,47 @@
             // ordersCard
             // 
             ordersCard.BackColor = Color.FromArgb(45, 45, 45);
+            ordersCard.Controls.Add(posbtn);
+            ordersCard.Controls.Add(totalsaletodaylbl);
             ordersCard.Controls.Add(label5);
             ordersCard.Controls.Add(label3);
-            ordersCard.Location = new Point(1470, 107);
+            ordersCard.Location = new Point(1500, 107);
             ordersCard.Name = "ordersCard";
-            ordersCard.Size = new Size(340, 230);
+            ordersCard.Size = new Size(310, 147);
             ordersCard.TabIndex = 3;
+            // 
+            // posbtn
+            // 
+            posbtn.BackColor = Color.Transparent;
+            posbtn.FlatAppearance.BorderSize = 0;
+            posbtn.FlatStyle = FlatStyle.Flat;
+            posbtn.Font = new Font("Segoe UI", 10F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            posbtn.ForeColor = Color.White;
+            posbtn.Location = new Point(202, 10);
+            posbtn.Name = "posbtn";
+            posbtn.Size = new Size(94, 28);
+            posbtn.TabIndex = 22;
+            posbtn.Text = "Go to POS..";
+            posbtn.UseVisualStyleBackColor = false;
+            posbtn.Click += posbtn_Click;
+            // 
+            // totalsaletodaylbl
+            // 
+            totalsaletodaylbl.AutoSize = true;
+            totalsaletodaylbl.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
+            totalsaletodaylbl.ForeColor = Color.White;
+            totalsaletodaylbl.Location = new Point(11, 43);
+            totalsaletodaylbl.Name = "totalsaletodaylbl";
+            totalsaletodaylbl.Size = new Size(33, 45);
+            totalsaletodaylbl.TabIndex = 16;
+            totalsaletodaylbl.Text = "-";
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 9.75F);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(11, 166);
+            label5.Location = new Point(11, 95);
             label5.Name = "label5";
             label5.Size = new Size(212, 34);
             label5.TabIndex = 8;
@@ -329,52 +379,116 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(11, 23);
+            label3.ForeColor = Color.FromArgb(204, 141, 26);
+            label3.Location = new Point(11, 9);
             label3.Name = "label3";
-            label3.Size = new Size(172, 32);
+            label3.Size = new Size(163, 32);
             label3.TabIndex = 7;
-            label3.Text = "Today's Order";
+            label3.Text = "Today's Sales";
             // 
             // panel1
             // 
-            panel1.BackColor = Color.White;
+            panel1.BackColor = Color.FromArgb(45, 45, 45);
+            panel1.Controls.Add(invbtn);
+            panel1.Controls.Add(bestsellingpanel);
             panel1.Controls.Add(label6);
-            panel1.Controls.Add(dataGridView1);
-            panel1.Location = new Point(1110, 353);
+            panel1.Location = new Point(1174, 264);
             panel1.Name = "panel1";
-            panel1.Size = new Size(700, 538);
+            panel1.Size = new Size(636, 627);
             panel1.TabIndex = 3;
+            // 
+            // invbtn
+            // 
+            invbtn.BackColor = Color.Transparent;
+            invbtn.FlatAppearance.BorderSize = 0;
+            invbtn.FlatStyle = FlatStyle.Flat;
+            invbtn.Font = new Font("Segoe UI", 10F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            invbtn.ForeColor = Color.White;
+            invbtn.Location = new Point(482, 12);
+            invbtn.Name = "invbtn";
+            invbtn.Size = new Size(140, 28);
+            invbtn.TabIndex = 23;
+            invbtn.Text = "Go to Inventory..";
+            invbtn.UseVisualStyleBackColor = false;
+            invbtn.Click += invbtn_Click;
+            // 
+            // bestsellingpanel
+            // 
+            bestsellingpanel.BackColor = Color.FromArgb(45, 45, 45);
+            bestsellingpanel.ColumnCount = 2;
+            bestsellingpanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            bestsellingpanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            bestsellingpanel.Location = new Point(28, 46);
+            bestsellingpanel.Name = "bestsellingpanel";
+            bestsellingpanel.RowCount = 2;
+            bestsellingpanel.RowStyles.Add(new RowStyle(SizeType.Percent, 45.59387F));
+            bestsellingpanel.RowStyles.Add(new RowStyle(SizeType.Percent, 54.40613F));
+            bestsellingpanel.Size = new Size(577, 578);
+            bestsellingpanel.TabIndex = 9;
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label6.ForeColor = SystemColors.ControlText;
-            label6.Location = new Point(11, 26);
+            label6.ForeColor = Color.FromArgb(204, 141, 26);
+            label6.Location = new Point(9, 8);
             label6.Name = "label6";
             label6.Size = new Size(246, 32);
             label6.TabIndex = 8;
             label6.Text = "Best-Selling Product";
             // 
-            // dataGridView1
-            // 
-            dataGridView1.BackgroundColor = Color.White;
-            dataGridView1.BorderStyle = BorderStyle.None;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.Location = new Point(3, 80);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(675, 458);
-            dataGridView1.TabIndex = 0;
-            // 
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(45, 45, 45);
-            panel3.Location = new Point(280, 574);
+            panel3.Controls.Add(dgvSalesReport);
+            panel3.Controls.Add(label8);
+            panel3.Location = new Point(280, 575);
             panel3.Name = "panel3";
-            panel3.Size = new Size(813, 317);
+            panel3.Size = new Size(879, 316);
             panel3.TabIndex = 4;
+            // 
+            // dgvSalesReport
+            // 
+            dgvSalesReport.AllowUserToAddRows = false;
+            dgvSalesReport.AllowUserToDeleteRows = false;
+            dgvSalesReport.BackgroundColor = Color.FromArgb(45, 45, 45);
+            dgvSalesReport.BorderStyle = BorderStyle.None;
+            dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle1.SelectionBackColor = Color.White;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvSalesReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle2;
+            dgvSalesReport.GridColor = SystemColors.ButtonFace;
+            dgvSalesReport.Location = new Point(27, 46);
+            dgvSalesReport.Name = "dgvSalesReport";
+            dgvSalesReport.RowHeadersVisible = false;
+            dgvSalesReport.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvSalesReport.Size = new Size(827, 267);
+            dgvSalesReport.TabIndex = 9;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            label8.ForeColor = Color.FromArgb(204, 141, 26);
+            label8.Location = new Point(20, 11);
+            label8.Name = "label8";
+            label8.Size = new Size(241, 32);
+            label8.TabIndex = 8;
+            label8.Text = "Recent Transactions";
             // 
             // slideTimer
             // 
@@ -402,14 +516,31 @@
             // panel2
             // 
             panel2.BackColor = Color.White;
+            panel2.Controls.Add(Salesbtn);
             panel2.Controls.Add(btnWeekly);
             panel2.Controls.Add(btnMonthly);
             panel2.Controls.Add(salesChart);
             panel2.Controls.Add(label7);
             panel2.Location = new Point(280, 107);
             panel2.Name = "panel2";
-            panel2.Size = new Size(813, 450);
+            panel2.Size = new Size(879, 450);
             panel2.TabIndex = 3;
+            // 
+            // Salesbtn
+            // 
+            Salesbtn.BackColor = Color.Transparent;
+            Salesbtn.FlatAppearance.BorderSize = 0;
+            Salesbtn.FlatStyle = FlatStyle.Flat;
+            Salesbtn.Font = new Font("Segoe UI", 10F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            Salesbtn.ForeColor = Color.Black;
+            Salesbtn.Location = new Point(783, 10);
+            Salesbtn.Name = "Salesbtn";
+            Salesbtn.Size = new Size(71, 28);
+            Salesbtn.TabIndex = 21;
+            Salesbtn.Text = "See all..";
+            Salesbtn.TextAlign = ContentAlignment.MiddleRight;
+            Salesbtn.UseVisualStyleBackColor = false;
+            Salesbtn.Click += Salesbtn_Click;
             // 
             // btnWeekly
             // 
@@ -419,7 +550,7 @@
             btnWeekly.FlatStyle = FlatStyle.Flat;
             btnWeekly.ForeColor = Color.White;
             btnWeekly.Image = (Image)resources.GetObject("btnWeekly.Image");
-            btnWeekly.Location = new Point(649, 23);
+            btnWeekly.Location = new Point(715, 44);
             btnWeekly.Name = "btnWeekly";
             btnWeekly.Size = new Size(71, 32);
             btnWeekly.TabIndex = 12;
@@ -435,7 +566,7 @@
             btnMonthly.FlatStyle = FlatStyle.Flat;
             btnMonthly.ForeColor = Color.FromArgb(0, 0, 0, 1);
             btnMonthly.Image = (Image)resources.GetObject("btnMonthly.Image");
-            btnMonthly.Location = new Point(717, 23);
+            btnMonthly.Location = new Point(783, 44);
             btnMonthly.Name = "btnMonthly";
             btnMonthly.Size = new Size(71, 32);
             btnMonthly.TabIndex = 11;
@@ -455,7 +586,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             salesChart.Series.Add(series1);
-            salesChart.Size = new Size(768, 355);
+            salesChart.Size = new Size(834, 355);
             salesChart.TabIndex = 10;
             salesChart.Text = "chart1";
             // 
@@ -463,7 +594,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label7.ForeColor = SystemColors.ControlText;
+            label7.ForeColor = Color.FromArgb(204, 141, 26);
             label7.Location = new Point(20, 23);
             label7.Name = "label7";
             label7.Size = new Size(185, 32);
@@ -520,7 +651,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 22, 23);
-            ClientSize = new Size(1850, 920);
+            ClientSize = new Size(1916, 920);
             Controls.Add(Outofstockwarning);
             Controls.Add(LowStockWarning);
             Controls.Add(lblwelcome);
@@ -545,7 +676,9 @@
             ordersCard.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvSalesReport).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)salesChart).EndInit();
@@ -566,7 +699,6 @@
         private Panel revenueCard;
         private Panel ordersCard;
         private Panel panel1;
-        private DataGridView dataGridView1;
         private Panel panel3;
         private Label label4;
         private Label label2;
@@ -588,5 +720,13 @@
         private Microsoft.Data.SqlClient.SqlCommand sqlCommand1;
         private Button btnWeekly;
         private Button btnMonthly;
+        private Label Revenuelbl;
+        private Label totalsaletodaylbl;
+        private TableLayoutPanel bestsellingpanel;
+        private Button Salesbtn;
+        private Button posbtn;
+        private Button invbtn;
+        private Label label8;
+        private DataGridView dgvSalesReport;
     }
 }

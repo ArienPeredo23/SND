@@ -35,9 +35,37 @@ namespace STOCKNDRIVE
         }
         private void paymentform_Load(object sender, EventArgs e)
         {
+            LoadNextSaleId();
             PopulateSummaryGrid();
             StyleSummaryGrid();
             UpdateSummaryLabels();
+        }
+        private void LoadNextSaleId()
+        {
+            try
+            {
+                // This query gets the last identity value generated for the 'Sales' table.
+                // ISNULL handles the case where the table is empty, starting the count at 1.
+                string query = "SELECT ISNULL(IDENT_CURRENT('Sales'), 0) + 1;";
+                long nextId;
+
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        conn.Open();
+                        nextId = Convert.ToInt64(cmd.ExecuteScalar());
+                    }
+                }
+
+                // Format the ID with 6 digits and leading zeros, then display it.
+                lblSaleID.Text = "Transaction ID: " + nextId.ToString("D6");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to retrieve the next Sale ID.\nError: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                lblSaleID.Text = "Transaction ID: Error";
+            }
         }
 
         private void amountpaid_UpdateChange(object sender, EventArgs e)
@@ -84,6 +112,8 @@ namespace STOCKNDRIVE
 
         private void StyleSummaryGrid()
         {
+            summarygrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            summarygrid.ColumnHeadersHeight = 50;
             summarygrid.ReadOnly = true;
             summarygrid.AllowUserToAddRows = false;
             summarygrid.AllowUserToDeleteRows = false;
@@ -100,12 +130,14 @@ namespace STOCKNDRIVE
             summarygrid.DefaultCellStyle.ForeColor = Color.White;
             summarygrid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             summarygrid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(30, 30, 30);
+            summarygrid.DefaultCellStyle.Padding = new Padding(5);
             summarygrid.DefaultCellStyle.SelectionForeColor = Color.White;
 
             summarygrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             summarygrid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(30, 30, 30);
             summarygrid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             summarygrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            summarygrid.ColumnHeadersDefaultCellStyle.Padding = new Padding(10);
             summarygrid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         }
 

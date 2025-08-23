@@ -52,6 +52,7 @@
             label9 = new Label();
             label10 = new Label();
             notetb = new TextBox();
+            lblSaleID = new Label();
             ((System.ComponentModel.ISupportInitialize)summarygrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)amountpaid).BeginInit();
             SuspendLayout();
@@ -74,7 +75,7 @@
             // 
             lbldiscount.AutoSize = true;
             lbldiscount.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-            lbldiscount.ForeColor = Color.White;
+            lbldiscount.ForeColor = Color.DarkGray;
             lbldiscount.Location = new Point(422, 461);
             lbldiscount.Name = "lbldiscount";
             lbldiscount.Size = new Size(76, 21);
@@ -86,7 +87,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label6.ForeColor = Color.White;
+            label6.ForeColor = Color.DarkGray;
             label6.Location = new Point(42, 467);
             label6.Name = "label6";
             label6.Size = new Size(64, 17);
@@ -121,7 +122,7 @@
             // 
             lblsubtotal.AutoSize = true;
             lblsubtotal.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-            lblsubtotal.ForeColor = Color.White;
+            lblsubtotal.ForeColor = Color.DarkGray;
             lblsubtotal.Location = new Point(422, 429);
             lblsubtotal.Name = "lblsubtotal";
             lblsubtotal.Size = new Size(76, 21);
@@ -133,7 +134,7 @@
             // 
             lblnumberofitem.AutoSize = true;
             lblnumberofitem.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-            lblnumberofitem.ForeColor = Color.White;
+            lblnumberofitem.ForeColor = Color.DarkGray;
             lblnumberofitem.Location = new Point(422, 398);
             lblnumberofitem.Name = "lblnumberofitem";
             lblnumberofitem.Size = new Size(76, 21);
@@ -169,7 +170,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label4.ForeColor = Color.White;
+            label4.ForeColor = Color.DarkGray;
             label4.Location = new Point(42, 435);
             label4.Name = "label4";
             label4.Size = new Size(62, 17);
@@ -181,7 +182,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(137, 65);
+            label1.Location = new Point(137, 48);
             label1.Name = "label1";
             label1.Size = new Size(260, 37);
             label1.TabIndex = 23;
@@ -221,7 +222,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.White;
+            label2.ForeColor = Color.DarkGray;
             label2.Location = new Point(32, 546);
             label2.Name = "label2";
             label2.Size = new Size(111, 17);
@@ -243,7 +244,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label8.ForeColor = Color.White;
+            label8.ForeColor = Color.DarkGray;
             label8.Location = new Point(42, 617);
             label8.Name = "label8";
             label8.Size = new Size(54, 17);
@@ -253,6 +254,7 @@
             // tbname
             // 
             tbname.BackColor = Color.FromArgb(30, 30, 30);
+            tbname.BorderStyle = BorderStyle.FixedSingle;
             tbname.Font = new Font("Segoe UI", 12F);
             tbname.ForeColor = Color.White;
             tbname.Location = new Point(263, 545);
@@ -263,6 +265,7 @@
             // amountpaid
             // 
             amountpaid.BackColor = Color.FromArgb(30, 30, 30);
+            amountpaid.BorderStyle = BorderStyle.FixedSingle;
             amountpaid.Font = new Font("Segoe UI", 12F);
             amountpaid.ForeColor = Color.White;
             amountpaid.Location = new Point(377, 576);
@@ -296,7 +299,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label9.ForeColor = Color.White;
+            label9.ForeColor = Color.DarkGray;
             label9.Location = new Point(209, 644);
             label9.Name = "label9";
             label9.Size = new Size(110, 17);
@@ -307,7 +310,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.ForeColor = Color.White;
+            label10.ForeColor = Color.DarkGray;
             label10.Location = new Point(32, 402);
             label10.Name = "label10";
             label10.Size = new Size(122, 17);
@@ -316,11 +319,26 @@
             // 
             // notetb
             // 
+            notetb.BackColor = Color.DimGray;
+            notetb.BorderStyle = BorderStyle.None;
             notetb.Location = new Point(32, 664);
             notetb.Multiline = true;
             notetb.Name = "notetb";
             notetb.Size = new Size(462, 58);
             notetb.TabIndex = 44;
+            // 
+            // lblSaleID
+            // 
+            lblSaleID.AutoSize = true;
+            lblSaleID.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            lblSaleID.ForeColor = Color.FromArgb(204, 141, 26);
+            lblSaleID.Location = new Point(12, 92);
+            lblSaleID.Name = "lblSaleID";
+            lblSaleID.RightToLeft = RightToLeft.Yes;
+            lblSaleID.Size = new Size(20, 28);
+            lblSaleID.TabIndex = 45;
+            lblSaleID.Text = "-";
+            lblSaleID.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // paymentform
             // 
@@ -328,6 +346,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(30, 30, 30);
             ClientSize = new Size(527, 774);
+            Controls.Add(lblSaleID);
             Controls.Add(notetb);
             Controls.Add(label10);
             Controls.Add(label9);
@@ -387,5 +406,6 @@
         private Label label9;
         private Label label10;
         private TextBox notetb;
+        private Label lblSaleID;
     }
 }

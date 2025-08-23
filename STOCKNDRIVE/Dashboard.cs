@@ -119,14 +119,153 @@ namespace STOCKNDRIVE
         }
         private void Dashboard_Load(object sender, EventArgs e)
         {
+            LoadTodaysStats();
             CheckForLowStock();
+            LoadRecentSales(); // Add this line
+            StyleRecentSalesGrid();
             CheckForOutOfStock();
             StyleSalesChart();
+            LoadBestsellingProducts();
             inactiveFont = new Font("Segoe UI", 9F, FontStyle.Regular);
 
             activeFont = new Font("Arial Black", 9F, FontStyle.Bold);
 
             btnMonthly_Click(null, null);
+        }
+
+        private void LoadRecentSales()
+        {
+            try
+            {
+                // This query gets the 5 most recent sales by ordering by date in descending order.
+                string query = @"
+            SELECT TOP 5
+                s.SaleID, 
+                s.TransactionDate, 
+                s.CustomerName, 
+                s.TotalAmount,
+                u.Fullname
+            FROM Sales s
+            LEFT JOIN [user] u ON s.UserID = u.UserID
+            ORDER BY s.TransactionDate DESC";
+
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+
+                    dataTable.Columns.Add("FormattedSaleID", typeof(string));
+
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        long originalSaleId = Convert.ToInt64(row["SaleID"]);
+                        row["FormattedSaleID"] = originalSaleId.ToString("D6");
+                    }
+
+                    dgvSalesReport.DataSource = dataTable;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to load recent sales: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void StyleRecentSalesGrid()
+        {
+            if (dgvSalesReport.DataSource == null || dgvSalesReport.Rows.Count == 0) return;
+
+            // --- Interaction and Sizing ---
+            dgvSalesReport.ReadOnly = true;
+            dgvSalesReport.AllowUserToAddRows = false;
+            dgvSalesReport.AllowUserToDeleteRows = false;
+            dgvSalesReport.AllowUserToOrderColumns = false;
+            dgvSalesReport.AllowUserToResizeColumns = false;
+            dgvSalesReport.AllowUserToResizeRows = false;
+            dgvSalesReport.RowHeadersVisible = false;
+            dgvSalesReport.MultiSelect = false;
+            dgvSalesReport.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            // --- Visual Style & Colors ---
+            dgvSalesReport.BackgroundColor = Color.FromArgb(45, 45, 48); // Dark background
+            dgvSalesReport.BorderStyle = BorderStyle.None;
+            dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvSalesReport.GridColor = Color.White; // White grid lines
+            dgvSalesReport.EnableHeadersVisualStyles = false;
+
+            // --- Cell Style (for all data rows) ---
+            dgvSalesReport.DefaultCellStyle.BackColor = Color.FromArgb(45, 45, 48);
+            dgvSalesReport.DefaultCellStyle.ForeColor = Color.White;
+            dgvSalesReport.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvSalesReport.DefaultCellStyle.SelectionBackColor = Color.FromArgb(45, 45, 48);
+            dgvSalesReport.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgvSalesReport.RowTemplate.Height = 30; // Add some padding
+
+            // --- Header Style ---
+            dgvSalesReport.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45, 45, 48);
+            dgvSalesReport.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(45, 45, 48);
+            dgvSalesReport.ColumnHeadersHeight = 40;
+
+            // To disable header click for sorting
+            foreach (DataGridViewColumn column in dgvSalesReport.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
+            // --- Column Specific Settings ---
+            dgvSalesReport.Columns["SaleID"].Visible = false;
+            dgvSalesReport.Columns["FormattedSaleID"].HeaderText = "Transaction ID";
+            dgvSalesReport.Columns["TransactionDate"].HeaderText = "Date";
+            dgvSalesReport.Columns["CustomerName"].HeaderText = "Customer";
+            dgvSalesReport.Columns["TotalAmount"].HeaderText = "Amount";
+            dgvSalesReport.Columns["Fullname"].HeaderText = "Processed By";
+
+            dgvSalesReport.Columns["TransactionDate"].DefaultCellStyle.Format = "MMM dd, yyyy";
+            dgvSalesReport.Columns["TotalAmount"].DefaultCellStyle.Format = "N2";
+
+            dgvSalesReport.Columns["FormattedSaleID"].DisplayIndex = 0;
+            dgvSalesReport.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void LoadTodaysStats()
+        {
+            try
+            {
+                decimal todayRevenue = 0;
+                int todaySalesCount = 0;
+
+                string revenueQuery = "SELECT ISNULL(SUM(TotalAmount), 0) FROM Sales WHERE CAST(TransactionDate AS DATE) = CAST(GETDATE() AS DATE)";
+
+                string salesCountQuery = "SELECT COUNT(*) FROM Sales WHERE CAST(TransactionDate AS DATE) = CAST(GETDATE() AS DATE)";
+
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(revenueQuery, conn))
+                    {
+                        todayRevenue = Convert.ToDecimal(cmd.ExecuteScalar());
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand(salesCountQuery, conn))
+                    {
+                        todaySalesCount = Convert.ToInt32(cmd.ExecuteScalar());
+                    }
+                }
+
+                Revenuelbl.Text = todayRevenue.ToString("₱ #,##0.00");
+                totalsaletodaylbl.Text = todaySalesCount.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to load today's statistics: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Revenuelbl.Text = "Error";
+                totalsaletodaylbl.Text = "Error";
+            }
         }
 
         private void LoadWeeklySalesChart()
@@ -288,6 +427,80 @@ namespace STOCKNDRIVE
                 MessageBox.Show("Failed to load sales chart data: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void LoadBestsellingProducts()
+        {
+            bestsellingpanel.Controls.Clear();
+            bestsellingpanel.RowStyles.Clear();
+
+            try
+            {
+                // --- THIS IS THE ONLY CHANGE ---
+                // Change TOP 16 to TOP 4 to fill a 2x2 grid
+                string query = @"
+            SELECT TOP 4
+                p.ProductID, p.ProductName, p.Brand, p.Manufacturer, p.Price, p.ProductImage,
+                SUM(si.QuantitySold) AS TotalSold
+            FROM SaleItems si
+            JOIN Products p ON si.ProductID = p.ProductID
+            GROUP BY p.ProductID, p.ProductName, p.Brand, p.Manufacturer, p.Price, p.ProductImage
+            ORDER BY TotalSold DESC";
+
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        conn.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        int column = 0;
+                        int row = 0;
+
+                        while (reader.Read())
+                        {
+                            if (column == 0)
+                            {
+                                bestsellingpanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                            }
+
+                            ProductCard card = new ProductCard();
+                            Image productImage = null;
+
+                            card.ProductName = reader["ProductName"].ToString();
+                            card.BrandText = reader["Brand"].ToString();
+                            card.ManufacturerText = reader["Manufacturer"].ToString();
+                            card.ProductPrice = Convert.ToDecimal(reader["Price"]).ToString("0.00");
+                            card.TotalSoldText = reader["TotalSold"].ToString();
+
+                            if (reader["ProductImage"] != DBNull.Value)
+                            {
+                                byte[] imageData = (byte[])reader["ProductImage"];
+                                using (MemoryStream ms = new MemoryStream(imageData))
+                                {
+                                    productImage = Image.FromStream(ms);
+                                }
+                            }
+                            card.ProductImage = productImage;
+                            card.AddToCartButton.Visible = false;
+                            card.Dock = DockStyle.Fill;
+                            card.Anchor = AnchorStyles.None;
+                            bestsellingpanel.Controls.Add(card, column, row);
+
+                            column++;
+                            if (column >= bestsellingpanel.ColumnCount)
+                            {
+                                column = 0;
+                                row++;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to load best-selling products: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void LowStockWarning_Click(object sender, EventArgs e)
         {
             Inventory_Module inventory = new Inventory_Module(true);
@@ -389,6 +602,27 @@ namespace STOCKNDRIVE
             LoadMonthlySalesChart();
             btnMonthly.Font = activeFont;
             btnWeekly.Font = inactiveFont;
+        }
+
+        private void Salesbtn_Click(object sender, EventArgs e)
+        {
+            Sales sales = new Sales();
+            sales.Show();
+            this.Close();
+        }
+
+        private void posbtn_Click(object sender, EventArgs e)
+        {
+            pos pos = new pos();
+            pos.Show();
+            this.Close();
+        }
+
+        private void invbtn_Click(object sender, EventArgs e)
+        {
+            Inventory_Module inventory_Module = new Inventory_Module(true);
+            inventory_Module.Show();
+            this.Close();
         }
     }
 

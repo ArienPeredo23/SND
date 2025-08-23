@@ -27,6 +27,10 @@ namespace STOCKNDRIVE
         private void ProductCard_Load(object sender, EventArgs e)
         {
         }
+        public string TotalSoldText
+        {
+            set { lblQuantity.Text = "Sold: " + value; }
+        }
 
         private void btnAddToCart_Click_1(object sender, EventArgs e)
         {

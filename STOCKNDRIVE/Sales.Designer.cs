@@ -46,6 +46,9 @@
             label1 = new Label();
             panel4 = new Panel();
             reportPanel = new Panel();
+            lblClearSearchforname = new Label();
+            lblClearSearchforID = new Label();
+            searchtransactionid = new TextBox();
             dgvSalesReport = new DataGridView();
             NameSearchtb = new TextBox();
             btnFilter = new Button();
@@ -270,6 +273,9 @@
             // reportPanel
             // 
             reportPanel.BackColor = Color.White;
+            reportPanel.Controls.Add(lblClearSearchforname);
+            reportPanel.Controls.Add(lblClearSearchforID);
+            reportPanel.Controls.Add(searchtransactionid);
             reportPanel.Controls.Add(dgvSalesReport);
             reportPanel.Controls.Add(NameSearchtb);
             reportPanel.Controls.Add(btnFilter);
@@ -278,6 +284,45 @@
             reportPanel.Name = "reportPanel";
             reportPanel.Size = new Size(1255, 793);
             reportPanel.TabIndex = 9;
+            // 
+            // lblClearSearchforname
+            // 
+            lblClearSearchforname.AutoSize = true;
+            lblClearSearchforname.BackColor = Color.Transparent;
+            lblClearSearchforname.Cursor = Cursors.Hand;
+            lblClearSearchforname.Font = new Font("Segoe UI", 9F);
+            lblClearSearchforname.Location = new Point(1099, 43);
+            lblClearSearchforname.Name = "lblClearSearchforname";
+            lblClearSearchforname.Size = new Size(14, 15);
+            lblClearSearchforname.TabIndex = 13;
+            lblClearSearchforname.Text = "X";
+            lblClearSearchforname.Visible = false;
+            lblClearSearchforname.Click += lblClearSearchforname_Click;
+            // 
+            // lblClearSearchforID
+            // 
+            lblClearSearchforID.AutoSize = true;
+            lblClearSearchforID.BackColor = Color.Transparent;
+            lblClearSearchforID.Cursor = Cursors.Hand;
+            lblClearSearchforID.Font = new Font("Segoe UI", 9F);
+            lblClearSearchforID.Location = new Point(737, 43);
+            lblClearSearchforID.Name = "lblClearSearchforID";
+            lblClearSearchforID.Size = new Size(14, 15);
+            lblClearSearchforID.TabIndex = 12;
+            lblClearSearchforID.Text = "X";
+            lblClearSearchforID.Visible = false;
+            lblClearSearchforID.Click += lblClearSearchforID_Click;
+            // 
+            // searchtransactionid
+            // 
+            searchtransactionid.Font = new Font("Segoe UI", 12F);
+            searchtransactionid.Location = new Point(403, 36);
+            searchtransactionid.Name = "searchtransactionid";
+            searchtransactionid.Size = new Size(356, 29);
+            searchtransactionid.TabIndex = 5;
+            searchtransactionid.TextChanged += searchtransactionid_TextChanged;
+            searchtransactionid.Enter += searchtransactionid_Enter;
+            searchtransactionid.Leave += searchtransactionid_Leave;
             // 
             // dgvSalesReport
             // 
@@ -307,7 +352,8 @@
             dgvSalesReport.Location = new Point(25, 80);
             dgvSalesReport.Name = "dgvSalesReport";
             dgvSalesReport.RowHeadersVisible = false;
-            dgvSalesReport.Size = new Size(1206, 485);
+            dgvSalesReport.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvSalesReport.Size = new Size(1206, 690);
             dgvSalesReport.TabIndex = 4;
             // 
             // NameSearchtb
@@ -477,5 +523,8 @@
         private Label lblDateRange;
         private Button btnClearFilter;
         private MonthCalendar monthCalendar1;
+        private TextBox searchtransactionid;
+        private Label lblClearSearchforname;
+        private Label lblClearSearchforID;
     }
 }

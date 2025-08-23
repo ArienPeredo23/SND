@@ -49,6 +49,7 @@
             button1 = new Button();
             btnUpdate = new Button();
             btnDelete = new Button();
+            bulkupload = new Button();
             ((System.ComponentModel.ISupportInitialize)picItemImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPrice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numItemCount).BeginInit();
@@ -277,11 +278,26 @@
             btnDelete.Visible = false;
             btnDelete.Click += btnDelete_Click_1;
             // 
+            // bulkupload
+            // 
+            bulkupload.BackColor = SystemColors.Control;
+            bulkupload.FlatAppearance.BorderSize = 0;
+            bulkupload.FlatStyle = FlatStyle.Flat;
+            bulkupload.Font = new Font("Segoe UI", 10F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            bulkupload.Location = new Point(40, 14);
+            bulkupload.Name = "bulkupload";
+            bulkupload.Size = new Size(171, 28);
+            bulkupload.TabIndex = 20;
+            bulkupload.Text = "Switch to Bulk Upload";
+            bulkupload.UseVisualStyleBackColor = false;
+            bulkupload.Click += bulkupload_Click;
+            // 
             // AddItem
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(860, 500);
+            Controls.Add(bulkupload);
             Controls.Add(btnDelete);
             Controls.Add(btnUpdate);
             Controls.Add(button1);
@@ -336,5 +352,6 @@
         private Button button1;
         private Button btnUpdate;
         private Button btnDelete;
+        private Button bulkupload;
     }
 }

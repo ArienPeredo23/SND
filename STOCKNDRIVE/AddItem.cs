@@ -20,7 +20,7 @@ namespace STOCKNDRIVE
         {
             InitializeComponent();
             SetupFormForAdd();
-            SetupEventHandlers(); 
+            SetupEventHandlers();
         }
 
         public AddItem(int productId)
@@ -29,12 +29,13 @@ namespace STOCKNDRIVE
             this.currentProductId = productId;
             SetupFormForEdit();
             LoadProductData();
-            SetupEventHandlers(); 
+            SetupEventHandlers();
         }
 
         private void SetupFormForAdd()
         {
             this.Text = "Add New Item";
+            bulkupload.Visible = true;
             btnDone.Visible = true;
             btnUpdate.Visible = false;
             btnDelete.Visible = false;
@@ -43,6 +44,7 @@ namespace STOCKNDRIVE
         private void SetupFormForEdit()
         {
             this.Text = "Edit Item";
+            bulkupload.Visible = false;
             btnDone.Visible = false;
             btnUpdate.Visible = true;
             btnDelete.Visible = true;
@@ -133,7 +135,7 @@ namespace STOCKNDRIVE
 
         private void btnDone_Click(object sender, EventArgs e)
         {
-            if (!ValidateInputs()) 
+            if (!ValidateInputs())
             {
                 return;
             }
@@ -442,8 +444,6 @@ namespace STOCKNDRIVE
             }
             catch (Exception ex)
             {
-                // Log to console or a file, but don't show a message box
-                // to avoid interrupting the user's primary action.
                 Console.WriteLine("Audit Log Failed: " + ex.Message);
             }
         }
@@ -451,6 +451,20 @@ namespace STOCKNDRIVE
         private void AddItem_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void bulkupload_Click(object sender, EventArgs e)
+        {
+
+            using (Bulkupload bulkForm = new Bulkupload())
+            {
+                if (bulkForm.ShowDialog() == DialogResult.OK)
+                {
+                    this.DialogResult = DialogResult.OK;
+                }
+            }
+
+            this.Close();
         }
     }
 }

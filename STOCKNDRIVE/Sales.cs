@@ -32,19 +32,17 @@ namespace STOCKNDRIVE
 
         private void InitializeSettingsPanel()
         {
-            // This positions the panel right above the settings button
             settingsPanel.Location = new Point(btnSettings.Location.X, btnSettings.Location.Y - settingsPanel.Height);
-            settingsPanelTargetHeight = settingsPanel.Height; // Store the original height
-            settingsPanel.Height = 0; // Start with the panel collapsed
-            slideTimer.Tick += SlideTimer_Tick; // Subscribe to the timer's tick event
+            settingsPanelTargetHeight = settingsPanel.Height;
+            settingsPanel.Height = 0;
+            slideTimer.Tick += SlideTimer_Tick;
         }
+
         private void SlideTimer_Tick(object sender, EventArgs e)
         {
-            int step = 20; // Controls the speed of the animation
-
+            int step = 20;
             if (!isPanelExpanded)
             {
-                // Expanding the panel
                 settingsPanel.Visible = true;
                 if (settingsPanel.Height + step < settingsPanelTargetHeight)
                 {
@@ -59,7 +57,6 @@ namespace STOCKNDRIVE
             }
             else
             {
-                // Collapsing the panel
                 if (settingsPanel.Height - step > 0)
                 {
                     settingsPanel.Height -= step;
@@ -72,9 +69,9 @@ namespace STOCKNDRIVE
                     slideTimer.Stop();
                 }
             }
-            // Ensure panel stays correctly positioned as it resizes
             settingsPanel.Location = new Point(btnSettings.Location.X, btnSettings.Location.Y - settingsPanel.Height);
         }
+
         private void btnDashboard_Click(object sender, EventArgs e)
         {
             Dashboard newDashboard = new Dashboard();
@@ -107,17 +104,17 @@ namespace STOCKNDRIVE
         {
             LoadSalesData();
             StyleSalesGrid();
-            NameSearchtb.Text = "Search for Customer Name";
-            NameSearchtb.ForeColor = Color.Gray;
+            NameSearchtb_Leave(null, null);
+            searchtransactionid_Leave(null, null);
+            lblClearSearchforname.Visible = false;
+            lblClearSearchforID.Visible = false;
 
             if (UserSession.UserId >= 2)
             {
                 Point dashboardLocation = btnDashboard.Location;
                 Point posLocation = btnPOS.Location;
-
                 btnDashboard.Visible = false;
                 btnInventory.Visible = false;
-
                 btnPOS.Location = dashboardLocation;
                 btnSales.Location = posLocation;
                 btnusermanagement.Visible = false;
@@ -130,36 +127,24 @@ namespace STOCKNDRIVE
             try
             {
                 string query = @"
-            SELECT 
-                s.SaleID, 
-                s.TransactionDate, 
-                'Processed by ' + u.Fullname AS ProcessedBy, 
-                s.Subtotal, 
-                s.Discount, 
-                s.DiscountDescription, 
-                s.TotalAmount, 
-                s.AmountPaid, 
-                s.ChangeGiven, 
-                s.CustomerName,
-                s.NoteText -- Add this line
-            FROM Sales s
-            LEFT JOIN [user] u ON s.UserID = u.UserID
-            ORDER BY s.TransactionDate DESC";
-
+                    SELECT 
+                        s.SaleID, s.TransactionDate, 'Processed by ' + u.Fullname AS ProcessedBy, 
+                        s.Subtotal, s.Discount, s.DiscountDescription, s.TotalAmount, 
+                        s.AmountPaid, s.ChangeGiven, s.CustomerName, s.NoteText
+                    FROM Sales s
+                    LEFT JOIN [user] u ON s.UserID = u.UserID
+                    ORDER BY s.TransactionDate DESC";
                 using (SqlConnection conn = DBConnection.GetConnection())
                 {
                     SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
                     this.salesDataTable = new DataTable();
                     adapter.Fill(this.salesDataTable);
-
                     this.salesDataTable.Columns.Add("FormattedSaleID", typeof(string));
-
                     foreach (DataRow row in this.salesDataTable.Rows)
                     {
                         long originalSaleId = Convert.ToInt64(row["SaleID"]);
                         row["FormattedSaleID"] = originalSaleId.ToString("D6");
                     }
-
                     dgvSalesReport.DataSource = this.salesDataTable;
                 }
             }
@@ -171,6 +156,7 @@ namespace STOCKNDRIVE
 
         private void StyleSalesGrid()
         {
+            if (dgvSalesReport.DataSource == null) return;
             dgvSalesReport.RowTemplate.Height = 35;
             dgvSalesReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvSalesReport.ColumnHeadersHeight = 50;
@@ -180,12 +166,10 @@ namespace STOCKNDRIVE
             dgvSalesReport.BorderStyle = BorderStyle.None;
             dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.Single;
             dgvSalesReport.GridColor = Color.LightGray;
-
             dgvSalesReport.DefaultCellStyle.Font = new Font("Segoe UI", 12F, GraphicsUnit.Pixel);
             dgvSalesReport.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvSalesReport.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             dgvSalesReport.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
             dgvSalesReport.ReadOnly = true;
             dgvSalesReport.AllowUserToAddRows = false;
             dgvSalesReport.AllowUserToDeleteRows = false;
@@ -195,42 +179,34 @@ namespace STOCKNDRIVE
             dgvSalesReport.RowHeadersVisible = false;
             dgvSalesReport.MultiSelect = false;
             dgvSalesReport.EnableHeadersVisualStyles = false;
-
             foreach (DataGridViewColumn column in dgvSalesReport.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
-
-
             dgvSalesReport.DefaultCellStyle.BackColor = Color.White;
             dgvSalesReport.DefaultCellStyle.ForeColor = Color.Black;
             dgvSalesReport.DefaultCellStyle.SelectionBackColor = Color.White;
             dgvSalesReport.DefaultCellStyle.SelectionForeColor = Color.Black;
             dgvSalesReport.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
             dgvSalesReport.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
-
             dgvSalesReport.Columns["SaleID"].Visible = false;
-            dgvSalesReport.Columns["FormattedSaleID"].HeaderText = "Sale ID";
-            dgvSalesReport.Columns["TransactionDate"].HeaderText = "Transaction";
+            dgvSalesReport.Columns["FormattedSaleID"].HeaderText = "Transaction ID";
+            dgvSalesReport.Columns["TransactionDate"].HeaderText = "Date";
             dgvSalesReport.Columns["ProcessedBy"].HeaderText = "Processed By";
             dgvSalesReport.Columns["Subtotal"].HeaderText = "Subtotal";
             dgvSalesReport.Columns["Discount"].HeaderText = "Discount";
-            dgvSalesReport.Columns["DiscountDescription"].HeaderText = "Discount";
+            dgvSalesReport.Columns["DiscountDescription"].HeaderText = "Discount Details";
             dgvSalesReport.Columns["TotalAmount"].HeaderText = "Total Amount";
             dgvSalesReport.Columns["AmountPaid"].HeaderText = "Amount Paid";
             dgvSalesReport.Columns["ChangeGiven"].HeaderText = "Change";
             dgvSalesReport.Columns["CustomerName"].HeaderText = "Customer";
             dgvSalesReport.Columns["NoteText"].HeaderText = "Note";
-
-
             dgvSalesReport.Columns["TransactionDate"].DefaultCellStyle.Format = "MMMM dd, yyyy";
             dgvSalesReport.Columns["Subtotal"].DefaultCellStyle.Format = "N2";
             dgvSalesReport.Columns["Discount"].DefaultCellStyle.Format = "N2";
             dgvSalesReport.Columns["TotalAmount"].DefaultCellStyle.Format = "N2";
             dgvSalesReport.Columns["AmountPaid"].DefaultCellStyle.Format = "N2";
             dgvSalesReport.Columns["ChangeGiven"].DefaultCellStyle.Format = "N2";
-
-
             dgvSalesReport.Columns["FormattedSaleID"].DisplayIndex = 0;
             dgvSalesReport.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
@@ -263,7 +239,6 @@ namespace STOCKNDRIVE
                 isPanelExpanded = false;
                 settingsPanel.Height = 0;
                 settingsPanel.Visible = false;
-
                 if (logoutForm.ShowDialog() == DialogResult.OK)
                 {
                     this.Close();
@@ -289,16 +264,10 @@ namespace STOCKNDRIVE
                     startDate = endDate;
                     endDate = temp;
                 }
-
                 monthCalendar1.SelectionRange = new SelectionRange(startDate.Value, endDate.Value);
-
                 string filterExpression = $"TransactionDate >= #{startDate.Value:MM/dd/yyyy}# AND TransactionDate < #{endDate.Value.AddDays(1):MM/dd/yyyy}#";
                 this.salesDataTable.DefaultView.RowFilter = filterExpression;
-
                 lblDateRange.Text = $"Range: {startDate:d} - {endDate:d}";
-                startDate = null;
-                endDate = null;
-
                 Task.Delay(500).ContinueWith(t => this.Invoke((MethodInvoker)delegate
                 {
                     panelDateFilter.Visible = false;
@@ -308,11 +277,19 @@ namespace STOCKNDRIVE
 
         private void btnClearFilter_Click(object sender, EventArgs e)
         {
-            this.salesDataTable.DefaultView.RowFilter = string.Empty;
+            if (this.salesDataTable != null)
+            {
+                this.salesDataTable.DefaultView.RowFilter = string.Empty;
+            }
             startDate = null;
             endDate = null;
             lblDateRange.Text = "Select a start date...";
-            monthCalendar1.SelectionRange = null;
+
+
+            if (monthCalendar1 != null)
+            {
+                return;
+            }
             panelDateFilter.Visible = false;
         }
 
@@ -344,8 +321,8 @@ namespace STOCKNDRIVE
 
         private void NameSearchtb_TextChanged(object sender, EventArgs e)
         {
+            lblClearSearchforname.Visible = !string.IsNullOrEmpty(NameSearchtb.Text) && NameSearchtb.Text != "Search for Customer Name";
             if (salesDataTable == null) return;
-
             if (NameSearchtb.Text != "Search for Customer Name")
             {
                 string searchText = NameSearchtb.Text.Trim().Replace("'", "''");
@@ -354,6 +331,51 @@ namespace STOCKNDRIVE
             else if (salesDataTable.DefaultView.RowFilter != string.Empty)
             {
                 salesDataTable.DefaultView.RowFilter = string.Empty;
+            }
+        }
+
+        private void searchtransactionid_TextChanged(object sender, EventArgs e)
+        {
+            lblClearSearchforID.Visible = !string.IsNullOrEmpty(searchtransactionid.Text) && searchtransactionid.Text != "Search Transaction ID";
+            if (salesDataTable == null) return;
+            if (searchtransactionid.Text != "Search Transaction ID")
+            {
+                string searchText = searchtransactionid.Text.Trim().Replace("'", "''");
+                salesDataTable.DefaultView.RowFilter = $"FormattedSaleID LIKE '%{searchText}%'";
+            }
+            else if (salesDataTable.DefaultView.RowFilter != string.Empty)
+            {
+                salesDataTable.DefaultView.RowFilter = string.Empty;
+            }
+        }
+
+        private void lblClearSearchforID_Click(object sender, EventArgs e)
+        {
+            searchtransactionid.Clear();
+            searchtransactionid.Focus();
+        }
+
+        private void lblClearSearchforname_Click(object sender, EventArgs e)
+        {
+            NameSearchtb.Clear();
+            NameSearchtb.Focus();
+        }
+
+        private void searchtransactionid_Enter(object sender, EventArgs e)
+        {
+            if (searchtransactionid.Text == "Search Transaction ID")
+            {
+                searchtransactionid.Text = "";
+                searchtransactionid.ForeColor = Color.Black;
+            }
+        }
+
+        private void searchtransactionid_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(searchtransactionid.Text))
+            {
+                searchtransactionid.Text = "Search Transaction ID";
+                searchtransactionid.ForeColor = Color.Gray;
             }
         }
     }
