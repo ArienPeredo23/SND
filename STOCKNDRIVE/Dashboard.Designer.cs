@@ -478,6 +478,7 @@
             dgvSalesReport.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvSalesReport.Size = new Size(827, 267);
             dgvSalesReport.TabIndex = 9;
+            dgvSalesReport.CellClick += dgvSalesReport_CellClick;
             // 
             // label8
             // 

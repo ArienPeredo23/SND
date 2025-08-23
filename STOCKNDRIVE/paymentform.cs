@@ -220,11 +220,11 @@ namespace STOCKNDRIVE
                 transaction = conn.BeginTransaction();
 
                 long saleId;
-                string salesQuery = @"INSERT INTO Sales (TransactionDate, UserID, TotalAmount, AmountPaid, ChangeGiven, Subtotal, DiscountDescription, Discount, CustomerName)
-                              VALUES (@TransactionDate, @UserID, @TotalAmount, @AmountPaid, @ChangeGiven, @Subtotal, @DiscountDescription, @Discount, @CustomerName);
+                string salesQuery = @"INSERT INTO Sales (TransactionDate, UserID, TotalAmount, AmountPaid, ChangeGiven, Subtotal, DiscountDescription, Discount, CustomerName, NoteText)
+                              VALUES (@TransactionDate, @UserID, @TotalAmount, @AmountPaid, @ChangeGiven, @Subtotal, @DiscountDescription, @Discount, @CustomerName, @NoteText);
                               SELECT SCOPE_IDENTITY();";
 
-                
+
                 using (SqlCommand cmd = new SqlCommand(salesQuery, conn, transaction))
                 {
                     cmd.Parameters.AddWithValue("@TransactionDate", DateTime.Now);
@@ -236,6 +236,7 @@ namespace STOCKNDRIVE
                     cmd.Parameters.AddWithValue("@DiscountDescription", _discountDescription);
                     cmd.Parameters.AddWithValue("@Discount", decimal.Parse(_discount));
                     cmd.Parameters.AddWithValue("@CustomerName", tbname.Text);
+                    cmd.Parameters.AddWithValue("@NoteText", notetb.Text);
 
                     saleId = Convert.ToInt64(cmd.ExecuteScalar());
                 }
@@ -268,10 +269,16 @@ namespace STOCKNDRIVE
                 transaction.Commit();
                 string details = $"{UserSession.Fullname} processed a sale (ID: {saleId}) for customer '{tbname.Text}' with a total amount of {totalAmount:0.00}.";
                 LogActivity("Process Sale", details);
-                MessageBox.Show("Transaction completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
+                using (DigitalReceipt receiptForm = new DigitalReceipt(
+                       saleId, _cartItems, tbname.Text, amountpaid.Value, decimal.Parse(lblchange.Text),
+                       notetb.Text, _numberOfItems, _subtotal, _discount, _totalAmount))
+                            {
+                                receiptForm.ShowDialog();
+                            }
+
+                            this.DialogResult = DialogResult.OK;
+                            this.Close();
+                        }
             catch (Exception ex)
             {
                 transaction?.Rollback();

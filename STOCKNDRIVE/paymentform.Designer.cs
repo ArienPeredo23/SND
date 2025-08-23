@@ -36,23 +36,27 @@
             lbltotalamount = new Label();
             lblsubtotal = new Label();
             lblnumberofitem = new Label();
-            Proceed = new Button();
             label5 = new Label();
             label4 = new Label();
             label1 = new Label();
-            button2 = new Button();
             summarygrid = new DataGridView();
             label2 = new Label();
             label7 = new Label();
             label8 = new Label();
-            tbname = new TextBox();
-            amountpaid = new NumericUpDown();
             lblchange = new Label();
             panel1 = new Panel();
             label9 = new Label();
             label10 = new Label();
-            notetb = new TextBox();
             lblSaleID = new Label();
+            panel2 = new Panel();
+            panel3 = new Panel();
+            panel4 = new Panel();
+            panel5 = new Panel();
+            notetb = new TextBox();
+            button2 = new Button();
+            Proceed = new Button();
+            amountpaid = new NumericUpDown();
+            tbname = new TextBox();
             ((System.ComponentModel.ISupportInitialize)summarygrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)amountpaid).BeginInit();
             SuspendLayout();
@@ -64,7 +68,7 @@
             button1.BackgroundImageLayout = ImageLayout.Stretch;
             button1.FlatStyle = FlatStyle.Flat;
             button1.ForeColor = Color.FromArgb(30, 30, 30);
-            button1.Location = new Point(481, 12);
+            button1.Location = new Point(483, 11);
             button1.Name = "button1";
             button1.Size = new Size(34, 34);
             button1.TabIndex = 18;
@@ -142,19 +146,6 @@
             lblnumberofitem.Text = "-----------";
             lblnumberofitem.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // Proceed
-            // 
-            Proceed.BackColor = Color.FromArgb(204, 141, 26);
-            Proceed.FlatStyle = FlatStyle.Flat;
-            Proceed.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            Proceed.Location = new Point(284, 728);
-            Proceed.Name = "Proceed";
-            Proceed.Size = new Size(231, 34);
-            Proceed.TabIndex = 22;
-            Proceed.Text = "Paid";
-            Proceed.UseVisualStyleBackColor = false;
-            Proceed.Click += Proceed_Click;
-            // 
             // label5
             // 
             label5.AutoSize = true;
@@ -182,24 +173,11 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(137, 48);
+            label1.Location = new Point(12, 12);
             label1.Name = "label1";
             label1.Size = new Size(260, 37);
             label1.TabIndex = 23;
             label1.Text = "Payment Summary";
-            // 
-            // button2
-            // 
-            button2.BackColor = Color.Silver;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            button2.Location = new Point(12, 728);
-            button2.Name = "button2";
-            button2.Size = new Size(231, 34);
-            button2.TabIndex = 33;
-            button2.Text = "Back";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click;
             // 
             // summarygrid
             // 
@@ -251,30 +229,6 @@
             label8.TabIndex = 37;
             label8.Text = "Change";
             // 
-            // tbname
-            // 
-            tbname.BackColor = Color.FromArgb(30, 30, 30);
-            tbname.BorderStyle = BorderStyle.FixedSingle;
-            tbname.Font = new Font("Segoe UI", 12F);
-            tbname.ForeColor = Color.White;
-            tbname.Location = new Point(263, 545);
-            tbname.Name = "tbname";
-            tbname.Size = new Size(231, 29);
-            tbname.TabIndex = 38;
-            // 
-            // amountpaid
-            // 
-            amountpaid.BackColor = Color.FromArgb(30, 30, 30);
-            amountpaid.BorderStyle = BorderStyle.FixedSingle;
-            amountpaid.Font = new Font("Segoe UI", 12F);
-            amountpaid.ForeColor = Color.White;
-            amountpaid.Location = new Point(377, 576);
-            amountpaid.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            amountpaid.Name = "amountpaid";
-            amountpaid.Size = new Size(117, 29);
-            amountpaid.TabIndex = 39;
-            amountpaid.TextAlign = HorizontalAlignment.Center;
-            // 
             // lblchange
             // 
             lblchange.AutoSize = true;
@@ -317,6 +271,51 @@
             label10.TabIndex = 43;
             label10.Text = "NUMBER OF ITEM:";
             // 
+            // lblSaleID
+            // 
+            lblSaleID.AutoSize = true;
+            lblSaleID.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            lblSaleID.ForeColor = Color.FromArgb(204, 141, 26);
+            lblSaleID.Location = new Point(32, 98);
+            lblSaleID.Name = "lblSaleID";
+            lblSaleID.RightToLeft = RightToLeft.Yes;
+            lblSaleID.Size = new Size(20, 28);
+            lblSaleID.TabIndex = 45;
+            lblSaleID.Text = "-";
+            lblSaleID.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.FromArgb(50, 50, 50);
+            panel2.Location = new Point(-2, -1);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(529, 10);
+            panel2.TabIndex = 42;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = Color.FromArgb(50, 50, 50);
+            panel3.Location = new Point(-2, 765);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(529, 10);
+            panel3.TabIndex = 43;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.FromArgb(50, 50, 50);
+            panel4.Location = new Point(-2, 8);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(10, 758);
+            panel4.TabIndex = 44;
+            // 
+            // panel5
+            // 
+            panel5.BackColor = Color.FromArgb(50, 50, 50);
+            panel5.Location = new Point(519, 8);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(10, 758);
+            panel5.TabIndex = 45;
+            // 
             // notetb
             // 
             notetb.BackColor = Color.DimGray;
@@ -327,18 +326,55 @@
             notetb.Size = new Size(462, 58);
             notetb.TabIndex = 44;
             // 
-            // lblSaleID
+            // button2
             // 
-            lblSaleID.AutoSize = true;
-            lblSaleID.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            lblSaleID.ForeColor = Color.FromArgb(204, 141, 26);
-            lblSaleID.Location = new Point(12, 92);
-            lblSaleID.Name = "lblSaleID";
-            lblSaleID.RightToLeft = RightToLeft.Yes;
-            lblSaleID.Size = new Size(20, 28);
-            lblSaleID.TabIndex = 45;
-            lblSaleID.Text = "-";
-            lblSaleID.TextAlign = ContentAlignment.MiddleCenter;
+            button2.BackColor = Color.Silver;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            button2.Location = new Point(12, 728);
+            button2.Name = "button2";
+            button2.Size = new Size(231, 34);
+            button2.TabIndex = 33;
+            button2.Text = "Back";
+            button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
+            // 
+            // Proceed
+            // 
+            Proceed.BackColor = Color.FromArgb(204, 141, 26);
+            Proceed.FlatStyle = FlatStyle.Flat;
+            Proceed.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            Proceed.Location = new Point(284, 728);
+            Proceed.Name = "Proceed";
+            Proceed.Size = new Size(231, 34);
+            Proceed.TabIndex = 22;
+            Proceed.Text = "Paid";
+            Proceed.UseVisualStyleBackColor = false;
+            Proceed.Click += Proceed_Click;
+            // 
+            // amountpaid
+            // 
+            amountpaid.BackColor = Color.FromArgb(30, 30, 30);
+            amountpaid.BorderStyle = BorderStyle.FixedSingle;
+            amountpaid.Font = new Font("Segoe UI", 12F);
+            amountpaid.ForeColor = Color.White;
+            amountpaid.Location = new Point(377, 576);
+            amountpaid.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            amountpaid.Name = "amountpaid";
+            amountpaid.Size = new Size(117, 29);
+            amountpaid.TabIndex = 39;
+            amountpaid.TextAlign = HorizontalAlignment.Center;
+            // 
+            // tbname
+            // 
+            tbname.BackColor = Color.FromArgb(30, 30, 30);
+            tbname.BorderStyle = BorderStyle.FixedSingle;
+            tbname.Font = new Font("Segoe UI", 12F);
+            tbname.ForeColor = Color.White;
+            tbname.Location = new Point(263, 545);
+            tbname.Name = "tbname";
+            tbname.Size = new Size(231, 29);
+            tbname.TabIndex = 38;
             // 
             // paymentform
             // 
@@ -346,6 +382,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(30, 30, 30);
             ClientSize = new Size(527, 774);
+            Controls.Add(panel5);
+            Controls.Add(panel4);
+            Controls.Add(panel3);
+            Controls.Add(panel2);
             Controls.Add(lblSaleID);
             Controls.Add(notetb);
             Controls.Add(label10);
@@ -390,22 +430,26 @@
         private Label lbltotalamount;
         private Label lblsubtotal;
         private Label lblnumberofitem;
-        private Button Proceed;
         private Label label5;
         private Label label4;
         private Label label1;
-        private Button button2;
         private DataGridView summarygrid;
         private Label label2;
         private Label label7;
         private Label label8;
-        private TextBox tbname;
-        private NumericUpDown amountpaid;
         private Label lblchange;
         private Panel panel1;
         private Label label9;
         private Label label10;
-        private TextBox notetb;
         private Label lblSaleID;
+        private Panel panel2;
+        private Panel panel3;
+        private Panel panel4;
+        private Panel panel5;
+        private TextBox notetb;
+        private Button button2;
+        private Button Proceed;
+        private NumericUpDown amountpaid;
+        private TextBox tbname;
     }
 }

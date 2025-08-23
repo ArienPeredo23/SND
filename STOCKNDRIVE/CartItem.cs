@@ -92,5 +92,24 @@ namespace STOCKNDRIVE
                 this.Parent.Controls.Remove(this);
             }
         }
+        public CartItem(string productName, decimal basePrice, int quantity)
+        {
+            InitializeComponent();
+
+            // Set internal state
+            _basePrice = basePrice;
+            _quantity = quantity;
+            this.TotalPrice = _basePrice * _quantity;
+
+            // Update the visual display
+            lblProductName.Text = productName;
+            lblQuantity.Text = _quantity.ToString();
+            lblPrice.Text = this.TotalPrice.ToString("0.00");
+
+            // Hide interactive controls for receipt view
+            add.Visible = false;
+            minus.Visible = false;
+        }
+
     }
 }

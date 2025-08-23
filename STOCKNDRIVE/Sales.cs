@@ -20,6 +20,7 @@ namespace STOCKNDRIVE
         private DataTable salesDataTable;
         private DateTime? startDate = null;
         private DateTime? endDate = null;
+        private int hoveredRowIndex = -1;
         public Sales()
         {
             InitializeComponent();
@@ -28,6 +29,8 @@ namespace STOCKNDRIVE
                 lblwelcome.Text = $"Welcome back, {UserSession.Fullname}!";
             }
             InitializeSettingsPanel();
+            dgvSalesReport.CellMouseEnter += dgvSalesReport_CellMouseEnter;
+            dgvSalesReport.MouseLeave += dgvSalesReport_MouseLeave;
         }
 
         private void InitializeSettingsPanel()
@@ -108,6 +111,7 @@ namespace STOCKNDRIVE
             searchtransactionid_Leave(null, null);
             lblClearSearchforname.Visible = false;
             lblClearSearchforID.Visible = false;
+            
 
             if (UserSession.UserId >= 2)
             {
@@ -119,6 +123,38 @@ namespace STOCKNDRIVE
                 btnSales.Location = posLocation;
                 btnusermanagement.Visible = false;
                 btnaudittrail.Visible = false;
+            }
+        }
+        private void dgvSalesReport_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.RowIndex != this.hoveredRowIndex)
+            {
+                if (this.hoveredRowIndex >= 0)
+                {
+                    RestoreRowStyle(this.hoveredRowIndex);
+                }
+
+                this.hoveredRowIndex = e.RowIndex;
+                dgvSalesReport.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Yellow;
+            }
+        }
+
+        private void dgvSalesReport_MouseLeave(object sender, EventArgs e)
+        {
+            if (this.hoveredRowIndex >= 0)
+            {
+                RestoreRowStyle(this.hoveredRowIndex);
+                this.hoveredRowIndex = -1; 
+            }
+        }
+
+        private void RestoreRowStyle(int rowIndex)
+        {
+          
+            if (rowIndex >= 0 && rowIndex < dgvSalesReport.Rows.Count)
+            {
+                DataGridViewRow row = dgvSalesReport.Rows[rowIndex];
+                row.DefaultCellStyle.BackColor = dgvSalesReport.DefaultCellStyle.BackColor;
             }
         }
 
@@ -376,6 +412,98 @@ namespace STOCKNDRIVE
             {
                 searchtransactionid.Text = "Search Transaction ID";
                 searchtransactionid.ForeColor = Color.Gray;
+            }
+        }
+
+        private void dgvSalesReport_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return; // Ignore clicks on the header row
+
+            // Get the original, numeric SaleID from the hidden column
+            long saleId = Convert.ToInt64(dgvSalesReport.Rows[e.RowIndex].Cells["SaleID"].Value);
+
+            // Call a helper method to do the heavy lifting
+            ShowReceiptForSale(saleId);
+        }
+        private void ShowReceiptForSale(long saleId)
+        {
+            try
+            {
+                DataRow saleDetailsRow = null;
+                List<CartItem> saleItemsList = new List<CartItem>();
+                int totalNumberOfItems = 0;
+
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    conn.Open();
+
+                    // 1. Get the main details for the entire sale
+                    string saleQuery = "SELECT * FROM Sales WHERE SaleID = @SaleID";
+                    using (SqlCommand cmd = new SqlCommand(saleQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@SaleID", saleId);
+                        DataTable dt = new DataTable();
+                        new SqlDataAdapter(cmd).Fill(dt);
+                        if (dt.Rows.Count > 0)
+                        {
+                            saleDetailsRow = dt.Rows[0];
+                        }
+                    }
+
+                    if (saleDetailsRow == null)
+                    {
+                        throw new Exception("Sale record could not be found.");
+                    }
+
+                    // 2. Get all the individual items associated with that sale
+                    string itemsQuery = @"
+                SELECT 
+                    p.ProductName,
+                    (si.PriceAtSale / si.QuantitySold) as UnitPrice,
+                    si.QuantitySold
+                FROM SaleItems si
+                JOIN Products p ON si.ProductID = p.ProductID
+                WHERE si.SaleID = @SaleID";
+
+                    using (SqlCommand cmd = new SqlCommand(itemsQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@SaleID", saleId);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string name = reader["ProductName"].ToString();
+                                decimal unitPrice = Convert.ToDecimal(reader["UnitPrice"]);
+                                int quantity = Convert.ToInt32(reader["QuantitySold"]);
+
+                                // Use the new constructor to create a read-only CartItem
+                                saleItemsList.Add(new CartItem(name, unitPrice, quantity));
+                                totalNumberOfItems += quantity; // Tally the total number of items
+                            }
+                        }
+                    }
+                }
+
+                // 3. Create and show the DigitalReceipt form with all the retrieved data
+                using (DigitalReceipt receiptForm = new DigitalReceipt(
+                    saleId,
+                    saleItemsList,
+                    saleDetailsRow["CustomerName"].ToString(),
+                    Convert.ToDecimal(saleDetailsRow["AmountPaid"]),
+                    Convert.ToDecimal(saleDetailsRow["ChangeGiven"]),
+                    saleDetailsRow["NoteText"].ToString(),
+                    totalNumberOfItems.ToString(),
+                    Convert.ToDecimal(saleDetailsRow["Subtotal"]).ToString("N2"),
+                    Convert.ToDecimal(saleDetailsRow["Discount"]).ToString("N2"),
+                    Convert.ToDecimal(saleDetailsRow["TotalAmount"]).ToString("N2")
+                ))
+                {
+                    receiptForm.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to retrieve full receipt details.\nError: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
