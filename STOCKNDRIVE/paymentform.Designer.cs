@@ -68,9 +68,9 @@
             button1.BackgroundImageLayout = ImageLayout.Stretch;
             button1.FlatStyle = FlatStyle.Flat;
             button1.ForeColor = Color.FromArgb(30, 30, 30);
-            button1.Location = new Point(483, 11);
+            button1.Location = new Point(495, 12);
             button1.Name = "button1";
-            button1.Size = new Size(34, 34);
+            button1.Size = new Size(20, 20);
             button1.TabIndex = 18;
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;

@@ -33,7 +33,7 @@ namespace STOCKNDRIVE
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void txtUsername_TextChanged(object sender, EventArgs e)
@@ -66,8 +66,6 @@ namespace STOCKNDRIVE
             }
             catch (Exception ex)
             {
-                // Optionally, handle or log the error if the audit trail fails.
-                // For a login screen, it's often best to not show a blocking error message here.
                 Console.WriteLine("Failed to log activity: " + ex.Message);
             }
         }
@@ -102,7 +100,7 @@ namespace STOCKNDRIVE
                             int userId = Convert.ToInt32(reader["UserId"]);
                             string fullname = reader["Fullname"].ToString();
 
-                         
+
                             UserSession.SetCurrentUser(userId, fullname);
                             LogActivity(userId, fullname);
 
@@ -144,6 +142,11 @@ namespace STOCKNDRIVE
             {
                 MessageBox.Show("An error occurred while connecting to the database: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

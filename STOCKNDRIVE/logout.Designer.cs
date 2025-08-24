@@ -125,9 +125,9 @@
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatStyle = FlatStyle.Flat;
             button2.ForeColor = SystemColors.Control;
-            button2.Location = new Point(814, 12);
+            button2.Location = new Point(828, 12);
             button2.Name = "button2";
-            button2.Size = new Size(34, 34);
+            button2.Size = new Size(20, 20);
             button2.TabIndex = 18;
             button2.UseVisualStyleBackColor = false;
             button2.Click += button2_Click;

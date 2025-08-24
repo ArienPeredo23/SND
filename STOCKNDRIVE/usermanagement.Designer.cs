@@ -91,10 +91,10 @@
             button4.BackgroundImageLayout = ImageLayout.Stretch;
             button4.FlatAppearance.BorderSize = 0;
             button4.FlatStyle = FlatStyle.Flat;
-            button4.ForeColor = SystemColors.Control;
-            button4.Location = new Point(814, 12);
+            button4.ForeColor = Color.FromArgb(50, 50, 50);
+            button4.Location = new Point(828, 12);
             button4.Name = "button4";
-            button4.Size = new Size(34, 34);
+            button4.Size = new Size(20, 20);
             button4.TabIndex = 19;
             button4.UseVisualStyleBackColor = false;
             button4.Click += button4_Click;

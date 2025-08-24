@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
 
 namespace STOCKNDRIVE
 {
@@ -136,6 +139,7 @@ namespace STOCKNDRIVE
 
                 this.hoveredRowIndex = e.RowIndex;
                 dgvSalesReport.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Yellow;
+                dgvSalesReport.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
             }
         }
 
@@ -155,6 +159,7 @@ namespace STOCKNDRIVE
             {
                 DataGridViewRow row = dgvSalesReport.Rows[rowIndex];
                 row.DefaultCellStyle.BackColor = dgvSalesReport.DefaultCellStyle.BackColor;
+                row.DefaultCellStyle.ForeColor = dgvSalesReport.DefaultCellStyle.ForeColor;
             }
         }
 
@@ -163,23 +168,59 @@ namespace STOCKNDRIVE
             try
             {
                 string query = @"
-                    SELECT 
-                        s.SaleID, s.TransactionDate, 'Processed by ' + u.Fullname AS ProcessedBy, 
-                        s.Subtotal, s.Discount, s.DiscountDescription, s.TotalAmount, 
-                        s.AmountPaid, s.ChangeGiven, s.CustomerName, s.NoteText
-                    FROM Sales s
-                    LEFT JOIN [user] u ON s.UserID = u.UserID
-                    ORDER BY s.TransactionDate DESC";
+            SELECT 
+                s.SaleID, 
+                s.TransactionDate, 
+                'Processed by ' + u.Fullname AS ProcessedBy, 
+                (
+                    SELECT p.ProductName + ' (x' + CAST(si.QuantitySold AS VARCHAR) + ' @ ' + FORMAT(si.PriceAtSale, 'N2') + ')' + CHAR(13)+CHAR(10)
+                    FROM SaleItems si
+                    JOIN Products p ON si.ProductID = p.ProductID
+                    WHERE si.SaleID = s.SaleID
+                    FOR XML PATH('')
+                ) AS ItemsList,
+                s.Subtotal, 
+                s.Discount, 
+                s.DiscountDescription, 
+                s.TotalAmount, 
+                s.AmountPaid, 
+                s.ChangeGiven, 
+                s.CustomerName,
+                s.NoteText, 
+                s.Status 
+            FROM Sales s
+            LEFT JOIN [user] u ON s.UserID = u.UserID
+            ORDER BY s.TransactionDate DESC";
+
                 using (SqlConnection conn = DBConnection.GetConnection())
                 {
                     SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
                     this.salesDataTable = new DataTable();
                     adapter.Fill(this.salesDataTable);
+
                     this.salesDataTable.Columns.Add("FormattedSaleID", typeof(string));
+                    this.salesDataTable.Columns.Add("CombinedDiscount", typeof(string));
+                    this.salesDataTable.Columns.Add("CombinedCustomerInfo", typeof(string));
+
                     foreach (DataRow row in this.salesDataTable.Rows)
                     {
                         long originalSaleId = Convert.ToInt64(row["SaleID"]);
                         row["FormattedSaleID"] = originalSaleId.ToString("D6");
+
+                        string discountDesc = row["DiscountDescription"].ToString();
+                        decimal discountAmount = Convert.ToDecimal(row["Discount"]);
+                        row["CombinedDiscount"] = string.IsNullOrEmpty(discountDesc) ? discountAmount.ToString("N2") : $"{discountDesc} ({discountAmount:N2})";
+
+                        string customer = row["CustomerName"].ToString();
+                        string note = row["NoteText"].ToString();
+                        row["CombinedCustomerInfo"] = string.IsNullOrEmpty(note) ? customer : $"{customer}\nNote: {note}";
+
+                        // Clean the XML encoded newline characters from the ItemsList
+                        if (row["ItemsList"] != DBNull.Value)
+                        {
+                            string items = row["ItemsList"].ToString();
+                            row["ItemsList"] = items.Replace("&#x0D;", "").Trim();
+                        }
                     }
                     dgvSalesReport.DataSource = this.salesDataTable;
                 }
@@ -192,19 +233,21 @@ namespace STOCKNDRIVE
 
         private void StyleSalesGrid()
         {
-            if (dgvSalesReport.DataSource == null) return;
+            if (dgvSalesReport.DataSource == null || dgvSalesReport.Rows.Count == 0) return;
             dgvSalesReport.RowTemplate.Height = 35;
             dgvSalesReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvSalesReport.ColumnHeadersHeight = 50;
             dgvSalesReport.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dgvSalesReport.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dgvSalesReport.BackgroundColor = Color.White;
+            dgvSalesReport.BackgroundColor = Color.FromArgb(40, 40, 40);
             dgvSalesReport.BorderStyle = BorderStyle.None;
-            dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            dgvSalesReport.GridColor = Color.LightGray;
-            dgvSalesReport.DefaultCellStyle.Font = new Font("Segoe UI", 12F, GraphicsUnit.Pixel);
+            dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dgvSalesReport.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dgvSalesReport.GridColor = Color.White;
+            dgvSalesReport.DefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 12F, GraphicsUnit.Pixel);
             dgvSalesReport.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvSalesReport.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            dgvSalesReport.DefaultCellStyle.Padding = new Padding(5);
+            dgvSalesReport.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Pixel);
             dgvSalesReport.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvSalesReport.ReadOnly = true;
             dgvSalesReport.AllowUserToAddRows = false;
@@ -219,30 +262,41 @@ namespace STOCKNDRIVE
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
-            dgvSalesReport.DefaultCellStyle.BackColor = Color.White;
-            dgvSalesReport.DefaultCellStyle.ForeColor = Color.Black;
-            dgvSalesReport.DefaultCellStyle.SelectionBackColor = Color.White;
-            dgvSalesReport.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dgvSalesReport.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
-            dgvSalesReport.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            dgvSalesReport.DefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40);
+            dgvSalesReport.DefaultCellStyle.ForeColor = Color.White;
+            dgvSalesReport.DefaultCellStyle.SelectionBackColor = Color.FromArgb(40, 40, 40);
+            dgvSalesReport.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40);
+            dgvSalesReport.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(40, 40, 40);
+
             dgvSalesReport.Columns["SaleID"].Visible = false;
+            dgvSalesReport.Columns["Discount"].Visible = false;
+            dgvSalesReport.Columns["DiscountDescription"].Visible = false;
+            dgvSalesReport.Columns["CustomerName"].Visible = false;
+            dgvSalesReport.Columns["NoteText"].Visible = false;
+
             dgvSalesReport.Columns["FormattedSaleID"].HeaderText = "Transaction ID";
             dgvSalesReport.Columns["TransactionDate"].HeaderText = "Date";
             dgvSalesReport.Columns["ProcessedBy"].HeaderText = "Processed By";
+            dgvSalesReport.Columns["ItemsList"].HeaderText = "Items Purchased";
             dgvSalesReport.Columns["Subtotal"].HeaderText = "Subtotal";
-            dgvSalesReport.Columns["Discount"].HeaderText = "Discount";
-            dgvSalesReport.Columns["DiscountDescription"].HeaderText = "Discount Details";
+            dgvSalesReport.Columns["CombinedDiscount"].HeaderText = "Discount";
             dgvSalesReport.Columns["TotalAmount"].HeaderText = "Total Amount";
             dgvSalesReport.Columns["AmountPaid"].HeaderText = "Amount Paid";
             dgvSalesReport.Columns["ChangeGiven"].HeaderText = "Change";
-            dgvSalesReport.Columns["CustomerName"].HeaderText = "Customer";
-            dgvSalesReport.Columns["NoteText"].HeaderText = "Note";
+            dgvSalesReport.Columns["CombinedCustomerInfo"].HeaderText = "Customer & Notes";
+            dgvSalesReport.Columns["Status"].HeaderText = "Status";
+
             dgvSalesReport.Columns["TransactionDate"].DefaultCellStyle.Format = "MMMM dd, yyyy";
             dgvSalesReport.Columns["Subtotal"].DefaultCellStyle.Format = "N2";
-            dgvSalesReport.Columns["Discount"].DefaultCellStyle.Format = "N2";
             dgvSalesReport.Columns["TotalAmount"].DefaultCellStyle.Format = "N2";
             dgvSalesReport.Columns["AmountPaid"].DefaultCellStyle.Format = "N2";
             dgvSalesReport.Columns["ChangeGiven"].DefaultCellStyle.Format = "N2";
+
+            dgvSalesReport.Columns["ItemsList"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgvSalesReport.Columns["CombinedCustomerInfo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
             dgvSalesReport.Columns["FormattedSaleID"].DisplayIndex = 0;
             dgvSalesReport.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
@@ -417,12 +471,11 @@ namespace STOCKNDRIVE
 
         private void dgvSalesReport_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return; // Ignore clicks on the header row
+            if (e.RowIndex < 0) return;
 
-            // Get the original, numeric SaleID from the hidden column
             long saleId = Convert.ToInt64(dgvSalesReport.Rows[e.RowIndex].Cells["SaleID"].Value);
 
-            // Call a helper method to do the heavy lifting
+
             ShowReceiptForSale(saleId);
         }
         private void ShowReceiptForSale(long saleId)
@@ -437,7 +490,7 @@ namespace STOCKNDRIVE
                 {
                     conn.Open();
 
-                    // 1. Get the main details for the entire sale
+
                     string saleQuery = "SELECT * FROM Sales WHERE SaleID = @SaleID";
                     using (SqlCommand cmd = new SqlCommand(saleQuery, conn))
                     {
@@ -455,7 +508,6 @@ namespace STOCKNDRIVE
                         throw new Exception("Sale record could not be found.");
                     }
 
-                    // 2. Get all the individual items associated with that sale
                     string itemsQuery = @"
                 SELECT 
                     p.ProductName,
@@ -476,15 +528,13 @@ namespace STOCKNDRIVE
                                 decimal unitPrice = Convert.ToDecimal(reader["UnitPrice"]);
                                 int quantity = Convert.ToInt32(reader["QuantitySold"]);
 
-                                // Use the new constructor to create a read-only CartItem
                                 saleItemsList.Add(new CartItem(name, unitPrice, quantity));
-                                totalNumberOfItems += quantity; // Tally the total number of items
+                                totalNumberOfItems += quantity;
                             }
                         }
                     }
                 }
 
-                // 3. Create and show the DigitalReceipt form with all the retrieved data
                 using (DigitalReceipt receiptForm = new DigitalReceipt(
                     saleId,
                     saleItemsList,
@@ -516,7 +566,7 @@ namespace STOCKNDRIVE
                 {
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@UserID", UserSession.UserId); // Log who initiated the backup
+                        cmd.Parameters.AddWithValue("@UserID", UserSession.UserId);
                         cmd.Parameters.AddWithValue("@ActionType", actionType);
                         cmd.Parameters.AddWithValue("@ActionDetails", actionDetails);
                         cmd.Parameters.AddWithValue("@Timestamp", DateTime.Now);
@@ -532,7 +582,6 @@ namespace STOCKNDRIVE
         }
         private void backupbtn_Click(object sender, EventArgs e)
         {
-            // 1. Ask for confirmation from the user
             DialogResult confirmResult = MessageBox.Show("Are you sure you want to back up the database?",
                                                          "Confirm Backup",
                                                          MessageBoxButtons.YesNo,
@@ -543,11 +592,10 @@ namespace STOCKNDRIVE
                 return;
             }
 
-            // 2. Open a Save File Dialog to let the user choose the location and name
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "SQL Backup file (*.bak)|*.bak";
             saveFileDialog.Title = "Save Database Backup";
-            saveFileDialog.FileName = $"stockndrive_{DateTime.Now:yyyyMMdd_HHmmss}.bak"; // Default file name
+            saveFileDialog.FileName = $"stockndrive_{DateTime.Now:yyyyMMdd_HHmmss}.bak";
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -555,10 +603,6 @@ namespace STOCKNDRIVE
 
                 try
                 {
-                    // 3. Execute the database backup command
-                    // IMPORTANT: The SQL Server service account MUST have write permissions to the folder you choose.
-                    // This often fails if you try to save to "C:\Program Files" or other protected system locations.
-                    // Saving to "Documents" or a dedicated "Backups" folder on the C: drive is usually safest.
                     string dbName = "stockndrive";
                     string query = $"BACKUP DATABASE [{dbName}] TO DISK = @BackupPath";
 
@@ -572,9 +616,8 @@ namespace STOCKNDRIVE
                         }
                     }
 
-                    // 4. Log the successful backup
                     string details = $"{UserSession.Fullname} created a database backup at '{backupPath}'.";
-                    LogSystemActivity("Database Backup", details); // Assuming you have this method
+                    LogSystemActivity("Database Backup", details);
 
                     MessageBox.Show("Database backup completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -584,6 +627,84 @@ namespace STOCKNDRIVE
                                     "Please ensure the SQL Server service has write permissions to the selected folder.\n\n" +
                                     "Error: " + ex.Message,
                                     "Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            if (dgvSalesReport.Rows.Count == 0)
+            {
+                MessageBox.Show("There is no data to export.", "Cannot Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "PDF file (*.pdf)|*.pdf";
+            saveFileDialog.Title = "Export Sales Report to PDF";
+            saveFileDialog.FileName = $"SalesReport_{DateTime.Now:yyyyMMdd}.pdf";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    Document doc = new Document(PageSize.LETTER.Rotate(), 25, 25, 30, 30);
+                    PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(saveFileDialog.FileName, FileMode.Create));
+                    doc.Open();
+
+                    iTextSharp.text.Font titleFont = FontFactory.GetFont("Arial", 12, iTextSharp.text.Font.BOLD);
+                    iTextSharp.text.Font filterFont = FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.ITALIC);
+                    iTextSharp.text.Font headerFont = FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.BOLD);
+                    iTextSharp.text.Font cellFont = FontFactory.GetFont("Arial", 8);
+
+                    doc.Add(new Paragraph("Sales Report", titleFont));
+
+                    if (!string.IsNullOrEmpty(salesDataTable.DefaultView.RowFilter) && salesDataTable.DefaultView.RowFilter.Contains("TransactionDate"))
+                    {
+                        if (startDate.HasValue && endDate.HasValue)
+                        {
+                            doc.Add(new Paragraph($"Filtered from: {startDate.Value:MMMM dd, yyyy} to {endDate.Value:MMMM dd, yyyy}", filterFont));
+                        }
+                        else
+                        {
+                            doc.Add(new Paragraph($"Filtered by a selected date range", filterFont));
+                        }
+                    }
+                    doc.Add(new Paragraph(" "));
+
+                    PdfPTable pdfTable = new PdfPTable(dgvSalesReport.Columns.GetColumnCount(DataGridViewElementStates.Visible));
+                    pdfTable.WidthPercentage = 100;
+
+                    foreach (DataGridViewColumn column in dgvSalesReport.Columns)
+                    {
+                        if (column.Visible)
+                        {
+                            PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText, headerFont));
+                            cell.BackgroundColor = new BaseColor(240, 240, 240);
+                            pdfTable.AddCell(cell);
+                        }
+                    }
+
+                    foreach (DataGridViewRow row in dgvSalesReport.Rows)
+                    {
+                        foreach (DataGridViewCell cell in row.Cells)
+                        {
+                            if (cell.Visible)
+                            {
+                                PdfPCell dataCell = new PdfPCell(new Phrase(cell.FormattedValue.ToString(), cellFont));
+                                pdfTable.AddCell(dataCell);
+                            }
+                        }
+                    }
+
+                    doc.Add(pdfTable);
+                    doc.Close();
+
+                    MessageBox.Show("Report exported successfully!", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred while exporting the report.\nError: " + ex.Message, "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

@@ -209,7 +209,7 @@
             btnCancel.FlatStyle = FlatStyle.Flat;
             btnCancel.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCancel.ForeColor = Color.White;
-            btnCancel.Location = new Point(550, 440);
+            btnCancel.Location = new Point(510, 440);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(120, 40);
             btnCancel.TabIndex = 15;
@@ -239,9 +239,9 @@
             button1.BackgroundImageLayout = ImageLayout.Stretch;
             button1.FlatStyle = FlatStyle.Flat;
             button1.ForeColor = SystemColors.Control;
-            button1.Location = new Point(814, 12);
+            button1.Location = new Point(828, 12);
             button1.Name = "button1";
-            button1.Size = new Size(34, 34);
+            button1.Size = new Size(20, 20);
             button1.TabIndex = 17;
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
@@ -269,7 +269,7 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(40, 440);
+            btnDelete.Location = new Point(330, 440);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(120, 40);
             btnDelete.TabIndex = 19;
@@ -284,7 +284,7 @@
             bulkupload.FlatAppearance.BorderSize = 0;
             bulkupload.FlatStyle = FlatStyle.Flat;
             bulkupload.Font = new Font("Segoe UI", 10F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
-            bulkupload.Location = new Point(40, 14);
+            bulkupload.Location = new Point(40, 452);
             bulkupload.Name = "bulkupload";
             bulkupload.Size = new Size(171, 28);
             bulkupload.TabIndex = 20;

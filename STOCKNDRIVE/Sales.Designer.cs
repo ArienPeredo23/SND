@@ -30,8 +30,8 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Sales));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             btnSales = new Button();
             btnInventory = new Button();
             btnPOS = new Button();
@@ -47,6 +47,10 @@
             label1 = new Label();
             panel4 = new Panel();
             reportPanel = new Panel();
+            panelDateFilter = new Panel();
+            lblDateRange = new Label();
+            btnClearFilter = new Button();
+            monthCalendar1 = new MonthCalendar();
             lblClearSearchforname = new Label();
             lblClearSearchforID = new Label();
             searchtransactionid = new TextBox();
@@ -57,16 +61,12 @@
             btnExport = new Button();
             lblwelcome = new Label();
             slideTimer = new System.Windows.Forms.Timer(components);
-            panelDateFilter = new Panel();
-            lblDateRange = new Label();
-            btnClearFilter = new Button();
-            monthCalendar1 = new MonthCalendar();
             leftNavPanel.SuspendLayout();
             settingsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             reportPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvSalesReport).BeginInit();
             panelDateFilter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvSalesReport).BeginInit();
             SuspendLayout();
             // 
             // btnSales
@@ -292,8 +292,10 @@
             // 
             // reportPanel
             // 
-            reportPanel.BackColor = Color.White;
+            reportPanel.BackColor = Color.FromArgb(30, 30, 30);
+            reportPanel.Controls.Add(panelDateFilter);
             reportPanel.Controls.Add(lblClearSearchforname);
+            reportPanel.Controls.Add(btnExport);
             reportPanel.Controls.Add(lblClearSearchforID);
             reportPanel.Controls.Add(searchtransactionid);
             reportPanel.Controls.Add(dgvSalesReport);
@@ -302,152 +304,15 @@
             reportPanel.Controls.Add(label2);
             reportPanel.Location = new Point(260, 98);
             reportPanel.Name = "reportPanel";
-            reportPanel.Size = new Size(1255, 793);
+            reportPanel.Size = new Size(1575, 793);
             reportPanel.TabIndex = 9;
-            // 
-            // lblClearSearchforname
-            // 
-            lblClearSearchforname.AutoSize = true;
-            lblClearSearchforname.BackColor = Color.Transparent;
-            lblClearSearchforname.Cursor = Cursors.Hand;
-            lblClearSearchforname.Font = new Font("Segoe UI", 9F);
-            lblClearSearchforname.Location = new Point(1099, 43);
-            lblClearSearchforname.Name = "lblClearSearchforname";
-            lblClearSearchforname.Size = new Size(14, 15);
-            lblClearSearchforname.TabIndex = 13;
-            lblClearSearchforname.Text = "X";
-            lblClearSearchforname.Visible = false;
-            lblClearSearchforname.Click += lblClearSearchforname_Click;
-            // 
-            // lblClearSearchforID
-            // 
-            lblClearSearchforID.AutoSize = true;
-            lblClearSearchforID.BackColor = Color.Transparent;
-            lblClearSearchforID.Cursor = Cursors.Hand;
-            lblClearSearchforID.Font = new Font("Segoe UI", 9F);
-            lblClearSearchforID.Location = new Point(737, 43);
-            lblClearSearchforID.Name = "lblClearSearchforID";
-            lblClearSearchforID.Size = new Size(14, 15);
-            lblClearSearchforID.TabIndex = 12;
-            lblClearSearchforID.Text = "X";
-            lblClearSearchforID.Visible = false;
-            lblClearSearchforID.Click += lblClearSearchforID_Click;
-            // 
-            // searchtransactionid
-            // 
-            searchtransactionid.Font = new Font("Segoe UI", 12F);
-            searchtransactionid.Location = new Point(403, 36);
-            searchtransactionid.Name = "searchtransactionid";
-            searchtransactionid.Size = new Size(356, 29);
-            searchtransactionid.TabIndex = 5;
-            searchtransactionid.TextChanged += searchtransactionid_TextChanged;
-            searchtransactionid.Enter += searchtransactionid_Enter;
-            searchtransactionid.Leave += searchtransactionid_Leave;
-            // 
-            // dgvSalesReport
-            // 
-            dgvSalesReport.AllowUserToAddRows = false;
-            dgvSalesReport.AllowUserToDeleteRows = false;
-            dgvSalesReport.BackgroundColor = Color.White;
-            dgvSalesReport.BorderStyle = BorderStyle.None;
-            dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle1.SelectionBackColor = Color.White;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvSalesReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle2;
-            dgvSalesReport.GridColor = SystemColors.ButtonFace;
-            dgvSalesReport.Location = new Point(25, 80);
-            dgvSalesReport.Name = "dgvSalesReport";
-            dgvSalesReport.RowHeadersVisible = false;
-            dgvSalesReport.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvSalesReport.Size = new Size(1206, 690);
-            dgvSalesReport.TabIndex = 4;
-            dgvSalesReport.CellClick += dgvSalesReport_CellClick;
-            // 
-            // NameSearchtb
-            // 
-            NameSearchtb.Font = new Font("Segoe UI", 12F);
-            NameSearchtb.Location = new Point(765, 36);
-            NameSearchtb.Name = "NameSearchtb";
-            NameSearchtb.Size = new Size(356, 29);
-            NameSearchtb.TabIndex = 3;
-            NameSearchtb.TextChanged += NameSearchtb_TextChanged;
-            NameSearchtb.Enter += NameSearchtb_Enter;
-            NameSearchtb.Leave += NameSearchtb_Leave;
-            // 
-            // btnFilter
-            // 
-            btnFilter.FlatAppearance.BorderColor = Color.FromArgb(224, 224, 224);
-            btnFilter.FlatStyle = FlatStyle.Flat;
-            btnFilter.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnFilter.Image = (Image)resources.GetObject("btnFilter.Image");
-            btnFilter.Location = new Point(1127, 36);
-            btnFilter.Name = "btnFilter";
-            btnFilter.Size = new Size(104, 30);
-            btnFilter.TabIndex = 2;
-            btnFilter.Text = "Date Filter";
-            btnFilter.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnFilter.UseVisualStyleBackColor = true;
-            btnFilter.Click += btnFilter_Click;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            label2.Location = new Point(25, 36);
-            label2.Name = "label2";
-            label2.Size = new Size(162, 32);
-            label2.TabIndex = 0;
-            label2.Text = "Sales History";
-            // 
-            // btnExport
-            // 
-            btnExport.BackColor = Color.FromArgb(233, 95, 95);
-            btnExport.FlatAppearance.BorderSize = 0;
-            btnExport.FlatStyle = FlatStyle.Flat;
-            btnExport.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnExport.ForeColor = Color.White;
-            btnExport.Location = new Point(1745, 860);
-            btnExport.Name = "btnExport";
-            btnExport.Size = new Size(90, 30);
-            btnExport.TabIndex = 1;
-            btnExport.Text = "Export";
-            btnExport.UseVisualStyleBackColor = false;
-            // 
-            // lblwelcome
-            // 
-            lblwelcome.AutoSize = true;
-            lblwelcome.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            lblwelcome.ForeColor = Color.FromArgb(204, 141, 26);
-            lblwelcome.Location = new Point(700, 43);
-            lblwelcome.Name = "lblwelcome";
-            lblwelcome.Size = new Size(20, 28);
-            lblwelcome.TabIndex = 10;
-            lblwelcome.Text = "-";
-            // 
-            // slideTimer
-            // 
-            slideTimer.Interval = 15;
             // 
             // panelDateFilter
             // 
             panelDateFilter.Controls.Add(lblDateRange);
             panelDateFilter.Controls.Add(btnClearFilter);
             panelDateFilter.Controls.Add(monthCalendar1);
-            panelDateFilter.Location = new Point(1531, 98);
+            panelDateFilter.Location = new Point(1147, 74);
             panelDateFilter.Name = "panelDateFilter";
             panelDateFilter.Size = new Size(307, 396);
             panelDateFilter.TabIndex = 11;
@@ -487,16 +352,160 @@
             monthCalendar1.TabIndex = 2;
             monthCalendar1.DateSelected += monthCalendar1_DateSelected;
             // 
+            // lblClearSearchforname
+            // 
+            lblClearSearchforname.AutoSize = true;
+            lblClearSearchforname.BackColor = Color.FromArgb(30, 30, 30);
+            lblClearSearchforname.Cursor = Cursors.Hand;
+            lblClearSearchforname.Font = new Font("Segoe UI", 9F);
+            lblClearSearchforname.ForeColor = Color.White;
+            lblClearSearchforname.Location = new Point(1322, 46);
+            lblClearSearchforname.Name = "lblClearSearchforname";
+            lblClearSearchforname.Size = new Size(14, 15);
+            lblClearSearchforname.TabIndex = 13;
+            lblClearSearchforname.Text = "X";
+            lblClearSearchforname.Visible = false;
+            lblClearSearchforname.Click += lblClearSearchforname_Click;
+            // 
+            // lblClearSearchforID
+            // 
+            lblClearSearchforID.AutoSize = true;
+            lblClearSearchforID.BackColor = Color.FromArgb(30, 30, 30);
+            lblClearSearchforID.Cursor = Cursors.Hand;
+            lblClearSearchforID.Font = new Font("Segoe UI", 9F);
+            lblClearSearchforID.ForeColor = Color.White;
+            lblClearSearchforID.Location = new Point(960, 46);
+            lblClearSearchforID.Name = "lblClearSearchforID";
+            lblClearSearchforID.Size = new Size(14, 15);
+            lblClearSearchforID.TabIndex = 12;
+            lblClearSearchforID.Text = "X";
+            lblClearSearchforID.Visible = false;
+            lblClearSearchforID.Click += lblClearSearchforID_Click;
+            // 
+            // searchtransactionid
+            // 
+            searchtransactionid.BackColor = Color.FromArgb(30, 30, 30);
+            searchtransactionid.Font = new Font("Segoe UI", 12F);
+            searchtransactionid.ForeColor = Color.White;
+            searchtransactionid.Location = new Point(626, 39);
+            searchtransactionid.Name = "searchtransactionid";
+            searchtransactionid.Size = new Size(356, 29);
+            searchtransactionid.TabIndex = 5;
+            searchtransactionid.TextChanged += searchtransactionid_TextChanged;
+            searchtransactionid.Enter += searchtransactionid_Enter;
+            searchtransactionid.Leave += searchtransactionid_Leave;
+            // 
+            // dgvSalesReport
+            // 
+            dgvSalesReport.AllowUserToAddRows = false;
+            dgvSalesReport.AllowUserToDeleteRows = false;
+            dgvSalesReport.BackgroundColor = Color.FromArgb(40, 40, 40);
+            dgvSalesReport.BorderStyle = BorderStyle.None;
+            dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle3.SelectionBackColor = Color.White;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dgvSalesReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle4;
+            dgvSalesReport.GridColor = SystemColors.ButtonFace;
+            dgvSalesReport.Location = new Point(25, 80);
+            dgvSalesReport.Name = "dgvSalesReport";
+            dgvSalesReport.RowHeadersVisible = false;
+            dgvSalesReport.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvSalesReport.Size = new Size(1525, 690);
+            dgvSalesReport.TabIndex = 4;
+            dgvSalesReport.CellClick += dgvSalesReport_CellClick;
+            // 
+            // NameSearchtb
+            // 
+            NameSearchtb.BackColor = Color.FromArgb(30, 30, 30);
+            NameSearchtb.Font = new Font("Segoe UI", 12F);
+            NameSearchtb.ForeColor = Color.White;
+            NameSearchtb.Location = new Point(988, 39);
+            NameSearchtb.Name = "NameSearchtb";
+            NameSearchtb.Size = new Size(356, 29);
+            NameSearchtb.TabIndex = 3;
+            NameSearchtb.TextChanged += NameSearchtb_TextChanged;
+            NameSearchtb.Enter += NameSearchtb_Enter;
+            NameSearchtb.Leave += NameSearchtb_Leave;
+            // 
+            // btnFilter
+            // 
+            btnFilter.FlatAppearance.BorderColor = Color.FromArgb(224, 224, 224);
+            btnFilter.FlatStyle = FlatStyle.Flat;
+            btnFilter.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnFilter.ForeColor = Color.White;
+            btnFilter.Image = (Image)resources.GetObject("btnFilter.Image");
+            btnFilter.Location = new Point(1350, 39);
+            btnFilter.Name = "btnFilter";
+            btnFilter.Size = new Size(104, 30);
+            btnFilter.TabIndex = 2;
+            btnFilter.Text = "Date Filter";
+            btnFilter.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnFilter.UseVisualStyleBackColor = true;
+            btnFilter.Click += btnFilter_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(25, 36);
+            label2.Name = "label2";
+            label2.Size = new Size(162, 32);
+            label2.TabIndex = 0;
+            label2.Text = "Sales History";
+            // 
+            // btnExport
+            // 
+            btnExport.BackColor = Color.FromArgb(233, 95, 95);
+            btnExport.FlatAppearance.BorderSize = 0;
+            btnExport.FlatStyle = FlatStyle.Flat;
+            btnExport.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnExport.ForeColor = Color.White;
+            btnExport.Location = new Point(1460, 39);
+            btnExport.Name = "btnExport";
+            btnExport.Size = new Size(90, 30);
+            btnExport.TabIndex = 1;
+            btnExport.Text = "Export";
+            btnExport.UseVisualStyleBackColor = false;
+            btnExport.Click += btnExport_Click;
+            // 
+            // lblwelcome
+            // 
+            lblwelcome.AutoSize = true;
+            lblwelcome.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            lblwelcome.ForeColor = Color.FromArgb(204, 141, 26);
+            lblwelcome.Location = new Point(700, 43);
+            lblwelcome.Name = "lblwelcome";
+            lblwelcome.Size = new Size(20, 28);
+            lblwelcome.TabIndex = 10;
+            lblwelcome.Text = "-";
+            // 
+            // slideTimer
+            // 
+            slideTimer.Interval = 15;
+            // 
             // Sales
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(20, 22, 23);
             ClientSize = new Size(1850, 920);
-            Controls.Add(panelDateFilter);
             Controls.Add(lblwelcome);
             Controls.Add(reportPanel);
-            Controls.Add(btnExport);
             Controls.Add(panel4);
             Controls.Add(label1);
             Controls.Add(leftNavPanel);
@@ -510,9 +519,9 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             reportPanel.ResumeLayout(false);
             reportPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvSalesReport).EndInit();
             panelDateFilter.ResumeLayout(false);
             panelDateFilter.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvSalesReport).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
