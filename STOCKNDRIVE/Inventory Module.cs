@@ -38,6 +38,8 @@ namespace STOCKNDRIVE
             settingsPanel.Height = 0; // Start with the panel collapsed
             slideTimer.Tick += SlideTimer_Tick; // Subscribe to the timer's tick event
         }
+
+
         private void SlideTimer_Tick(object sender, EventArgs e)
         {
             int step = 20; // Controls the speed of the animation

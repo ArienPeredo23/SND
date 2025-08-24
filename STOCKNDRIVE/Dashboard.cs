@@ -34,6 +34,7 @@ namespace STOCKNDRIVE
             dgvSalesReport.CellMouseEnter += dgvSalesReport_CellMouseEnter;
             dgvSalesReport.MouseLeave += dgvSalesReport_MouseLeave;
         }
+
         private void InitializeSettingsPanel()
         {
 

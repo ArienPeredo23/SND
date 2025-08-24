@@ -30,11 +30,11 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             leftNavPanel = new Panel();
             settingsPanel = new Panel();
             backupbtn = new Button();
@@ -215,7 +215,7 @@
             btnSales.ForeColor = Color.White;
             btnSales.Image = (Image)resources.GetObject("btnSales.Image");
             btnSales.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSales.Location = new Point(30, 319);
+            btnSales.Location = new Point(30, 314);
             btnSales.Name = "btnSales";
             btnSales.Size = new Size(180, 45);
             btnSales.TabIndex = 4;
@@ -233,7 +233,7 @@
             btnInventory.ForeColor = Color.White;
             btnInventory.Image = (Image)resources.GetObject("btnInventory.Image");
             btnInventory.ImageAlign = ContentAlignment.MiddleLeft;
-            btnInventory.Location = new Point(30, 264);
+            btnInventory.Location = new Point(30, 260);
             btnInventory.Name = "btnInventory";
             btnInventory.Size = new Size(180, 45);
             btnInventory.TabIndex = 3;
@@ -251,7 +251,7 @@
             btnPOS.ForeColor = Color.White;
             btnPOS.Image = (Image)resources.GetObject("btnPOS.Image");
             btnPOS.ImageAlign = ContentAlignment.MiddleLeft;
-            btnPOS.Location = new Point(30, 209);
+            btnPOS.Location = new Point(30, 207);
             btnPOS.Name = "btnPOS";
             btnPOS.Size = new Size(180, 45);
             btnPOS.TabIndex = 2;
@@ -474,23 +474,23 @@
             dgvSalesReport.BackgroundColor = Color.FromArgb(45, 45, 45);
             dgvSalesReport.BorderStyle = BorderStyle.None;
             dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle3.SelectionBackColor = Color.White;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.White;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle5.SelectionBackColor = Color.White;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvSalesReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle6;
             dgvSalesReport.GridColor = SystemColors.ButtonFace;
             dgvSalesReport.Location = new Point(27, 46);
             dgvSalesReport.Name = "dgvSalesReport";
@@ -597,16 +597,16 @@
             // 
             // salesChart
             // 
-            chartArea2.Name = "ChartArea1";
-            salesChart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            salesChart.Legends.Add(legend2);
+            chartArea3.Name = "ChartArea1";
+            salesChart.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            salesChart.Legends.Add(legend3);
             salesChart.Location = new Point(20, 80);
             salesChart.Name = "salesChart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            salesChart.Series.Add(series2);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            salesChart.Series.Add(series3);
             salesChart.Size = new Size(834, 355);
             salesChart.TabIndex = 10;
             salesChart.Text = "chart1";

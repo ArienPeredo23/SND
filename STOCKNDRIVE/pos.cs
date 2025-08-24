@@ -31,7 +31,6 @@ namespace STOCKNDRIVE
 
             InitializeSettingsPanel();
         }
-
         private void InitializeSettingsPanel()
         {
             settingsPanel.Location = new Point(btnSettings.Location.X, btnSettings.Location.Y - settingsPanel.Height);
@@ -112,6 +111,8 @@ namespace STOCKNDRIVE
                 adddiscountbtn.Enabled = false;
                 adddiscountbtn.BackColor = Color.Gray;
                 clearpanellbl.Visible = false;
+                currentDiscount = 0;
+                currentDiscountDescription = "";
             }
 
             bool hasDiscount = currentDiscount > 0;
@@ -444,6 +445,7 @@ namespace STOCKNDRIVE
                     if (paymentForm.ShowDialog() == DialogResult.OK)
                     {
                         Orderlistpanel.Controls.Clear();
+                        UpdatePaymentSummary();
                         LoadProductCards();
                     }
                 }
@@ -512,7 +514,7 @@ namespace STOCKNDRIVE
                 {
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@UserID", UserSession.UserId); // Log who initiated the backup
+                        cmd.Parameters.AddWithValue("@UserID", UserSession.UserId); 
                         cmd.Parameters.AddWithValue("@ActionType", actionType);
                         cmd.Parameters.AddWithValue("@ActionDetails", actionDetails);
                         cmd.Parameters.AddWithValue("@Timestamp", DateTime.Now);
@@ -540,22 +542,16 @@ namespace STOCKNDRIVE
                 return;
             }
 
-            // 2. Open a Save File Dialog to let the user choose the location and name
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "SQL Backup file (*.bak)|*.bak";
             saveFileDialog.Title = "Save Database Backup";
-            saveFileDialog.FileName = $"stockndrive_{DateTime.Now:yyyyMMdd_HHmmss}.bak"; // Default file name
-
+            saveFileDialog.FileName = $"stockndrive_{DateTime.Now:yyyyMMdd_HHmmss}.bak";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string backupPath = saveFileDialog.FileName;
 
                 try
                 {
-                    // 3. Execute the database backup command
-                    // IMPORTANT: The SQL Server service account MUST have write permissions to the folder you choose.
-                    // This often fails if you try to save to "C:\Program Files" or other protected system locations.
-                    // Saving to "Documents" or a dedicated "Backups" folder on the C: drive is usually safest.
                     string dbName = "stockndrive";
                     string query = $"BACKUP DATABASE [{dbName}] TO DISK = @BackupPath";
 
@@ -571,7 +567,7 @@ namespace STOCKNDRIVE
 
                     // 4. Log the successful backup
                     string details = $"{UserSession.Fullname} created a database backup at '{backupPath}'.";
-                    LogSystemActivity("Database Backup", details); // Assuming you have this method
+                    LogSystemActivity("Database Backup", details); 
 
                     MessageBox.Show("Database backup completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

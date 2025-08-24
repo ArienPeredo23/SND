@@ -30,14 +30,15 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Sales));
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             btnSales = new Button();
             btnInventory = new Button();
             btnPOS = new Button();
             btnDashboard = new Button();
             leftNavPanel = new Panel();
             settingsPanel = new Panel();
+            backupbtn = new Button();
             btnaudittrail = new Button();
             btnusermanagement = new Button();
             btnlogout = new Button();
@@ -60,7 +61,6 @@
             lblDateRange = new Label();
             btnClearFilter = new Button();
             monthCalendar1 = new MonthCalendar();
-            backupbtn = new Button();
             leftNavPanel.SuspendLayout();
             settingsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -78,7 +78,7 @@
             btnSales.ForeColor = Color.White;
             btnSales.Image = (Image)resources.GetObject("btnSales.Image");
             btnSales.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSales.Location = new Point(30, 312);
+            btnSales.Location = new Point(30, 314);
             btnSales.Name = "btnSales";
             btnSales.Size = new Size(180, 45);
             btnSales.TabIndex = 4;
@@ -96,7 +96,7 @@
             btnInventory.ForeColor = Color.White;
             btnInventory.Image = (Image)resources.GetObject("btnInventory.Image");
             btnInventory.ImageAlign = ContentAlignment.MiddleLeft;
-            btnInventory.Location = new Point(30, 257);
+            btnInventory.Location = new Point(30, 260);
             btnInventory.Name = "btnInventory";
             btnInventory.Size = new Size(180, 45);
             btnInventory.TabIndex = 3;
@@ -114,7 +114,7 @@
             btnPOS.ForeColor = Color.White;
             btnPOS.Image = (Image)resources.GetObject("btnPOS.Image");
             btnPOS.ImageAlign = ContentAlignment.MiddleLeft;
-            btnPOS.Location = new Point(30, 202);
+            btnPOS.Location = new Point(30, 207);
             btnPOS.Name = "btnPOS";
             btnPOS.Size = new Size(180, 45);
             btnPOS.TabIndex = 2;
@@ -170,6 +170,24 @@
             settingsPanel.Size = new Size(198, 189);
             settingsPanel.TabIndex = 14;
             settingsPanel.Visible = false;
+            // 
+            // backupbtn
+            // 
+            backupbtn.BackColor = Color.FromArgb(30, 30, 30);
+            backupbtn.FlatAppearance.BorderSize = 0;
+            backupbtn.FlatStyle = FlatStyle.Flat;
+            backupbtn.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            backupbtn.ForeColor = Color.White;
+            backupbtn.Image = (Image)resources.GetObject("backupbtn.Image");
+            backupbtn.ImageAlign = ContentAlignment.MiddleLeft;
+            backupbtn.Location = new Point(18, 37);
+            backupbtn.Name = "backupbtn";
+            backupbtn.Size = new Size(163, 30);
+            backupbtn.TabIndex = 4;
+            backupbtn.Text = " Back up";
+            backupbtn.TextImageRelation = TextImageRelation.ImageBeforeText;
+            backupbtn.UseVisualStyleBackColor = false;
+            backupbtn.Click += backupbtn_Click;
             // 
             // btnaudittrail
             // 
@@ -333,23 +351,23 @@
             dgvSalesReport.BackgroundColor = Color.White;
             dgvSalesReport.BorderStyle = BorderStyle.None;
             dgvSalesReport.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowFrame;
-            dataGridViewCellStyle3.SelectionBackColor = Color.White;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowFrame;
+            dataGridViewCellStyle1.SelectionBackColor = Color.White;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvSalesReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvSalesReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvSalesReport.DefaultCellStyle = dataGridViewCellStyle2;
             dgvSalesReport.GridColor = SystemColors.ButtonFace;
             dgvSalesReport.Location = new Point(25, 80);
             dgvSalesReport.Name = "dgvSalesReport";
@@ -468,24 +486,6 @@
             monthCalendar1.Name = "monthCalendar1";
             monthCalendar1.TabIndex = 2;
             monthCalendar1.DateSelected += monthCalendar1_DateSelected;
-            // 
-            // backupbtn
-            // 
-            backupbtn.BackColor = Color.FromArgb(30, 30, 30);
-            backupbtn.FlatAppearance.BorderSize = 0;
-            backupbtn.FlatStyle = FlatStyle.Flat;
-            backupbtn.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            backupbtn.ForeColor = Color.White;
-            backupbtn.Image = (Image)resources.GetObject("backupbtn.Image");
-            backupbtn.ImageAlign = ContentAlignment.MiddleLeft;
-            backupbtn.Location = new Point(18, 37);
-            backupbtn.Name = "backupbtn";
-            backupbtn.Size = new Size(163, 30);
-            backupbtn.TabIndex = 4;
-            backupbtn.Text = " Back up";
-            backupbtn.TextImageRelation = TextImageRelation.ImageBeforeText;
-            backupbtn.UseVisualStyleBackColor = false;
-            backupbtn.Click += backupbtn_Click;
             // 
             // Sales
             // 

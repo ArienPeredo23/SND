@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(pos));
             leftNavPanel = new Panel();
             settingsPanel = new Panel();
+            backupbtn = new Button();
             btnaudittrail = new Button();
             btnusermanagement = new Button();
             btnlogout = new Button();
@@ -71,7 +72,6 @@
             searchtb = new TextBox();
             btnFilter = new Button();
             slideTimer = new System.Windows.Forms.Timer(components);
-            backupbtn = new Button();
             leftNavPanel.SuspendLayout();
             settingsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -107,6 +107,24 @@
             settingsPanel.Size = new Size(198, 189);
             settingsPanel.TabIndex = 12;
             settingsPanel.Visible = false;
+            // 
+            // backupbtn
+            // 
+            backupbtn.BackColor = Color.FromArgb(30, 30, 30);
+            backupbtn.FlatAppearance.BorderSize = 0;
+            backupbtn.FlatStyle = FlatStyle.Flat;
+            backupbtn.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            backupbtn.ForeColor = Color.White;
+            backupbtn.Image = (Image)resources.GetObject("backupbtn.Image");
+            backupbtn.ImageAlign = ContentAlignment.MiddleLeft;
+            backupbtn.Location = new Point(18, 37);
+            backupbtn.Name = "backupbtn";
+            backupbtn.Size = new Size(163, 30);
+            backupbtn.TabIndex = 4;
+            backupbtn.Text = " Back up";
+            backupbtn.TextImageRelation = TextImageRelation.ImageBeforeText;
+            backupbtn.UseVisualStyleBackColor = false;
+            backupbtn.Click += backupbtn_Click;
             // 
             // btnaudittrail
             // 
@@ -206,7 +224,7 @@
             btnSales.ForeColor = Color.White;
             btnSales.Image = (Image)resources.GetObject("btnSales.Image");
             btnSales.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSales.Location = new Point(30, 317);
+            btnSales.Location = new Point(30, 314);
             btnSales.Name = "btnSales";
             btnSales.Size = new Size(180, 45);
             btnSales.TabIndex = 4;
@@ -224,7 +242,7 @@
             btnInventory.ForeColor = Color.White;
             btnInventory.Image = (Image)resources.GetObject("btnInventory.Image");
             btnInventory.ImageAlign = ContentAlignment.MiddleLeft;
-            btnInventory.Location = new Point(30, 262);
+            btnInventory.Location = new Point(30, 260);
             btnInventory.Name = "btnInventory";
             btnInventory.Size = new Size(180, 45);
             btnInventory.TabIndex = 3;
@@ -615,24 +633,6 @@
             // slideTimer
             // 
             slideTimer.Interval = 15;
-            // 
-            // backupbtn
-            // 
-            backupbtn.BackColor = Color.FromArgb(30, 30, 30);
-            backupbtn.FlatAppearance.BorderSize = 0;
-            backupbtn.FlatStyle = FlatStyle.Flat;
-            backupbtn.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            backupbtn.ForeColor = Color.White;
-            backupbtn.Image = (Image)resources.GetObject("backupbtn.Image");
-            backupbtn.ImageAlign = ContentAlignment.MiddleLeft;
-            backupbtn.Location = new Point(18, 37);
-            backupbtn.Name = "backupbtn";
-            backupbtn.Size = new Size(163, 30);
-            backupbtn.TabIndex = 4;
-            backupbtn.Text = " Back up";
-            backupbtn.TextImageRelation = TextImageRelation.ImageBeforeText;
-            backupbtn.UseVisualStyleBackColor = false;
-            backupbtn.Click += backupbtn_Click;
             // 
             // pos
             // 

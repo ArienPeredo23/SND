@@ -9,6 +9,17 @@ namespace STOCKNDRIVE
             InitializeComponent();
             this.AcceptButton = btnLogin;
         }
+        protected override async void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            this.Opacity = 0;
+
+            for (double i = 0.0; i <= 1.0; i += 0.1)
+            {
+                this.Opacity = i;
+                await Task.Delay(50);
+            }
+        }
         public void ClearCredentials()
         {
             txtUsername.Clear();

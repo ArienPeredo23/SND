@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
 
 namespace STOCKNDRIVE
 {
@@ -23,6 +24,7 @@ namespace STOCKNDRIVE
         private readonly string _subtotal;
         private readonly string _discount;
         private readonly string _totalAmount;
+        private string _status;
 
         // New constructor to accept all the data from the payment form
         public DigitalReceipt(long saleId, List<CartItem> cartItems, string customerName, decimal amountPaid, decimal change, string note, string numberOfItems, string subtotal, string discount, string totalAmount)
@@ -42,6 +44,7 @@ namespace STOCKNDRIVE
 
         private void DigitalReceipt_Load(object sender, EventArgs e)
         {
+            FetchSaleStatus();
             PopulateAllFields();
             StyleSummaryGrid();
         }
@@ -58,6 +61,16 @@ namespace STOCKNDRIVE
             lblsubtotal.Text = _subtotal;
             lbldiscount.Text = _discount;
             lbltotalamount.Text = _totalAmount;
+            Statuslbl.Text = _status;
+
+            if (_status == "Returned")
+            {
+                btnreturn.Visible = false;
+            }
+            else
+            {
+                btnreturn.Visible = true;
+            }
 
             // Populate the items grid
             summarygrid.Rows.Clear();
@@ -71,6 +84,29 @@ namespace STOCKNDRIVE
             foreach (var item in _cartItems)
             {
                 summarygrid.Rows.Add(item.ProductName, item.BasePrice.ToString("0.00"), item.Quantity, item.TotalPrice.ToString("0.00"));
+            }
+        }
+
+        private void FetchSaleStatus()
+        {
+            try
+            {
+                string query = "SELECT Status FROM Sales WHERE SaleID = @SaleID";
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@SaleID", _saleId);
+                        conn.Open();
+                        object result = cmd.ExecuteScalar();
+                        _status = result?.ToString() ?? "Completed"; // Default to "Completed" if null
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to retrieve sale status: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _status = "Error";
             }
         }
 
@@ -105,6 +141,66 @@ namespace STOCKNDRIVE
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void LogActivity(string actionType, string actionDetails)
+        {
+            try
+            {
+                string query = "INSERT INTO AuditTrail (UserID, ActionType, ActionDetails, Timestamp) VALUES (@UserID, @ActionType, @ActionDetails, @Timestamp)";
+                using (SqlConnection conn = DBConnection.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserID", UserSession.UserId);
+                        cmd.Parameters.AddWithValue("@ActionType", actionType);
+                        cmd.Parameters.AddWithValue("@ActionDetails", actionDetails);
+                        cmd.Parameters.AddWithValue("@Timestamp", DateTime.Now);
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Audit Log Failed: " + ex.Message);
+            }
+        }
+
+        private void btnreturn_Click(object sender, EventArgs e)
+        {
+            DialogResult confirmResult = MessageBox.Show("Are you sure you want to mark this entire sale as returned? This action cannot be undone.",
+                                                "Confirm Return",
+                                                MessageBoxButtons.YesNo,
+                                                MessageBoxIcon.Warning);
+
+            if (confirmResult == DialogResult.Yes)
+            {
+                try
+                {
+                    string query = "UPDATE Sales SET Status = 'Returned' WHERE SaleID = @SaleID";
+                    using (SqlConnection conn = DBConnection.GetConnection())
+                    {
+                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@SaleID", _saleId);
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    string details = $"{UserSession.Fullname} marked Sale ID {_saleId.ToString("D6")} as 'Returned'.";
+                    LogActivity("Return Sale", details);
+
+                    MessageBox.Show("Sale has been successfully marked as returned.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    _status = "Returned";
+                    PopulateAllFields();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to update the sale status: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

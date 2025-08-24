@@ -56,6 +56,8 @@
             lblamountpaid = new Label();
             lblcustomername = new Label();
             Print = new Button();
+            btnreturn = new Button();
+            Statuslbl = new Label();
             ((System.ComponentModel.ISupportInitialize)summarygrid).BeginInit();
             SuspendLayout();
             // 
@@ -108,12 +110,12 @@
             // lblSaleID
             // 
             lblSaleID.AutoSize = true;
-            lblSaleID.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            lblSaleID.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblSaleID.ForeColor = Color.FromArgb(204, 141, 26);
-            lblSaleID.Location = new Point(146, 77);
+            lblSaleID.Location = new Point(155, 81);
             lblSaleID.Name = "lblSaleID";
             lblSaleID.RightToLeft = RightToLeft.Yes;
-            lblSaleID.Size = new Size(20, 28);
+            lblSaleID.Size = new Size(20, 25);
             lblSaleID.TabIndex = 71;
             lblSaleID.Text = "-";
             lblSaleID.TextAlign = ContentAlignment.MiddleCenter;
@@ -362,12 +364,42 @@
             Print.Text = "Print Receipt";
             Print.UseVisualStyleBackColor = false;
             // 
+            // btnreturn
+            // 
+            btnreturn.BackColor = Color.FromArgb(30, 30, 30);
+            btnreturn.FlatAppearance.BorderSize = 0;
+            btnreturn.FlatStyle = FlatStyle.Flat;
+            btnreturn.Font = new Font("Segoe UI", 8.25F, FontStyle.Underline, GraphicsUnit.Point, 0);
+            btnreturn.ForeColor = Color.Red;
+            btnreturn.Location = new Point(371, 17);
+            btnreturn.Name = "btnreturn";
+            btnreturn.Size = new Size(106, 28);
+            btnreturn.TabIndex = 76;
+            btnreturn.Text = "Mark as Returned";
+            btnreturn.UseVisualStyleBackColor = false;
+            btnreturn.Click += btnreturn_Click;
+            // 
+            // Statuslbl
+            // 
+            Statuslbl.AutoSize = true;
+            Statuslbl.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            Statuslbl.ForeColor = Color.Gray;
+            Statuslbl.Location = new Point(214, 54);
+            Statuslbl.Name = "Statuslbl";
+            Statuslbl.RightToLeft = RightToLeft.Yes;
+            Statuslbl.Size = new Size(20, 25);
+            Statuslbl.TabIndex = 77;
+            Statuslbl.Text = "-";
+            Statuslbl.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // DigitalReceipt
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(30, 30, 30);
             ClientSize = new Size(527, 774);
+            Controls.Add(Statuslbl);
+            Controls.Add(btnreturn);
             Controls.Add(Print);
             Controls.Add(lblnote);
             Controls.Add(lblamountpaid);
@@ -434,5 +466,7 @@
         private Label lblamountpaid;
         private Label lblcustomername;
         private Button Print;
+        private Button btnreturn;
+        private Label Statuslbl;
     }
 }
